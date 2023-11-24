@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
     <title>ElementHTML • RealWorld</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/app.css">
+    <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link
+        href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"
+        rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//demo.productionready.io/main.css" />
+
     <script type="importmap">
         {
             "imports": {
@@ -19,9 +21,55 @@
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@f4fe89d10258adc15f6a46ec6adb88f44f2f0a9c/element.js?load&expose&packages=main'></script>
     <meta is="e-theme" id="theme">
     <meta is="e-router" id="router">
+
+
 </head>
 
 <body>
+    <header>
+        <nav class="navbar navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="/">conduit</a>
+                <ul class="nav navbar-nav pull-xs-right">
+                    <li class="nav-item">
+                        <!-- Add "active" class when you're on that page" -->
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Sign up</a>
+                    </li>
+
+                    <!-- Authenticated only -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/editor"> <i class="ion-compose"></i>&nbsp;New Article </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings"> <i class="ion-gear-a"></i>&nbsp;Settings </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/eric-simons">
+                            <img src="" class="user-pic" />
+                            Eric Simons
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <footer>
+        <div class="container">
+            <a href="/" class="logo-font">conduit</a>
+            <span class="attribution">
+                An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp;
+                design licensed under MIT.
+            </span>
+        </div>
+    </footer>
 </body>
 
 </html>
