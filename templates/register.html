@@ -1,8 +1,8 @@
 <meta is="e-data" resource="|form|_submit" target=":|#api" transform='{"user": $}' apply="write(,./users)">
 <meta is="e-data" resource=":|#api|_" target="html|" transform='{
         "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
-        "`#storage`.write()": $, 
-        "`#router`.to(./)": null }'>
+        "`#user`.write()": $, 
+        "`#router`.to(./#profile)": null }'>
 
 <div class="auth-page">
     <div class="container page">
