@@ -1,7 +1,8 @@
-<meta is="e-data" resource="|form|_submit" target=":|#api" transform='{"user": $}' apply="write(,./users)">
-<meta is="e-data" resource=":|#api|_" target="html|" transform='{
+<meta is="e-pipe" class="api" source="https://api.realworld.io/api/users" options="method=POST" content-type="json">
+<meta is="e-data" resource="|form|_submit" target="|.api" transform='{"user": $}' apply="write()">
+<meta is="e-data" resource="|.api|_" target="html|" transform='{
         "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
-        "`#user`.write()": $, 
+        "`#user`.write()": $.user ? $.user : {}, 
         "`#router`.to(./#profile)": null }'>
 
 <div class="auth-page">
