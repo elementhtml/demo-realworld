@@ -17,7 +17,7 @@
             }
         }
     </script>
-    <script type="module" src='../element/element.js?load&expose'></script>
+    <script type="module" src='../element/element.js?load&expose&packages=main'></script>
     <!-- <script type="module" -->
     <!-- src='https://cdn.jsdelivr.net/gh/elementhtml/element@f4fe89d10258adc15f6a46ec6adb88f44f2f0a9c/element.js?load&expose&packages=main'></script> -->
 
@@ -25,8 +25,13 @@
     </style>
 
     <meta is="e-theme" id="theme" resource="dark">
-    <meta is="e-router" name="r" base="./*" content="templates/home.html">
+    <meta is="e-router" id="router" name="r" base="./*" content="templates/home.html">
     <meta is="e-content" resource="r:#[a-z0-9-]+" target=":|main" rewrite="404=r:404">
+
+    <meta is="e-pipe" id="api" source="https://api.realworld.io/api/" options="method=POST" content-type="json">
+    <meta is="e-pipe" id="storage" source="`sessionStorage.setItem(user)!getItem(user)`"
+        transform="$.user ? $.user : {}" content-type="json">
+
 
 </head>
 

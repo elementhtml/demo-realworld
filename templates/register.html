@@ -1,5 +1,9 @@
-<meta is="e-pipe" source="https://api.realworld.io/api/users" options="method=POST">
-<meta is="e-data" resource="|form|_" transform='{"user": $}' target="`console`" apply="log()">
+<meta is="e-data" resource="|form|_submit" target=":|#api" transform='{"user": $}' apply="write(,./users)">
+<meta is="e-data" resource=":|#api|_" target="html|" transform='{
+        "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
+        "`#storage`.write()": $, 
+        "`#router`.to(./)": null 
+    }'>
 
 <div class="auth-page">
     <div class="container page">
@@ -9,11 +13,7 @@
                 <p class="text-xs-center">
                     <a href="./#login">Have an account?</a>
                 </p>
-
-                <ul class="error-messages">
-                    <li>That email is already taken</li>
-                </ul>
-
+                <ul class="error-messages"></ul>
                 <form>
                     <fieldset class="form-group">
                         <input name="username" class="form-control form-control-lg" type="text"
