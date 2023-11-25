@@ -1,3 +1,6 @@
+<meta is="e-pipe" source="https://api.realworld.io/api/users" options="method=POST">
+<meta is="e-data" resource="|form|_" transform='{"user": $}' target="`console`" apply="log()">
+
 <div class="auth-page">
     <div class="container page">
         <div class="row">
@@ -13,13 +16,15 @@
 
                 <form>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Username" />
+                        <input name="username" class="form-control form-control-lg" type="text"
+                            placeholder="Username" />
                     </fieldset>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Email" />
+                        <input name="email" class="form-control form-control-lg" type="text" placeholder="Email" />
                     </fieldset>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="password" placeholder="Password" />
+                        <input name="password" class="form-control form-control-lg" type="password"
+                            placeholder="Password" />
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">Sign up</button>
                 </form>
