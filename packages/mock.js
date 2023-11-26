@@ -99,6 +99,7 @@ export default {
                             const matchesFavorited = !filters.favorited || (filters.favorited && (a.favorited ?? []).includes(filters.favorited))
                             return matchesTag && matchesAuthor && matchesFavorited
                         })
+                        articles.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                         if (filters.offset) articles = articles.slice(filters.offset)
                         if (filters.limit) articles = articles.slice(0, filters.limit)
                     }
