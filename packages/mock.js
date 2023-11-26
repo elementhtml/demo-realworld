@@ -2,9 +2,11 @@ export default {
     gateways: {
         api: (hostpath, E) => {
             if (hostpath && hostpath[0] !== '/') hostpath = `/${hostpath}`
+            if (hostpath && hostpath.startsWith('//')) hostpath = hostpath.slice(1)
             let pathHandler = E.env.variables.mock[hostpath],
                 useKey = pathHandler ? undefined : Object.keys(E.env.variables.mock).find(p => new RegExp(p).test(hostpath))
-            return pathHandler ?? (useKey ? E.env.variables.mock[useKey] : undefined)
+            let handler = pathHandler ?? (useKey ? E.env.variables.mock[useKey] : undefined)
+            if (typeof handler === 'function') return handler.bind(E.env.variables.mock)
         }
     },
     variables: {
@@ -51,7 +53,7 @@ export default {
                 let profile = {}
                 switch (context.method) {
                     case 'GET':
-                        const username = (context?.url?.pathname ?? '').split('/')[3], user = username ? this.data.users[username] : undefined
+                        const username = (context?.url?.pathname ?? '').replace('//', '/').split('/')[3], user = username ? this.data.users[username] : undefined
                         if (user) for (const p of ['username', 'bio', 'image', 'following']) profile[p] = user[p]
                         break
                     case 'POST':
@@ -59,7 +61,7 @@ export default {
                         const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? this.data.auth[token] : undefined,
                             requestingUser = requestingUsername ? this.data.users[requestingUsername] : undefined
                         if (!requestingUser) return
-                        const [, , , usernameTo, follow] = (context?.url?.pathname ?? '').split('/'),
+                        const [, , , usernameTo, follow] = (context?.url?.pathname ?? '').replace('//', '/').split('/'),
                             userTo = usernameTo ? this.data.users[usernameTo] : undefined
                         if (userTo && follow) {
                             requestingUser.following ||= []
@@ -73,14 +75,14 @@ export default {
             "/api/articles/*": function (context, payload) {
                 switch (context.method) {
                     case 'GET':
-                        let articles = Object.getValues(this.data.articles), searchParams = context?.url?.searchParams,
+                        let articles = Object.values(this.data.articles), searchParams = context?.url?.searchParams,
                             filters = searchParams ? Object.fromEntries(searchParams.entries()) : undefined
-                        const [, , , feedOrSlug, comments] = (context?.url?.pathname ?? '').split('/')
+                        const [, , , feedOrSlug, comments] = (context?.url?.pathname ?? '').replace('//', '/').split('/')
                         if (feedOrSlug === 'feed') {
                             const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? this.data.auth[token] : undefined,
                                 requestingUser = requestingUsername ? this.data.users[requestingUsername] : undefined
                             articles = articles.filter(a => (requestingUser.follows ?? []).includes(a.author?.username))
-                        } else if (feedOrSlug === 'comments') {
+                        } else if (feedOrSlug && comments) {
                             return this.data.comments[feedOrSlug] ?? []
                         } else if (feedOrSlug) {
                             return this.data.articles[feedOrSlug]
@@ -103,7 +105,7 @@ export default {
                         const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? this.data.auth[token] : undefined,
                             requestingUser = requestingUsername ? this.data.users[requestingUsername] : undefined
                         if (!requestingUser) return
-                        const [, , , articleSlug, commentsOrFavorite] = (context?.url?.pathname ?? '').split('/')
+                        const [, , , articleSlug, commentsOrFavorite] = (context?.url?.pathname ?? '').replace('//', '/').split('/')
                         if (!articleSlug) return
                         const author = {
                             username: requestingUser.username,
