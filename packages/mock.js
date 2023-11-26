@@ -137,7 +137,7 @@ export default {
                     } else {
                         const article = {}
                         for (const p of ['title', 'description', 'body']) article[p] = (payload?.article ?? {})[p]
-                        article.slug = article.title.replaceAll(/[^a-z0-9]+/gi, '-').replaceAll(/\-+/, '-').toLowerCase()
+                        article.slug = article.title.trim().replaceAll(/[^a-z0-9]+/gi, '-').replaceAll(/\-+/, '-').toLowerCase()
                         if (server.data.articles[article.slug]) return
                         article.tagList = (payload?.article ?? {}).tagList ?? []
                         article.createdAt = new Date().toISOString()
@@ -148,6 +148,22 @@ export default {
                         server.data.articles[article.slug] = article
                         return { article }
                     }
+                },
+                "PUT": (server, context, payload) => {
+                    const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? server.data.auth[token] : undefined,
+                        requestingUser = requestingUsername ? server.data.users[requestingUsername] : undefined
+                    if (!requestingUser) return
+                    const [, , , articleSlug] = (context?.url?.pathname ?? '').split('/')
+                    if (!articleSlug) return
+                    const article = server.data.articles[article.slug]
+                    if (!article) return
+                    if (article.author?.username !== requestingUser.username) return
+                    for (const p of ['title', 'description', 'body']) article[p] = (payload?.article ?? {})[p]
+                    article.updatedAt = new Date().toISOString()
+                    const oldSlug = article.slug, newSlug = article.title.trim().replaceAll(/[^a-z0-9]+/gi, '-').replaceAll(/\-+/, '-').toLowerCase()
+                    server.data.articles[newSlug] = article
+                    if (newSlug !== oldSlug) delete server.data.articles[oldSlug]
+                    return { article }
                 }
             }
         },
