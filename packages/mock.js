@@ -82,11 +82,13 @@ export default {
                 "GET": (server, context) => {
                     let articles = Object.getValues(server.data.articles), searchParams = context?.url?.searchParams,
                         filters = searchParams ? Object.fromEntries(searchParams.entries()) : undefined
-                    const [, , , feedOrSlug] = (context?.url?.pathname ?? '').split('/')
+                    const [, , , feedOrSlug, comments] = (context?.url?.pathname ?? '').split('/')
                     if (feedOrSlug === 'feed') {
                         const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? server.data.auth[token] : undefined,
                             requestingUser = requestingUsername ? server.data.users[requestingUsername] : undefined
                         articles = articles.filter(a => (requestingUser.follows ?? []).includes(a.author?.username))
+                    } else if (feedOrSlug === 'comments') {
+                        return server.data.comments[feedOrSlug] ?? []
                     } else if (feedOrSlug) {
                         return server.data.articles[feedOrSlug]
                     }
@@ -115,11 +117,11 @@ export default {
                         following: requestingUser.following
                     }
                     if (commentsOrFavorite === 'comments') {
-                        if (!server.data.articles[article.slug]) return
-                        server.data.comments[article.slug] ||= []
+                        if (!server.data.articles[articleSlug]) return
+                        server.data.comments[articleSlug] ||= []
                         const comment = {
                             body: payload?.comment?.body,
-                            id: server.data.comments[article.slug].length + 1,
+                            id: server.data.comments[articleSlug].length + 1,
                             createdAt: new Date().toISOString(),
                             updatedAt: new Date().toISOString(),
                             author: { ...author }
@@ -127,7 +129,7 @@ export default {
                         server.data.comments[article.slug].push(comment)
                         return { comment }
                     } else if (commentsOrFavorite === 'favorite') {
-                        const article = server.data.articles[article.slug]
+                        const article = server.data.articles[articleSlug]
                         if (!article) return
                         article.favorited ||= []
                         article.favorited.push(requestingUser.username)
@@ -155,15 +157,49 @@ export default {
                     if (!requestingUser) return
                     const [, , , articleSlug] = (context?.url?.pathname ?? '').split('/')
                     if (!articleSlug) return
-                    const article = server.data.articles[article.slug]
+                    const article = server.data.articles[articleSlug]
                     if (!article) return
                     if (article.author?.username !== requestingUser.username) return
                     for (const p of ['title', 'description', 'body']) article[p] = (payload?.article ?? {})[p]
                     article.updatedAt = new Date().toISOString()
-                    const oldSlug = article.slug, newSlug = article.title.trim().replaceAll(/[^a-z0-9]+/gi, '-').replaceAll(/\-+/, '-').toLowerCase()
+                    const oldSlug = articleSlug, newSlug = article.title.trim().replaceAll(/[^a-z0-9]+/gi, '-').replaceAll(/\-+/, '-').toLowerCase()
                     server.data.articles[newSlug] = article
-                    if (newSlug !== oldSlug) delete server.data.articles[oldSlug]
+                    if (newSlug !== oldSlug) {
+                        server.data.comments[newSlug] = server.data.comments[oldSlug]
+                        delete server.data.articles[oldSlug]
+                    }
                     return { article }
+                },
+                "DELETE": (server, context, payload) => {
+                    const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? server.data.auth[token] : undefined,
+                        requestingUser = requestingUsername ? server.data.users[requestingUsername] : undefined
+                    if (!requestingUser) return
+                    const [, , , articleSlug, commentsOrFavorite, commentId] = (context?.url?.pathname ?? '').split('/')
+                    if (!articleSlug) return
+                    if (!server.data.articles[articleSlug]) return
+                    if (article.author?.username !== requestingUser.username) return
+                    if (commentsOrFavorite === 'comments' && commentId) {
+                        let comments = server.data.comments[articleSlug] ?? []
+                        comments = comments.filter(c => c.id != commentId)
+                        server.data.comments[articleSlug] = comments
+                    } else if (commentsOrFavorite === 'favorite') {
+                        const article = server.data.articles[articleSlug]
+                        article.favorited ||= []
+                        article.favorited.push(requestingUser.username)
+                        return { article }
+                    } else {
+                        delete server.data.articles[articleSlug]
+                        delete server.data.comments[articleSlug]
+                    }
+                }
+            },
+            "/api/tags": {
+                "GET": (server, context) => {
+                    let tags = {}
+                    let articleTags = Object.getValues(server.data.articles).forEach(a => { for (const t of (a.tagList ?? [])) tags[t] = true })
+                    tags = Object.keys(tags)
+                    tags.sort()
+                    return tags
                 }
             }
         },
