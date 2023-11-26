@@ -25,8 +25,9 @@ export default {
             },
             "/api/user": {
                 "GET": (server, headers) => {
-                    const token = (headers?.Authorization ?? '').slice(6), username = token ? server.data.auth[token] : undefined
-                    return username ? server.data.users[username] : undefined
+                    const token = (headers?.Authorization ?? '').slice(6), username = token ? server.data.auth[token] : undefined,
+                        user = username ? server.data.users[username] : undefined
+                    return user
                 }
             },
         }
