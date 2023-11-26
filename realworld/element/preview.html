@@ -1,41 +1,15 @@
 <style></style>
-<template>
-    <meta is="e-data" transform='{
-        "`.article-meta a{}`@href": "./#profile/" & $.author.username, 
-        "`.article-meta img`"@src: $.author.image
-        "`.article-meta .author`": $.author.username, 
-        "`.article-meta .date`": $.updatedOn, 
-        "`.article-meta .favorites-count`": $.favoritesCount, 
-        "`.preview-link`"@href: "./#article/" & $host.`@slug`, 
-        "`preview-link h1`": $.title, 
-        "`preview-link p`": $.description, 
-        "`preview-link .tagList`": $.tagList
-    }'>
-    <div class="article-meta">
-        <a href><img src /></a>
-        <div class="info">
-            <a href class="author"></a>
-            <span class="date"></span>
-        </div>
-        <button class="btn btn-outline-primary btn-sm pull-xs-right">
-            <i class="ion-heart"></i> <span class="favorites-count"></span>
-        </button>
-    </div>
-    <a href class="preview-link">
-        <h1></h1>
-        <p></p>
-        <span>Read more...</span>
-        <ul class="tag-list">
-            <template>
-                <li class="tag-default tag-pill tag-outline"></li>
-            </template>
-        </ul>
-    </a>
-</template>
+<template></template>
 <script>
     export default class extends `` {
 
         #slug
+        #author = {}
+        #updatedOn
+        #favoritesCount = 0
+        #title
+        #description
+        #tagList = []
 
         constructor() {
             super()
@@ -43,17 +17,59 @@
 
         static get observedAttributes() { return (super.observedAttributes || []).concat('slug') }
 
+        get tagList() { return this.#tagList }
+        set tagList(value) {
+            if (!value || !Array.isArray(value)) return
+            this.E.sinkData(this.shadowRoot.querySelector('.preview-link .tagList'), value)
+            this.#tagList = value
+        }
+
+        get description() { return this.#description }
+        set description(value) {
+            if (!value || !value.trim() || (value === this.#description)) return
+            value = value.trim()
+            this.shadowRoot.querySelector('.preview-link p').textContent = value
+            this.#description = value
+        }
+
+        get title() { return this.#title }
+        set title(value) {
+            if (!value || !value.trim() || (value === this.#title)) return
+            value = value.trim()
+            this.shadowRoot.querySelector('.preview-link h1').textContent = value
+            this.#title = value
+        }
+
         get slug() { return this.#slug }
         set slug(value) {
             if (!value || !value.trim() || (value === this.#slug)) return
+            value = value.trim()
+            this.shadowRoot.querySelector('.preview-link').setAttribute('href', `./#article/${value}`)
             this.#slug = value
-            let dataPointer = this.shadowRoot.querySelector('meta[is="e-data"]')
-            if (!dataPointer) {
-                dataPointer = document.createElement('meta')
-                dataPointer.setAttribute('is', 'e-data')
-                this.shadowRoot.prepend(dataPointer)
-            }
-            dataPointer.setAttribute('resource', `api://articles/${this.#slug}`)
+        }
+
+        get author() { return this.#author }
+        set author(value) {
+            if (!value || !(value instanceof Object) || !value.username || !value.image) return
+            const articleMeta = this.shadowRoot.querySelector('.article-meta')
+            for (const a of articleMeta.querySelectorAll('a')) a.setAttribute('href', `./#profile/${value.username}`)
+            articleMeta.querySelector('.author').textContent = value.username
+            articleMeta.querySelector('img').setAttribute('src', value.image)
+            this.#author = value
+        }
+
+        get updatedOn() { return this.#updatedOn }
+        set updatedOn(value) {
+            if (!value || (value === this.#updatedOn)) return
+            this.shadowRoot.querySelector('.article-meta .date').textContent = value
+            this.#updatedOn = value
+        }
+
+        get favoritesCount() { return this.#favoritesCount }
+        set favoritesCount(value) {
+            if (isNaN(parseInt(value)) || (value === this.#favoritesCount)) return
+            this.shadowRoot.querySelector('.article-meta .favorites-count').textContent = value
+            this.#favoritesCount = value
         }
 
     }

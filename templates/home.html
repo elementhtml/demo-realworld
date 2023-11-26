@@ -1,4 +1,4 @@
-<meta is="e-data" resource="api://api/articles" target="|.previews">
+<meta is="e-data" resource="api://api/articles" target="|.page .row div">
 
 <div class="home-page">
     <div class="banner">
@@ -22,11 +22,30 @@
                     </ul>
                 </div>
 
-                <div class="previews">
-                    <template>
-                        <realworld-preview class="article-preview"></realworld-preview>
-                    </template>
-                </div>
+                <template>
+                    <div class="article-preview">
+                        <div class="article-meta">
+                            <a href><img src /></a>
+                            <div class="info">
+                                <a href class="author"></a>
+                                <span class="date" name="updatedOn"></span>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm pull-xs-right">
+                                <i class="ion-heart"></i> <span class="favorites-count"></span>
+                            </button>
+                        </div>
+                        <a href class="preview-link">
+                            <h1></h1>
+                            <p></p>
+                            <span>Read more...</span>
+                            <ul class="tag-list">
+                                <template>
+                                    <li class="tag-default tag-pill tag-outline"></li>
+                                </template>
+                            </ul>
+                        </a>
+                    </div>
+                </template>
 
                 <ul class="pagination">
                     <li class="page-item active">
