@@ -1,4 +1,10 @@
 export default {
+    gateways: {
+        api: (hostpath, E) => {
+            if (hostpath && hostpath[0] !== '/') hostpath = `/${hostpath}`
+            E.env.variables.mock[hostpath]
+        }
+    },
     variables: {
         mock: {
             data: {
@@ -203,7 +209,6 @@ export default {
                     return tags
                 }
             }
-        },
-
+        }
     }
 }
