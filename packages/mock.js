@@ -51,7 +51,7 @@ export default {
                 let profile = {}
                 switch (context.method) {
                     case 'GET':
-                        const username = (context?.headers?.pathname ?? '').split('/')[3], user = username ? this.data.users[username] : undefined
+                        const username = (context?.url?.pathname ?? '').split('/')[3], user = username ? this.data.users[username] : undefined
                         if (user) for (const p of ['username', 'bio', 'image', 'following']) profile[p] = user[p]
                         break
                     case 'POST':
