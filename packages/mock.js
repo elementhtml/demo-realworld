@@ -116,7 +116,7 @@ export default {
                         if (feedOrSlug === 'feed') {
                             const token = (context?.headers?.Authorization ?? '').slice(6), requestingUsername = token ? this.data.auth[token] : undefined,
                                 requestingUser = requestingUsername ? this.data.users[requestingUsername] : undefined
-                            articles = articles.filter(a => (requestingUser.follows ?? []).includes(a.author?.username))
+                            if (requestingUser) articles = articles.filter(a => (requestingUser.follows ?? []).includes(a.author?.username))
                         } else if (feedOrSlug && comments) {
                             return this.data.comments[feedOrSlug] ?? []
                         } else if (feedOrSlug) {

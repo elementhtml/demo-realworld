@@ -1,18 +1,6 @@
-<meta is="e-data" resource="api://api/articles" target="|.page .row div" transform='$map($, function($a) {{
-    "`.article-meta a`@href": "./#profile/" & $a.author.username, 
-    "`.article-meta a img`@src": $a.author.image, 
-    "`.article-meta .info .author`.textContent": $a.author.username, 
-    "`.article-meta .info .date`.textContent": $fromMillis($toMillis($a.updatedAt), "[MNn] [D1o]"), 
-    "`.article-meta .favorites-count`": $a.favoritesCount, 
-    "`.preview-link`@href": "./#article/" & $a.slug, 
-    "`.preview-link h1`": $a.title, 
-    "`.preview-link p`": $a.description, 
-    "`.preview-link .tag-list`": $map($a.tagList, function($t) { {".textContent": $t} })
-}})'>
-<meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$map($, function($t) {{
-    ".textContent": $t, 
-    "@href": "./?tag=" & $t
-}})'>
+<meta is="e-data" id="article-feed-pointer" resource="api://api/articles" target="|.page .row div"
+    transform='$articleListRender'>
+<meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$tagListRender'>
 
 <div class="home-page">
     <div class="banner">
@@ -28,9 +16,19 @@
                 <div class="feed-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item">
+                            <meta is="e-data" resource="|a|!click" transform='{
+                                "`main|#article-feed-pointer`@resource": "api://api/articles/feed", 
+                                "`ul|li a.active`@class": "nav-link", 
+                                "`li|a`@class": "nav-link active"
+                            }' force>
                             <a class="nav-link" href="./">Your Feed</a>
                         </li>
                         <li class="nav-item">
+                            <meta is="e-data" resource="|a|!click" transform='{
+                                "`main|#article-feed-pointer`@resource": "api://api/articles", 
+                                "`ul|li a.active`@class": "nav-link", 
+                                "`li|a`@class": "nav-link active"
+                            }' force>
                             <a class="nav-link active" href="./">Global Feed</a>
                         </li>
                     </ul>
