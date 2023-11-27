@@ -54,6 +54,7 @@ export default {
                 comments: {}
             },
             "/api/users": function (context, payload) {
+                if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'POST':
                         if (payload?.user?.username) {
