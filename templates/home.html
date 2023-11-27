@@ -9,6 +9,10 @@
     "`.preview-link p`": $a.description, 
     "`.preview-link .tag-list`": $map($a.tagList, function($t) { {".textContent": $t} })
 }})'>
+<meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$map($, function($t) {{
+    ".textContent": $t, 
+    "@href": "./?tag=" & $t
+}})'>
 
 <div class="home-page">
     <div class="banner">
@@ -70,16 +74,10 @@
             <div class="col-md-3">
                 <div class="sidebar">
                     <p>Popular Tags</p>
-
                     <div class="tag-list">
-                        <a href="" class="tag-pill tag-default">programming</a>
-                        <a href="" class="tag-pill tag-default">javascript</a>
-                        <a href="" class="tag-pill tag-default">emberjs</a>
-                        <a href="" class="tag-pill tag-default">angularjs</a>
-                        <a href="" class="tag-pill tag-default">react</a>
-                        <a href="" class="tag-pill tag-default">mean</a>
-                        <a href="" class="tag-pill tag-default">node</a>
-                        <a href="" class="tag-pill tag-default">rails</a>
+                        <template data-e-value>
+                            <a href="" class="tag-pill tag-default"></a>
+                        </template>
                     </div>
                 </div>
             </div>

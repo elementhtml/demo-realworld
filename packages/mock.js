@@ -219,7 +219,7 @@ export default {
                 switch (context.method) {
                     case 'GET':
                         let tags = {}
-                        let articleTags = Object.getValues(this.data.articles).forEach(a => { for (const t of (a.tagList ?? [])) tags[t] = true })
+                        let articleTags = Object.values(this.data.articles).forEach(a => { for (const t of (a.tagList ?? [])) tags[t] = true })
                         tags = Object.keys(tags)
                         tags.sort()
                         return tags
