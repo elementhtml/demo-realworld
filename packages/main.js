@@ -6,6 +6,7 @@ export default {
         articleListRender: ['$map($, function($a) {{',
             '"`.article-meta .favorite-pointer`@target": "api://api/articles/" & $a.slug & "/favorite",',
             '"`.article-meta a`@href": "./#profile/" & $a.author.username,',
+            '"`.article-meta .info a`@href": "./#profile/" & $a.author.username,',
             '"`.article-meta a img`@src": $a.author.image,',
             '"`.article-meta .info .author`.textContent": $a.author.username,',
             '"`.article-meta .info .date`.textContent": $fromMillis($toMillis($a.updatedAt), "[MNn] [D1o]"),',
