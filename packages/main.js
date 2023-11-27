@@ -4,7 +4,7 @@ export default {
     },
     variables: {
         articleListRender: ['$map($, function($a) {{',
-            '"`.article-meta .favorite-pointer`@target": "api://api/articles/" & $a.slug & "/favorite",',
+            '"`.article-meta meta[is=e-data]`@target": "api://api/articles/" & $a.slug & "/favorite",',
             '"`.article-meta a`@href": "./#profile/" & $a.author.username,',
             '"`.article-meta .info a`@href": "./#profile/" & $a.author.username,',
             '"`.article-meta a img`@src": $a.author.image,',

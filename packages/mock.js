@@ -119,6 +119,7 @@ export default {
                 if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'GET':
+                        console.log('mock.js: line 122', context, payload)
                         let articles = Object.values(this.data.articles), searchParams = context?.url?.searchParams,
                             filters = searchParams ? Object.fromEntries(searchParams.entries()) : undefined
                         const [, , , feedOrSlug, comments] = (context?.url?.pathname ?? '').replace('//', '/').split('/')

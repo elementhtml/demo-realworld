@@ -22,12 +22,11 @@
     <!-- <script type="module" -->
     <!-- src='https://cdn.jsdelivr.net/gh/elementhtml/element@f4fe89d10258adc15f6a46ec6adb88f44f2f0a9c/element.js?load&expose&packages=main,mock'></script> -->
 
-    <style>
-    </style>
-
     <meta is="e-theme" id="theme" resource="dark">
     <meta is="e-router" id="router" name="rw" base="./*" content="templates/home.html">
     <meta is="e-pipe" id="user" source="`sessionStorage.setItem(user)!getItem(user)`" content-type="json">
+    <meta is="e-data" resource="|#user|_" target=":|[data-e-header-authorization]{}"
+        transform='{"@data-e-header-authorization": $.token, "@resource": "``@data-resource", "@data-resource": null }'>
     <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=r:404">
 
 </head>
