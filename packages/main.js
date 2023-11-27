@@ -20,6 +20,6 @@ export default {
         toggleFeedToYour: '{"`main|#article-feed-pointer`@resource": "api://api/articles/feed", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
         toggleFeedToGlobal: '{"`main|#article-feed-pointer`@resource": "api://api/articles", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
         authPostRender: ['{"`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }),',
-            '"`#user`.write()": $.user ? $.user : {} }'].join('')
+            '"`#user`.write()": $.user ? $.user : {}, "`#router`.to(./#profile)": $boolean($.user) }'].join('')
     }
 }
