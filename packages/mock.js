@@ -60,23 +60,27 @@ export default {
                         if (payload?.user?.username) {
                             this.data.users[payload.user.username] = payload.user
                         } else { return { errors: { username: ['is required'] } } }
-                        this.data.users[payload.user.username].token = crypto.randomUUID()
-                        this.data.auth[this.data.users[payload.user.username].token] = payload.user.username
-                        return this.data.users[payload.user.username]
+                        const user = this.data.users[payload.user.username]
+                        user.token = crypto.randomUUID()
+                        this.data.auth[user.token] = payload.user.username
+                        return { user }
                 }
             },
             "/api/users/login": function (context, payload) {
+                if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'POST':
-                        const user = Object.getValues(this.data.users).filter(u => u.email == payload.user.email && u.password == payload.user.password)[0]
+                        if (!payload.user.email || !payload.user.password) return { errors: { user: ['email and password required'] } }
+                        const user = Object.values(this.data.users).filter(u => u.email == payload.user.email && u.password == payload.user.password)[0]
                         if (user) {
                             user.token = crypto.randomUUID()
                             this.data.auth[user.token] = user.username
-                        }
-                        return user
+                        } else { return { errors: { user: [`with matching email and password not found`] } } }
+                        return { user }
                 }
             },
             "/api/user": function (context, payload) {
+                if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 const token = (context?.headers?.Authorization ?? '').slice(6), username = token ? this.data.auth[token] : undefined,
                     user = username ? this.data.users[username] : undefined
                 switch (context.method) {
@@ -88,6 +92,7 @@ export default {
                 }
             },
             "/api/profiles/*": function (context, payload) {
+                if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 let profile = {}
                 switch (context.method) {
                     case 'GET':
@@ -111,6 +116,7 @@ export default {
                 return profile
             },
             "/api/articles/*": function (context, payload) {
+                if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'GET':
                         let articles = Object.values(this.data.articles), searchParams = context?.url?.searchParams,
@@ -219,6 +225,7 @@ export default {
                 }
             },
             "/api/tags": function (context, payload) {
+                if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'GET':
                         let tags = {}
