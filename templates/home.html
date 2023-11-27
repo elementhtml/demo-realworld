@@ -16,19 +16,11 @@
                 <div class="feed-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item">
-                            <meta is="e-data" resource="|a|!click" transform='{
-                                "`main|#article-feed-pointer`@resource": "api://api/articles/feed", 
-                                "`ul|li a.active`@class": "nav-link", 
-                                "`li|a`@class": "nav-link active"
-                            }' force>
+                            <meta is="e-data" resource="|a|!click" transform='$toggleFeedToYour' force>
                             <a class="nav-link" href="./">Your Feed</a>
                         </li>
                         <li class="nav-item">
-                            <meta is="e-data" resource="|a|!click" transform='{
-                                "`main|#article-feed-pointer`@resource": "api://api/articles", 
-                                "`ul|li a.active`@class": "nav-link", 
-                                "`li|a`@class": "nav-link active"
-                            }' force>
+                            <meta is="e-data" resource="|a|!click" transform='$toggleFeedToGlobal' force>
                             <a class="nav-link active" href="./">Global Feed</a>
                         </li>
                     </ul>
@@ -37,6 +29,8 @@
                 <template>
                     <div class="article-preview">
                         <div class="article-meta">
+                            <meta is="e-data" class="favorite-pointer" resource="|button|!click"
+                                target="api://api/articles/:slug/favorite" options="method=POST" force>
                             <a href><img src /></a>
                             <div class="info">
                                 <a href class="author"></a>

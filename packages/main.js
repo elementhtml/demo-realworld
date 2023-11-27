@@ -4,6 +4,7 @@ export default {
     },
     variables: {
         articleListRender: ['$map($, function($a) {{',
+            '"`.article-meta .favorite-pointer`@target": "api://api/articles/" & $a.slug & "/favorite",',
             '"`.article-meta a`@href": "./#profile/" & $a.author.username,',
             '"`.article-meta a img`@src": $a.author.image,',
             '"`.article-meta .info .author`.textContent": $a.author.username,',
@@ -14,6 +15,8 @@ export default {
             '"`.preview-link p`": $a.description,',
             '"`.preview-link .tag-list`": $map($a.tagList, function($t) { {".textContent": $t} })',
             '}})'].join(''),
-        tagListRender: '$map($, function($t) {{ ".textContent": $t, "@href": "./?tag=" & $t }})'
+        tagListRender: '$map($, function($t) {{ ".textContent": $t, "@href": "./?tag=" & $t }})',
+        toggleFeedToYour: '{"`main|#article-feed-pointer`@resource": "api://api/articles/feed", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
+        toggleFeedToGlobal: '{"`main|#article-feed-pointer`@resource": "api://api/articles", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }'
     }
 }
