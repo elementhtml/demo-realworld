@@ -56,7 +56,9 @@ export default {
             "/api/users": function (context, payload) {
                 switch (context.method) {
                     case 'POST':
-                        if (payload?.user?.username) this.data.users[payload.user.username] = payload.user
+                        if (payload?.user?.username) {
+                            this.data.users[payload.user.username] = payload.user
+                        } else { return { errors: { username: ['is required'] } } }
                         this.data.users[payload.user.username].token = crypto.randomUUID()
                         this.data.auth[this.data.users[payload.user.username].token] = payload.user.username
                         return this.data.users[payload.user.username]
