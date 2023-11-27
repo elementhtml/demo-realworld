@@ -1,4 +1,14 @@
-<meta is="e-data" resource="api://api/articles" target="|.page .row div">
+<meta is="e-data" resource="api://api/articles" target="|.page .row div" transform='$map($, function($a) {{
+    "`.article-meta a`@href": "./#profile/" & $a.author.username, 
+    "`.article-meta a img`@src": $a.author.image, 
+
+
+    "`h1`": $a.title, 
+    "`.preview-link`@href": "./#article/" & $a.slug, 
+    "`.author`.textContent": $a.author.username
+
+
+}})'>
 
 <div class="home-page">
     <div class="banner">
