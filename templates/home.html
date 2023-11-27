@@ -1,13 +1,13 @@
 <meta is="e-data" resource="api://api/articles" target="|.page .row div" transform='$map($, function($a) {{
     "`.article-meta a`@href": "./#profile/" & $a.author.username, 
     "`.article-meta a img`@src": $a.author.image, 
-
-
-    "`h1`": $a.title, 
+    "`.article-meta .info .author`.textContent": $a.author.username, 
+    "`.article-meta .info .date`.textContent": $fromMillis($toMillis($a.updatedAt), "[MNn] [D1o]"), 
+    "`.article-meta .favorites-count`": $a.favoritesCount, 
     "`.preview-link`@href": "./#article/" & $a.slug, 
-    "`.author`.textContent": $a.author.username
-
-
+    "`.preview-link h1`": $a.title, 
+    "`.preview-link p`": $a.description, 
+    "`.preview-link .tag-list`": $map($a.tagList, function($t) { {".textContent": $t} })
 }})'>
 
 <div class="home-page">
@@ -38,7 +38,7 @@
                             <a href><img src /></a>
                             <div class="info">
                                 <a href class="author"></a>
-                                <span class="date" name="updatedOn"></span>
+                                <span class="date"></span>
                             </div>
                             <button class="btn btn-outline-primary btn-sm pull-xs-right">
                                 <i class="ion-heart"></i> <span class="favorites-count"></span>
@@ -49,7 +49,7 @@
                             <p></p>
                             <span>Read more...</span>
                             <ul class="tag-list">
-                                <template>
+                                <template data-e-value>
                                     <li class="tag-default tag-pill tag-outline"></li>
                                 </template>
                             </ul>
