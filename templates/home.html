@@ -1,5 +1,5 @@
 <meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles" target="|.page .row div"
-    transform='$articleListRender' data-e-header-authorization>
+    transform='$articleListRender' data-e-header-authorization force>
 <meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$tagListRender'>
 
 <div class="home-page">
@@ -30,8 +30,8 @@
                 <template>
                     <div class="article-preview">
                         <div class="article-meta">
-                            <meta is="e-data" data-resource="|button|!click" options="method=POST"
-                                data-e-header-authorization force>
+                            <meta is="e-data" data-resource="|button|!click" target options="method=POST"
+                                data-e-header-authorization force touch="main|#article-feed-pointer">
                             <a href><img src /></a>
                             <div class="info">
                                 <a href class="author"></a>

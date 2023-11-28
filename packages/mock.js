@@ -159,6 +159,7 @@ export default {
                             if (filters.offset) articles = articles.slice(filters.offset)
                             if (filters.limit) articles = articles.slice(0, filters.limit)
                         }
+                        console.log('mock.js: line 162', articles)
                         return articles
                     case 'POST':
                     case 'PUT':
@@ -187,13 +188,14 @@ export default {
                                 this.data('comments', articleSlug, articleComments)
                                 return { comment }
                             } else if (commentsOrFavorite === 'favorite') {
-                                console.log('mock.js: line 190', articleSlug, requestingUser)
                                 const article = this.data('articles', articleSlug)
                                 if (!article) return { errors: { article: ['not found'] } }
                                 article.favorited ||= []
-                                article.favorited.push(requestingUser.username)
-                                article.favoritesCount += 1
-                                article.updatedAt = new Date().toISOString()
+                                if (!article.favorited.includes(requestingUser.username)) {
+                                    article.favorited.push(requestingUser.username)
+                                    article.favoritesCount += 1
+                                    article.updatedAt = new Date().toISOString()
+                                }
                                 this.data('articles', articleSlug, article)
                                 return { article }
                             } else {
