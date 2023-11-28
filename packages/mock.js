@@ -54,9 +54,10 @@ export default {
                 comments: {}
             },
             data: function (scope, path, value) {
-                if (!scope) return
                 let storageData = JSON.parse(window.sessionStorage.getItem('data') ?? 'null') ?? this.baseData
-                if (value === undefined) return path ? (storageData[scope] ?? {})[path] : storageData[scope] ?? {}
+                if (scope === undefined) return storageData
+                if (path === undefined) return storageData[scope] ?? {}
+                if (value === undefined) return path ? ((storageData[scope] ?? {})[path]) : (storageData[scope] ?? {})
                 storageData[scope] ||= {}
                 if (value === null) {
                     delete storageData[scope][path]
