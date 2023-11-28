@@ -165,7 +165,6 @@ export default {
                             active: ((i + 1) * limit - limit) <= offset && offset < ((i + 1) * limit), number: i + 1,
                             query: (new URLSearchParams({ ...filters, limit: limit * 1, offset: i * limit })).toString()
                         }))
-                        console.log('line 168', pages)
                         return { articles, pages }
                     case 'POST':
                     case 'PUT':
