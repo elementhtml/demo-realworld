@@ -75,9 +75,10 @@ export default {
                         if (payload?.user?.username) {
                             this.data('users', payload.user.username, payload.user)
                         } else { return { errors: { username: ['is required'] } } }
-                        const user = this.data('users', payload.user.username), token = crypto.randomUUID()
-                        this.data('users', payload.user.username, { ...user, token })
-                        this.data('auth', token, payload.user.username)
+                        const user = this.data('users', payload.user.username)
+                        user.token = crypto.randomUUID()
+                        this.data('users', payload.user.username, user)
+                        this.data('auth', user.token, payload.user.username)
                         return { user }
                 }
             },
@@ -88,9 +89,9 @@ export default {
                         if (!payload.user.email || !payload.user.password) return { errors: { user: ['email and password required'] } }
                         const user = Object.values(this.data('users')).filter(u => u.email == payload.user.email && u.password == payload.user.password)[0]
                         if (user) {
-                            const token = crypto.randomUUID()
-                            this.data('users', user.username, { ...user, token })
-                            this.data('auth', token, user.username)
+                            user.token = crypto.randomUUID()
+                            this.data('users', user.username, user)
+                            this.data('auth', user.token, user.username)
                         } else { return { errors: { user: [`with matching email and password not found`] } } }
                         return { user }
                 }
