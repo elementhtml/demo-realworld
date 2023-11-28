@@ -1,4 +1,4 @@
-<meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles" target="|.article-list"
+<meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles" target="|.page"
     transform='$articleListRender' data-e-header-authorization force allow-empty>
 <meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$tagListRender'>
 
@@ -60,12 +60,13 @@
                 </div>
 
                 <ul class="pagination">
-                    <li class="page-item active">
-                        <a class="page-link" href="">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="">2</a>
-                    </li>
+                    <template>
+                        <li class="page-item active">
+                            <meta is="e-data" resource="|a|!click" target="main|#article-feed-pointer"
+                                transform='{"@resource": "api://api/articles?limit=1&offset=0"}'>
+                            <a class="page-link" href></a>
+                        </li>
+                    </template>
                 </ul>
             </div>
 

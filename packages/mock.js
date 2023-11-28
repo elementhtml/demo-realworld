@@ -148,19 +148,23 @@ export default {
                         } else if (feedOrSlug) {
                             return this.data('articles', feedOrSlug)
                         }
-                        if (articles.length && filters && Object.keys(filters).length) {
+                        const limit = parseInt(filters?.limit) || 10, offset = parseInt(filters?.offset) || 0
+                        let totalArticles = articles.length
+                        if (totalArticles && filters && Object.keys(filters).length) {
                             articles = articles.filter(a => {
                                 const matchesTag = !filters.tag || (filters.tag && (a.tagList ?? []).includes(filter.tags))
                                 const matchesAuthor = !filters.author || (filters.author && (a.author?.username) === filter.author)
                                 const matchesFavorited = !filters.favorited || (filters.favorited && (a.favorited ?? []).includes(filters.favorited))
                                 return matchesTag && matchesAuthor && matchesFavorited
                             })
-                            articles.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                            if (filters.offset) articles = articles.slice(filters.offset)
-                            if (filters.limit) articles = articles.slice(0, filters.limit)
                         }
-                        console.log('mock.js: line 162', articles)
-                        return articles
+                        articles.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                        totalArticles = articles.length
+                        articles = articles.slice(offset, offset + limit)
+                        const pages = Array.from({ length: Math.ceil(totalArticles / limit) }, (_, i) => ({
+                            active: ((i + 1) * limit - limit) <= offset && offset < ((i + 1) * limit), limit: limit * 1, offset: i * limit, number: i + 1
+                        }))
+                        return { articles, pages }
                     case 'POST':
                     case 'PUT':
                     case 'DELETE':
