@@ -15,7 +15,7 @@ export default {
             '"`.preview-link h1`": $a.title,',
             '"`.preview-link p`": $a.description,',
             '"`.preview-link .tag-list`": $map($a.tagList, function($t) { {".textContent": $t} })',
-            '}})) : "No articles for your feed..."'].join(''),
+            '}})) : []'].join(''),
         tagListRender: '$map($, function($t) {{ ".textContent": $t, "@href": "./?tag=" & $t }})',
         toggleFeedToYour: '{"`main|#article-feed-pointer`@resource": "api://api/articles/feed", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
         toggleFeedToGlobal: '{"`main|#article-feed-pointer`@resource": "api://api/articles", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',

@@ -1,5 +1,5 @@
-<meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles" target="|.page .row div"
-    transform='$articleListRender' data-e-header-authorization force>
+<meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles" target="|.article-list"
+    transform='$articleListRender' data-e-header-authorization force allow-empty>
 <meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$tagListRender'>
 
 <div class="home-page">
@@ -27,32 +27,37 @@
                     </ul>
                 </div>
 
-                <template>
-                    <div class="article-preview">
-                        <div class="article-meta">
-                            <meta is="e-data" data-resource="|button|!click" target options="method=POST"
-                                data-e-header-authorization force touch="main|#article-feed-pointer">
-                            <a href><img src /></a>
-                            <div class="info">
-                                <a href class="author"></a>
-                                <span class="date"></span>
+                <div class="article-list">
+                    <template>
+                        <div class="article-preview">
+                            <div class="article-meta">
+                                <meta is="e-data" data-resource="|button|!click" target options="method=POST"
+                                    data-e-header-authorization force touch="main|#article-feed-pointer">
+                                <a href><img src /></a>
+                                <div class="info">
+                                    <a href class="author"></a>
+                                    <span class="date"></span>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm pull-xs-right">
+                                    <i class="ion-heart"></i> <span class="favorites-count"></span>
+                                </button>
                             </div>
-                            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                                <i class="ion-heart"></i> <span class="favorites-count"></span>
-                            </button>
+                            <a href class="preview-link">
+                                <h1></h1>
+                                <p></p>
+                                <span>Read more...</span>
+                                <ul class="tag-list">
+                                    <template data-e-value>
+                                        <li class="tag-default tag-pill tag-outline"></li>
+                                    </template>
+                                </ul>
+                            </a>
                         </div>
-                        <a href class="preview-link">
-                            <h1></h1>
-                            <p></p>
-                            <span>Read more...</span>
-                            <ul class="tag-list">
-                                <template data-e-value>
-                                    <li class="tag-default tag-pill tag-outline"></li>
-                                </template>
-                            </ul>
-                        </a>
-                    </div>
-                </template>
+                    </template>
+                    <template data-e-if-empty>
+                        <p>You have no articles in your feed!</p>
+                    </template>
+                </div>
 
                 <ul class="pagination">
                     <li class="page-item active">
