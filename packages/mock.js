@@ -163,10 +163,13 @@ export default {
                     case 'POST':
                     case 'PUT':
                     case 'DELETE':
+                        console.log('mock.js: line 166', context)
                         const requestingUser = this.getRequestingUser(context)
+                        console.log('mock.js: line 168', requestingUser)
                         if (!requestingUser) return { errors: { user: ['not authorized'] } }
                         const [, , , articleSlug, commentsOrFavorite, commentId] = (context?.url?.pathname ?? '').replace('//', '/').split('/')
-                        if (!articleSlug) return
+                        console.log('mock.js: line 171', articleSlug, commentsOrFavorite, commentId)
+                        if (!articleSlug) return { errors: { article: ['not found'] } }
                         const author = {
                             username: requestingUser.username,
                             bio: requestingUser.bio,
@@ -187,6 +190,7 @@ export default {
                                 this.data('comments', articleSlug, articleComments)
                                 return { comment }
                             } else if (commentsOrFavorite === 'favorite') {
+                                console.log('mock.js: line 190', articleSlug, requestingUser)
                                 const article = this.data('articles', articleSlug)
                                 if (!article) return { errors: { article: ['not found'] } }
                                 article.favorited ||= []
