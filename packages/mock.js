@@ -152,8 +152,8 @@ export default {
                         let totalArticles = articles.length
                         if (totalArticles && filters && Object.keys(filters).length) {
                             articles = articles.filter(a => {
-                                const matchesTag = !filters.tag || (filters.tag && (a.tagList ?? []).includes(filter.tags))
-                                const matchesAuthor = !filters.author || (filters.author && (a.author?.username) === filter.author)
+                                const matchesTag = !filters.tag || (filters.tag && (a.tagList ?? []).includes(filters.tags))
+                                const matchesAuthor = !filters.author || (filters.author && (a.author?.username) === filters.author)
                                 const matchesFavorited = !filters.favorited || (filters.favorited && (a.favorited ?? []).includes(filters.favorited))
                                 return matchesTag && matchesAuthor && matchesFavorited
                             })
@@ -162,8 +162,10 @@ export default {
                         totalArticles = articles.length
                         articles = articles.slice(offset, offset + limit)
                         const pages = Array.from({ length: Math.ceil(totalArticles / limit) }, (_, i) => ({
-                            active: ((i + 1) * limit - limit) <= offset && offset < ((i + 1) * limit), limit: limit * 1, offset: i * limit, number: i + 1
+                            active: ((i + 1) * limit - limit) <= offset && offset < ((i + 1) * limit), number: i + 1,
+                            query: (new URLSearchParams({ ...filters, limit: limit * 1, offset: i * limit })).toString()
                         }))
+                        console.log('line 168', pages)
                         return { articles, pages }
                     case 'POST':
                     case 'PUT':
