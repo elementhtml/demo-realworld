@@ -152,7 +152,7 @@ export default {
                         let totalArticles = articles.length
                         if (totalArticles && filters && Object.keys(filters).length) {
                             articles = articles.filter(a => {
-                                const matchesTag = !filters.tag || (filters.tag && (a.tagList ?? []).includes(filters.tags))
+                                const matchesTag = !filters.tag || (filters.tag && (a.tagList ?? []).includes(filters.tag))
                                 const matchesAuthor = !filters.author || (filters.author && (a.author?.username) === filters.author)
                                 const matchesFavorited = !filters.favorited || (filters.favorited && (a.favorited ?? []).includes(filters.favorited))
                                 return matchesTag && matchesAuthor && matchesFavorited
