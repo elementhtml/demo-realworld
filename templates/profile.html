@@ -1,6 +1,6 @@
-<meta is="e-data" data-resource="api://api/profiles/{$profileFromHash()}" target="|.profile-page"
+<meta is="e-data" data-resource="api://api/profiles/{$slugFromHash(profile)}" target="|.profile-page"
     transform='$profilePageRender' data-e-header-authorization force allow-empty id="user-info-pointer">
-<meta is="e-data" data-resource="api://api/articles?author={$profileFromHash()}" target="|.page"
+<meta is="e-data" data-resource="api://api/articles?author={$slugFromHash(profile)}" target="|.page"
     transform='$articleListRender' data-e-header-authorization force allow-empty id="article-feed-pointer">
 
 <div class="profile-page">
