@@ -1,8 +1,7 @@
-<meta is="e-data" id="user-info-pointer" data-resource="api://api/profiles/{$profileFromHash()}" target="|.profile-page"
-    transform='$profilePageRender' data-e-header-authorization force allow-empty>
-
-<meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles?author={$profileFromHash()}"
-    target="|.page" transform='$articleListRender' data-e-header-authorization force allow-empty>
+<meta is="e-data" data-resource="api://api/profiles/{$profileFromHash()}" target="|.profile-page"
+    transform='$profilePageRender' data-e-header-authorization force allow-empty id="user-info-pointer">
+<meta is="e-data" data-resource="api://api/articles?author={$profileFromHash()}" target="|.page"
+    transform='$articleListRender' data-e-header-authorization force allow-empty id="article-feed-pointer">
 
 <div class="profile-page">
     <div class="user-info">

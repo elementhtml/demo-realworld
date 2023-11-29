@@ -102,11 +102,11 @@ export default {
                 if (!user) return { errors: { user: ['not found'] } }
                 switch (context.method) {
                     case 'GET':
-                        return user
+                        return { user }
                     case 'PUT':
-                        if (user && payload) Object.assign(user, payload)
+                        if (user && payload && payload?.user) Object.assign(user, payload.user)
                         this.data('users', user.username, user)
-                        return user
+                        return { user }
                 }
             },
             "/api/profiles/*": function (context, payload) {

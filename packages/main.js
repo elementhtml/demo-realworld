@@ -24,10 +24,8 @@ export default {
             '}'].join(''),
         profileFromHash: () => window.location.hash.replace('#profile/', ''),
         tagListRender: '$map($, function($t) {{ ".textContent": $t, "@href": "./?tag=" & $t }})',
-
         toggleFeedToAuthor: '{"`main|#article-feed-pointer`@resource": "api://api/articles?author={$profileFromHash()}&' + query + '", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
         toggleFeedToFavorited: '{"`main|#article-feed-pointer`@resource": "api://api/articles?favorited={$profileFromHash()}&' + query + '", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
-
         toggleFeedToYour: '{"`main|#article-feed-pointer`@resource": "api://api/articles/feed?' + query + '", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
         toggleFeedToGlobal: '{"`main|#article-feed-pointer`@resource": "api://api/articles?' + query + '", "`ul|li a.active`@class": "nav-link", "`li|a`@class": "nav-link active" }',
         authPostRender: ['{"`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }),',
@@ -40,6 +38,7 @@ export default {
             '"`.user-info .user-img`": $.image ? $.image : "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ico_user_profile_blank.png",',
             '"`.user-info .follow`@style": $.isSelf ? "display: none" : null,',
             '"`.user-info .edit`@style": $.isSelf ? null : "display: none" }) : {',
-            '"`.user-info`@style": "display: none;"}'].join('')
+            '"`.user-info`@style": "display: none;"}'].join(''),
+        settingsRender: '{ "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), "`form`": $.user }'
     }
 }
