@@ -1,31 +1,22 @@
-<meta is="e-data" resource=":|#user|_" target="|" transform='{
-    "`.api`@source": "api://api/profiles/" & $.username
-}'>
-<meta is="e-pipe" class="api" content-type="json">
-<meta is="e-data" resource="|.api|_" target="|" transform='{
-    "`h4.profile.username`": $.username,
-    "`span.profile.username`": $.username,
-    ".profile.bio": $.bio, 
-    ".profile.image": $.image  
-}'>
+<meta is="e-data" id="user-info-pointer" data-resource="api://api/profiles/{$profileFromHash()}" target="|.profile-page"
+    transform='$profilePageRender' data-e-header-authorization force allow-empty>
 
+<meta is="e-data" id="article-feed-pointer" data-resource="api://api/articles?author={$profileFromHash()}"
+    target="|.page" transform='$articleListRender' data-e-header-authorization force allow-empty>
 
 <div class="profile-page">
     <div class="user-info">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-md-10 offset-md-1">
-                    <img src="https://i.imgur.com/Qr71crq.jpg" class="user-img profile.image" />
-                    <h4 class="profile.username">Eric Simons</h4>
-                    <p class="profile.bio">
-                        Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from
-                        the Hunger Games
-                    </p>
-                    <button class="btn btn-sm btn-outline-secondary action-btn">
+                    <img src class="user-img" />
+                    <h4 class="username"></h4>
+                    <p class="bio"></p>
+                    <button class="btn btn-sm btn-outline-secondary action-btn follow">
                         <i class="ion-plus-round"></i>
-                        &nbsp; Follow <span class="profile.username">Eric Simons</span>
+                        &nbsp; Follow <span class="username"></span>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary action-btn">
+                    <button class="btn btn-sm btn-outline-secondary action-btn edit">
                         <i class="ion-gear-a"></i>
                         &nbsp; Edit Profile Settings
                     </button>
@@ -34,52 +25,61 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container page">
         <div class="row">
             <div class="col-xs-12 col-md-10 offset-md-1">
                 <div class="articles-toggle">
                     <ul class="nav nav-pills outline-active">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="">My Articles</a>
+                        <li class="nav-item my">
+                            <meta is="e-data" resource="|a|!click" transform='$toggleFeedToAuthor' force>
+                            <a class="nav-link active" href="./">My Articles</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Favorited Articles</a>
+                        <li class="nav-item favorited">
+                            <meta is="e-data" resource="|a|!click" transform='$toggleFeedToFavorited' force>
+                            <a class="nav-link" href="./">Favorited Articles</a>
                         </li>
                     </ul>
                 </div>
 
-                <article-preview></article-preview>
-                <template>
-                    <div class="article-preview">
-                        <div class="article-meta">
-                            <a href="./#profile/eric-simons"><img src="https://i.imgur.com/Qr71crq.jpg" /></a>
-                            <div class="info">
-                                <a href="./#profile/eric-simons" class="author">Eric Simons</a>
-                                <span class="date">January 20th</span>
+                <div class="article-list">
+                    <template>
+                        <div class="article-preview">
+                            <div class="article-meta">
+                                <meta is="e-data" data-resource="|button|!click" target options="method=POST"
+                                    data-e-header-authorization force touch="main|#article-feed-pointer">
+                                <a href><img src /></a>
+                                <div class="info">
+                                    <a href class="author"></a>
+                                    <span class="date"></span>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm pull-xs-right">
+                                    <i class="ion-heart"></i> <span class="favorites-count"></span>
+                                </button>
                             </div>
-                            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                                <i class="ion-heart"></i> 29
-                            </button>
+                            <a href class="preview-link">
+                                <h1></h1>
+                                <p></p>
+                                <span>Read more...</span>
+                                <ul class="tag-list">
+                                    <template data-e-value>
+                                        <li class="tag-default tag-pill tag-outline"></li>
+                                    </template>
+                                </ul>
+                            </a>
                         </div>
-                        <a href="./#article/how-to-buil-webapps-that-scale" class="preview-link">
-                            <h1>How to build webapps that scale</h1>
-                            <p>This is the description for the post.</p>
-                            <span>Read more...</span>
-                            <ul class="tag-list">
-                                <li class="tag-default tag-pill tag-outline">realworld</li>
-                                <li class="tag-default tag-pill tag-outline">implementations</li>
-                            </ul>
-                        </a>
-                    </div>
-                </template>
+                    </template>
+                    <template data-e-if-empty>
+                        <p>No articles by this author yet!</p>
+                    </template>
+                </div>
 
                 <ul class="pagination">
-                    <li class="page-item active">
-                        <a class="page-link" href="">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="">2</a>
-                    </li>
+                    <template>
+                        <li class="page-item active">
+                            <meta is="e-data" resource="|a|!click" target="main|#article-feed-pointer">
+                            <a class="page-link" href></a>
+                        </li>
+                    </template>
                 </ul>
             </div>
         </div>

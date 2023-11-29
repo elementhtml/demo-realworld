@@ -112,14 +112,15 @@ export default {
             "/api/profiles/*": function (context, payload) {
                 if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 let profile = {}
+                const requestingUser = this.getRequestingUser(context)
                 switch (context.method) {
                     case 'GET':
                         const username = (context?.url?.pathname ?? '').replace('//', '/').split('/')[3], user = username ? this.data('users', username) : undefined
                         if (user) for (const p of ['username', 'bio', 'image', 'following']) profile[p] = user[p]
+                        if (requestingUser && requestingUser.username === username) profile.isSelf = true
                         break
                     case 'POST':
                     case 'DELETE':
-                        const requestingUser = this.getRequestingUser(context)
                         if (!requestingUser) return { errors: { user: ['not authorized'] } }
                         const [, , , usernameTo, follow] = (context?.url?.pathname ?? '').replace('//', '/').split('/'),
                             userTo = usernameTo ? this.data('users', usernameTo) : undefined
@@ -137,6 +138,7 @@ export default {
                 if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'GET':
+                        console.log('mock.js: line 141', context, payload)
                         let articles = Object.values(this.data('articles')), searchParams = context?.url?.searchParams,
                             filters = searchParams ? Object.fromEntries(searchParams.entries()) : undefined
                         const [, , , feedOrSlug, comments] = (context?.url?.pathname ?? '').replace('//', '/').split('/')
