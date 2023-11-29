@@ -148,7 +148,7 @@ export default {
                         } else if (feedOrSlug && comments) {
                             return this.data('comments', feedOrSlug) ?? []
                         } else if (feedOrSlug) {
-                            return this.data('articles', feedOrSlug)
+                            return { article: this.data('articles', feedOrSlug) }
                         }
                         const limit = parseInt(filters?.limit) || 10, offset = parseInt(filters?.offset) || 0
                         let totalArticles = articles.length
