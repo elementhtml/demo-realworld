@@ -8,13 +8,23 @@
     "`.article-meta .follow .author`": $.article.author.username, 
     "`.article-meta .follow .counter`": "(" & $count($.article.author.following) & ")",
     "`.article-meta .favorite .counter`": "(" & $.article.favoritesCount & ")", 
-
     "`.article-content blockquote`": $.article.description, 
     "`.article-content .body`": $.article.body, 
     "`.article-content .tag-list`": $map($.article.tagList, function($t) { {".textContent": $t} })
-
-
 }' data-e-header-authorization force allow-empty id="article-pointer">
+
+<meta is="e-data" data-resource="api://api/user" target="|.comment-author-img" transform='$.user.image'
+    data-e-header-authorization>
+
+<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}/comments" target="|.comments" transform='$map($.comments, function($c) {{
+        "`.card-text`": $c.body,
+        "`a.comment-author:first-of-type`@href": "./#profile/" & $c.author.username,
+        "`.comment-author-img`": $c.author.image,
+        "`a.comment-author:nth-of-type(2)`@href": "./#profile/" & $c.author.username,
+        "`a.comment-author:nth-of-type(2)`.textContent": $c.author.username,
+        "`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]"), 
+        "`.mod-options`@style": $c.author.username = $this.username ? "display: block;" : "display: none;"
+}})' data-e-header-authorization>
 
 
 <div class="article-page">
@@ -74,40 +84,29 @@
                     </div>
                 </form>
 
-                <div class="card">
-                    <div class="card-block">
-                        <p class="card-text">
-                            With supporting text below as a natural lead-in to additional content.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="./#profile/author" class="comment-author">
-                            <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                        </a>
-                        &nbsp;
-                        <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                        <span class="date-posted">Dec 29th</span>
-                    </div>
+                <div class="comments">
+                    <template>
+                        <div class="card">
+                            <div class="card-block">
+                                <p class="card-text">
+                                    With supporting text below as a natural lead-in to additional content.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="./#profile/author" class="comment-author">
+                                    <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
+                                </a>
+                                &nbsp;
+                                <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
+                                <span class="date-posted">Dec 29th</span>
+                                <span class="mod-options">
+                                    <i class="ion-trash-a"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </template>
                 </div>
 
-                <div class="card">
-                    <div class="card-block">
-                        <p class="card-text">
-                            With supporting text below as a natural lead-in to additional content.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="./#profile/author" class="comment-author">
-                            <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                        </a>
-                        &nbsp;
-                        <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                        <span class="date-posted">Dec 29th</span>
-                        <span class="mod-options">
-                            <i class="ion-trash-a"></i>
-                        </span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
