@@ -40,14 +40,9 @@
                     </fieldset>
                 </form>
                 <hr />
-                <meta is="e-data" resource="|.logout|!click" target=":|#user" apply="write()">
-                <button class="btn btn-outline-danger logout">Or click here to logout.</button>
+                <meta is="e-data" data-resource="|.logout|!click" target=":|#user" transform='null' apply="write()">
+                <button class="btn btn-outline-danger logout">Or click here to logout [TODO].</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
-authPostRender: ['{"`.error-messages`": $each($.errors, function($v, $k) { $k & " " & $join($v, ", ") }),',
-'"`#user`.write()": $.user ? $.user : {}, "`#router`.to(./#profile)": $boolean($.user) }'].join(''),
