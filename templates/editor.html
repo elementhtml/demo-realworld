@@ -1,27 +1,42 @@
+<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(editor)}" target="|.page" transform='{
+    "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
+    "`form`": $merge([$.article, {"tagList": $map($.article.tagList, function($t) {  {"`span span`": $t}   } ) } ] ) 
+}' data-e-header-authorization>
+<meta is="e-data" data-resource="|form|_submit" target="api://api/user" transform='{ "user": $ }' options="method=PUT"
+    data-e-header-authorization force id="article-updater">
+<meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply="to()">
+
+
+
 <div class="editor-page">
     <div class="container page">
         <div class="row">
             <div class="col-md-10 offset-md-1 col-xs-12">
-                <ul class="error-messages">
-                    <li>That title is required</li>
-                </ul>
+                <ul class="error-messages"></ul>
 
                 <form>
                     <fieldset>
                         <fieldset class="form-group">
-                            <input type="text" class="form-control form-control-lg" placeholder="Article Title" />
+                            <input type="text" class="form-control form-control-lg" placeholder="Article Title"
+                                name="title" />
                         </fieldset>
                         <fieldset class="form-group">
-                            <input type="text" class="form-control" placeholder="What's this article about?" />
+                            <input type="text" class="form-control" placeholder="What's this article about?"
+                                name="description" />
                         </fieldset>
                         <fieldset class="form-group">
-                            <textarea class="form-control" rows="8"
-                                placeholder="Write your article (in markdown)"></textarea>
+                            <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)"
+                                name="body"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
                             <input type="text" class="form-control" placeholder="Enter tags" />
-                            <div class="tag-list">
-                                <span class="tag-default tag-pill"> <i class="ion-close-round"></i> tag </span>
+                            <div class="tag-list" name="tagList">
+                                <template>
+                                    <span class="tag-default tag-pill">
+                                        <i class="ion-close-round"></i>
+                                        <span></span>
+                                    </span>
+                                </template>
                             </div>
                         </fieldset>
                         <button class="btn btn-lg pull-xs-right btn-primary" type="button">
