@@ -4,6 +4,10 @@
     data-e-header-authorization force id="settings-updater">
 <meta is="e-data" resource="|#settings-updater|!change" target=":|#router" apply="to()">
 
+<meta is="e-data" resource="|form|_submit" target="|.api" apply="write()" force>
+<meta is="e-data" resource="|.api|_" target="html|" transform='$authPostRender'>
+
+
 <div class="settings-page">
     <div class="container page">
         <div class="row">
@@ -36,8 +40,14 @@
                     </fieldset>
                 </form>
                 <hr />
-                <button class="btn btn-outline-danger">Or click here to logout.</button>
+                <meta is="e-data" resource="|.logout|!click" target=":|#user" apply="write()">
+                <button class="btn btn-outline-danger logout">Or click here to logout.</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+authPostRender: ['{"`.error-messages`": $each($.errors, function($v, $k) { $k & " " & $join($v, ", ") }),',
+'"`#user`.write()": $.user ? $.user : {}, "`#router`.to(./#profile)": $boolean($.user) }'].join(''),
