@@ -1,14 +1,12 @@
 <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(editor)}" target="|.page" transform='{
     "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
-    "`form`": $.article 
+    "`form`": $.article, "`form input[type=search]`": $join($.article.tagList, ",")
 }' data-e-header-authorization>
 <meta is="e-data" data-resource="|form|_submit" target="api://api/articles" transform='{ "article": $ }'
     options="method=POST" data-e-header-authorization force id="article-updater">
 <meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply id="post-submit-handler">
 <meta is="e-data" resource="|form [name=title]|_" target="|#post-submit-handler"
     transform='{ "@apply": "to(./#editor/" & $lowercase($replace($trim($),/[^a-zA-Z0-9]+/,"-")) & ")" }'>
-
-<!-- $map($split($, ","), function($t) { { "`span span`": $trim($t) } -->
 
 <div class="editor-page">
     <div class="container page">
@@ -30,11 +28,13 @@
                                 name="body"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <meta is="e-data" resource="|input|_" target="|.tag-list" transform='[]' apply="append"
-                                then='|input ~> {".value": ""}'>
+                            <meta is="e-data" resource="|input|_" target="|[name=tagList]" transform='[]' apply="append"
+                                and='|input[placeholder] ~> {".value": ""} ; 
+                                    |input[type=search] ~> $join($append($split($target.value,","), $), ",") '>
                             <input type="text" class="form-control" placeholder="Enter tags">
+                            <input type="search">
                             <div class="tag-list" name="tagList">
-                                <template data-e-slot="span span" data-e-append-only>
+                                <template data-e-slot="span span">
                                     <span class="tag-default tag-pill">
                                         <i class="ion-close-round"></i>
                                         <span></span>
