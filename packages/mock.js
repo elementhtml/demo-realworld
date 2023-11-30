@@ -212,7 +212,7 @@ export default {
                                 article.favorited = []
                                 article.favoritesCount = 0
                                 article.author = { ...author }
-                                this.data('articles', article.slug, article)
+                                //this.data('articles', article.slug, article)
                                 console.log('mock.js: line 216', { article })
                                 return { article }
                             }

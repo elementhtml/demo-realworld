@@ -2,7 +2,8 @@
     "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
     "`form`": $.article, "`#tagTracker`": $join($.article.tagList, ",")
 }' data-e-header-authorization>
-<meta is="e-data" data-resource="|form|_submit" target="api://api/articles" transform='{ "article": $ }'
+<meta is="e-data" data-resource="|form|_submit" target="api://api/articles"
+    transform='{ "article": $merge([$, {"tagList": [$sort([$distinct([$filter([$split($find("|#tagTracker").value, ",")], function($t) { $trim($t) })])])] }]) }'
     options="method=POST" data-e-header-authorization force id="article-updater">
 <meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply id="post-submit-handler">
 <meta is="e-data" resource="|form [name=title]|_" target="|#post-submit-handler"
