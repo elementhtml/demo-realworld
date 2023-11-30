@@ -31,13 +31,13 @@
                             <meta is="e-data" resource="|input|_" target="|[name=tagList]" transform='[]' apply="append"
                                 and='|input[placeholder] ~> "" ; #tagTracker ~> $join($append($split($target.value,","), $), ",") '>
                             <input type="text" class="form-control" placeholder="Enter tags">
-                            <input type="search" id="tagTracker">
+                            <input type="hidden" id="tagTracker">
                             <div class="tag-list" name="tagList">
                                 <template data-e-slot="span span">
                                     <span class="tag-default tag-pill">
                                         <meta is="e-data" resource="|i|!click" target="#tagTracker"
-                                            transform='( $tag := $find("span|span").textContent ; $tags := $split($find("fieldset|#tagTracker").value,",") ; $join([$filter($tags, function($t) { $t != $tag })] , ",") )'
-                                            and='span| ~> "" ~> remove()'>
+                                            transform='( $tag := $find("span|span").textContent ; $tags := [$split($find("fieldset|#tagTracker").value,",")] ; $join([$filter($tags, function($t) { $t != $tag })] , ",") )'
+                                            and='span| ~> "" ~> remove()' allow-empty>
                                         <i class="ion-close-round"></i>
                                         <span></span>
                                     </span>
