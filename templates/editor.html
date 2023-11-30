@@ -1,6 +1,6 @@
 <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(editor)}" target="|.page" transform='{
     "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
-    "`form`": $.article, "`form input[type=search]`": $join($.article.tagList, ",")
+    "`form`": $.article, "`#tagTracker`": $join($.article.tagList, ",")
 }' data-e-header-authorization>
 <meta is="e-data" data-resource="|form|_submit" target="api://api/articles" transform='{ "article": $ }'
     options="method=POST" data-e-header-authorization force id="article-updater">
@@ -29,13 +29,15 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <meta is="e-data" resource="|input|_" target="|[name=tagList]" transform='[]' apply="append"
-                                and='|input[placeholder] ~> {".value": ""} ; 
-                                    |input[type=search] ~> $join($append($split($target.value,","), $), ",") '>
+                                and='|input[placeholder] ~> "" ; #tagTracker ~> $join($append($split($target.value,","), $), ",") '>
                             <input type="text" class="form-control" placeholder="Enter tags">
-                            <input type="search">
+                            <input type="search" id="tagTracker">
                             <div class="tag-list" name="tagList">
                                 <template data-e-slot="span span">
                                     <span class="tag-default tag-pill">
+                                        <meta is="e-data" resource="|i|!click" target="#tagTracker"
+                                            transform='( $tag := $find("span|span").textContent ; $tags := $split($find("fieldset|#tagTracker").value,",") ; $join([$filter($tags, function($t) { $t != $tag })] , ",") )'
+                                            and='span| ~> "" ~> remove()'>
                                         <i class="ion-close-round"></i>
                                         <span></span>
                                     </span>
@@ -51,3 +53,5 @@
         </div>
     </div>
 </div>
+
+<!-- $join( $filter($split($find("fieldset|#tagTracker").value,","), function($t) { $t = "dragons" }) , ",") -->
