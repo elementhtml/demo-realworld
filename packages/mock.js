@@ -138,7 +138,6 @@ export default {
                 if (typeof payload === 'string') try { payload = JSON.parse(payload) } catch (e) { return { errors: { payload: ['is not valid JSON'] } } }
                 switch (context.method) {
                     case 'GET':
-                        console.log('mock.js: line 141', context, payload)
                         let articles = Object.values(this.data('articles')), searchParams = context?.url?.searchParams,
                             filters = searchParams ? Object.fromEntries(searchParams.entries()) : undefined
                         const [, , , feedOrSlug, comments] = (context?.url?.pathname ?? '').replace('//', '/').split('/')
@@ -174,12 +173,9 @@ export default {
                         const requestingUser = this.getRequestingUser(context)
                         if (!requestingUser) return { errors: { user: ['not authorized'] } }
                         const [, , , articleSlug, commentsOrFavorite, commentId] = (context?.url?.pathname ?? '').replace('//', '/').split('/')
-                        if (!articleSlug) return { errors: { article: ['not found'] } }
+                        //if (!articleSlug) return { errors: { article: ['not found'] } }
                         const author = {
-                            username: requestingUser.username,
-                            bio: requestingUser.bio,
-                            image: requestingUser.image,
-                            following: requestingUser.following
+                            username: requestingUser.username, bio: requestingUser.bio, image: requestingUser.image, following: requestingUser.following
                         }
                         if (context.method === 'POST') {
                             if (commentsOrFavorite === 'comments') {
@@ -205,10 +201,10 @@ export default {
                                 }
                                 this.data('articles', articleSlug, article)
                                 return { article }
-                            } else {
+                            } else if (!articleSlug) {
                                 const article = {}
                                 for (const p of ['title', 'description', 'body']) article[p] = (payload?.article ?? {})[p]
-                                article.slug = article.title.trim().replaceAll(/[^a-z0-9]+/gi, '-').replaceAll(/\-+/, '-').toLowerCase()
+                                article.slug = article.title.trim().replaceAll(/[^a-zA-Z0-9]+/g, '-').replaceAll(/\-+/g, '-').toLowerCase()
                                 if (this.data('articles', article.slug)) return { errors: { article: ['already exists'] } }
                                 article.tagList = (payload?.article ?? {}).tagList ?? []
                                 article.createdAt = new Date().toISOString()
@@ -217,6 +213,7 @@ export default {
                                 article.favoritesCount = 0
                                 article.author = { ...author }
                                 this.data('articles', article.slug, article)
+                                console.log('mock.js: line 216', { article })
                                 return { article }
                             }
                         } else if (context.method === 'PUT') {

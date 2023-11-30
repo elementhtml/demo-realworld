@@ -1,19 +1,20 @@
 <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(editor)}" target="|.page" transform='{
     "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
-    "`form`": $merge([$.article, {"tagList": $map($.article.tagList, function($t) {  {"`span span`": $t}   } ) } ] ) 
+    "`form`": $.article 
 }' data-e-header-authorization>
-<meta is="e-data" data-resource="|form|_submit" target="api://api/user" transform='{ "user": $ }' options="method=PUT"
-    data-e-header-authorization force id="article-updater">
-<meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply="to()">
+<meta is="e-data" data-resource="|form|_submit" target="api://api/articles" transform='{ "article": $ }'
+    options="method=POST" data-e-header-authorization force id="article-updater">
+<meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply id="post-submit-handler">
+<meta is="e-data" resource="|form [name=title]|_" target="|#post-submit-handler"
+    transform='{ "@apply": "to(./#editor/" & $lowercase($replace($trim($),/[^a-zA-Z0-9]+/,"-")) & ")" }'>
 
-
+<!-- $map($split($, ","), function($t) { { "`span span`": $trim($t) } -->
 
 <div class="editor-page">
     <div class="container page">
         <div class="row">
             <div class="col-md-10 offset-md-1 col-xs-12">
                 <ul class="error-messages"></ul>
-
                 <form>
                     <fieldset>
                         <fieldset class="form-group">
@@ -29,9 +30,11 @@
                                 name="body"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter tags" />
+                            <meta is="e-data" resource="|input|_" target="|.tag-list" transform='[]' apply="append"
+                                then='|input ~> {".value": ""}'>
+                            <input type="text" class="form-control" placeholder="Enter tags">
                             <div class="tag-list" name="tagList">
-                                <template>
+                                <template data-e-slot="span span" data-e-append-only>
                                     <span class="tag-default tag-pill">
                                         <i class="ion-close-round"></i>
                                         <span></span>
@@ -39,7 +42,7 @@
                                 </template>
                             </div>
                         </fieldset>
-                        <button class="btn btn-lg pull-xs-right btn-primary" type="button">
+                        <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
                             Publish Article
                         </button>
                     </fieldset>
