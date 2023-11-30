@@ -212,8 +212,7 @@ export default {
                                 article.favorited = []
                                 article.favoritesCount = 0
                                 article.author = { ...author }
-                                //this.data('articles', article.slug, article)
-                                console.log('mock.js: line 216', { article })
+                                this.data('articles', article.slug, article)
                                 return { article }
                             }
                         } else if (context.method === 'PUT') {

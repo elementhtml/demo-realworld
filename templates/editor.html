@@ -7,7 +7,7 @@
     options="method=POST" data-e-header-authorization force id="article-updater">
 <meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply id="post-submit-handler">
 <meta is="e-data" resource="|form [name=title]|_" target="|#post-submit-handler"
-    transform='{ "@apply": "to(./#editor/" & $lowercase($replace($trim($),/[^a-zA-Z0-9]+/,"-")) & ")" }'>
+    transform='{ "@apply": "load(./#editor/" & $lowercase($replace($trim($),/[^a-zA-Z0-9]+/,"-")) & ")" }'>
 
 <div class="editor-page">
     <div class="container page">
