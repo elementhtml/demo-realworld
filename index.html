@@ -25,8 +25,13 @@
     <meta is="e-theme" id="theme" resource="dark">
     <meta is="e-router" id="router" name="rw" base="./*" content="templates/home.html">
     <meta is="e-pipe" id="user" source="`sessionStorage.setItem(user)!getItem(user)`" content-type="json">
-    <meta is="e-data" resource="|#user|_" target=":|[data-e-header-authorization]{}"
-        transform='{"@data-e-header-authorization": "Token " & $.token, "@resource": "``@data-resource", "@data-resource": null }'>
+    <meta is="e-data" resource="|#user|_" target=":|[data-e-header-authorization], [data-e-auth-style]{}" transform='{
+        "@data-e-header-authorization": "``@data-e-header-authorization" ? ("Token " & $.token) : null, 
+        "@resource": "``@data-resource" ? "``@data-resource" : null, 
+        "@data-resource": null, 
+        "@style": "``@data-e-auth-style" ? $trim("``@style" & " " & "``@data-e-auth-style") : null, 
+        "@data-e-auth-style": null
+    }'>
     <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=r:404">
 
 </head>
@@ -44,7 +49,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./#login">Sign in</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" data-e-auth-style="display: none;">
                         <a class="nav-link" href="./#register">Sign up</a>
                     </li>
 

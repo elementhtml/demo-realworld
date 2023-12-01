@@ -1,34 +1,11 @@
-<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}" target="|.article-page" transform='{
-    "`.banner h1`": $.article.title, 
-    "`.article-meta a`@href": "./#profile/" & $.article.author.username, 
-    "`.article-meta img`@src": $.article.author.image,
-    "`.article-meta .info .author`@href": "./#profile/" & $.article.author.username,
-    "`.article-meta .info .author`.textContent": $.article.author.username,
-    "`.article-meta .info .date`": $fromMillis($toMillis($.article.createdAt), "[MNn] [D1o]"),
-    "`.article-meta .follow .author`": $.article.author.username, 
-    "`.article-meta .follow .counter`": "(" & $count($.article.author.following) & ")",
-    "`.article-meta .favorite .counter`": "(" & $.article.favoritesCount & ")", 
-    "`.article-content blockquote`": $.article.description, 
-    "`.article-content .body`": $.article.body, 
-    "`.article-content .tag-list`": $map($.article.tagList, function($t) { {".textContent": $t} })
-}' data-e-header-authorization force allow-empty id="article-pointer">
-
+<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}" target="|.article-page"
+    transform='$articleRender' data-e-header-authorization force allow-empty id="article-pointer">
 <meta is="e-data" data-resource="api://api/user" target="|.comment-author-img" transform='$.user.image'
     data-e-header-authorization>
-
-<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}/comments" target="|.comments" transform='$map($.comments, function($c) {{
-        "`.card-text`": $c.body,
-        "`a.comment-author:first-of-type`@href": "./#profile/" & $c.author.username,
-        "`.comment-author-img`": $c.author.image,
-        "`a.comment-author:nth-of-type(2)`@href": "./#profile/" & $c.author.username,
-        "`a.comment-author:nth-of-type(2)`.textContent": $c.author.username,
-        "`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]"), 
-        "`.mod-options`@style": $c.author.username = $this.username ? "display: block;" : "display: none;"
-}})' data-e-header-authorization>
-
+<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}/comments" target="|.comments"
+    transform='$commentsRender' data-e-header-authorization>
 
 <div class="article-page">
-    <!-- // TODO : update to switch between follow/favorite AND edit/delete -->
     <div class="banner">
         <div class="container">
             <h1></h1>
@@ -39,18 +16,26 @@
                     <span class="date"></span>
                 </div>
                 <button class="btn btn-sm btn-outline-secondary follow">
+                    <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/follow"
+                        options="method=POST" data-e-header-authorization>
                     <i class="ion-plus-round"></i>
                     &nbsp; Follow <span class="author"></span> <span class="counter"></span>
                 </button>
                 &nbsp;&nbsp;
                 <button class="btn btn-sm btn-outline-primary favorite">
+                    <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/favorite"
+                        options="method=POST" data-e-header-authorization>
                     <i class="ion-heart"></i>
                     &nbsp; Favorite Article <span class="counter"></span>
                 </button>
                 <button class="btn btn-sm btn-outline-secondary edit">
+                    <meta is="e-data" resource="||!click"
+                        transform='{"`#router`.to(./#edit/" & $slugFromHash(article) & ")": true}'>
                     <i class="ion-edit"></i> Edit Article
                 </button>
                 <button class="btn btn-sm btn-outline-danger delete">
+                    <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}"
+                        options="method=DELETE" data-e-header-authorization>
                     <i class="ion-trash-a"></i> Delete Article
                 </button>
             </div>
@@ -88,9 +73,7 @@
                     <template>
                         <div class="card">
                             <div class="card-block">
-                                <p class="card-text">
-                                    With supporting text below as a natural lead-in to additional content.
-                                </p>
+                                <p class="card-text"></p>
                             </div>
                             <div class="card-footer">
                                 <a href="./#profile/author" class="comment-author">
@@ -100,6 +83,9 @@
                                 <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
                                 <span class="date-posted">Dec 29th</span>
                                 <span class="mod-options">
+                                    <meta is="e-data" resource="||!click"
+                                        target="api://api/articles/{$slugFromHash(article)}/comments/{`[id]|`.id}"
+                                        options="method=DELETE">
                                     <i class="ion-trash-a"></i>
                                 </span>
                             </div>
