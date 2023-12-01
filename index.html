@@ -25,8 +25,8 @@
     <meta is="e-theme" id="theme" resource="dark">
     <meta is="e-router" id="router" name="rw" base="./*" content="templates/home.html">
     <meta is="e-pipe" id="user" source="`sessionStorage.setItem(user)!getItem(user)`" content-type="json">
-    <meta is="e-data" resource="|#user|_" target=":|body" transform='{
-        "`[data-e-header-authorization]{}`": {
+    <meta is="e-data" id="test" resource="|#user|_" target=":|body" transform='{
+        "`|[data-e-header-authorization]{}`": {
             "@data-e-header-authorization": "Token " & $.token, 
             "@resource": "``@data-resource", 
             "@data-resource": null    
