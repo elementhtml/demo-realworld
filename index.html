@@ -22,16 +22,11 @@
     <!-- <script type="module" -->
     <!-- src='https://cdn.jsdelivr.net/gh/elementhtml/element@f4fe89d10258adc15f6a46ec6adb88f44f2f0a9c/element.js?load&expose&packages=main,mock'></script> -->
 
-    <meta is="e-theme" id="theme" resource="dark">
-    <meta is="e-router" id="router" name="rw" base="./*" content="templates/home.html">
-    <meta is="e-pipe" id="user" source="`sessionStorage.setItem(user)!getItem(user)`" content-type="json">
-    <meta is="e-data" id="test" resource="|#user|_" target=":|body" transform='{
-        "`|[data-e-header-authorization]{}`": {
-            "@data-e-header-authorization": "Token " & $.token, 
-            "@resource": "``@data-resource", 
-            "@data-resource": null    
-        } 
-    }'>
+    <meta is="e-theme" resource="dark" id="theme">
+    <meta is="e-router" name="rw" base="./*" content="templates/home.html" id="router">
+    <meta is="e-pipe" source="`sessionStorage.setItem(user)!getItem(user)`" content-type="json" id="user">
+    <meta is="e-data" resource="|#user|_" target=":|body" transform='$userRender'>
+    <meta is="e-data" id="profile">
     <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=r:404">
 
 </head>
@@ -42,30 +37,11 @@
             <div class="container">
                 <a class="navbar-brand" href="./">conduit</a>
                 <ul class="nav navbar-nav pull-xs-right" id="mainnav">
-                    <li class="nav-item">
-                        <!-- Add "active" class when you're on that page" -->
-                        <a class="nav-link active" href="./">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./#login">Sign in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./#register">Sign up</a>
-                    </li>
-
-                    <!-- Authenticated only -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="./#editor"> <i class="ion-compose"></i>&nbsp;New Article </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./#settings"> <i class="ion-gear-a"></i>&nbsp;Settings </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./#profile/eric-simons">
-                            <img src="" class="user-pic" />
-                            Eric Simons
-                        </a>
-                    </li>
+                    <template>
+                        <li class="nav-item">
+                            <a class="nav-link" href></a>
+                        </li>
+                    </template>
                 </ul>
             </div>
         </nav>

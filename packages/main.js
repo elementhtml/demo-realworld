@@ -62,6 +62,20 @@ export default {
             '"`a.comment-author:nth-of-type(2)`.textContent": $c.author.username,',
             '"`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]"),',
             '"`.mod-options`@style": $c.author.username = $this.username ? "display: block;" : "display: none;"',
-            '}})'].join('')
+            '}})'].join(''),
+        userRender: ['{',
+            '"`|[data-e-header-authorization]{}`": {',
+            '"@data-e-header-authorization": "Token " & $.token,',
+            '"@resource": "``@data-resource",',
+            '"@data-resource": null',
+            '},',
+            '"`:|#profile`": {"@data-e-header-authorization": "Token " & $.token, "@resource": "api://api/profiles/" & $.username},',
+            '"`#mainnav`": ( $home := {"`a`": {"": "./", ".": "Home"}} ; [$append( ($.token ? [$home] : [$home,',
+            '{"`a`": {"": "./#login", ".": "Sign In"}}, {"`a`": {"": "./#register", ".": "Sign Up"}}',
+            ']), ($.token ? [',
+            '{"`a`": {"": "./#editor", ".": "New Article"}}, {"`a`": {"": "./#settings", ".": "Settings"}},',
+            '{"`a`": {"": "./#profile/" & $.username, "<>": "<meta is=\\"e-data\\" resource=\\":|#profile|_\\" target=\\"|img\\" transform=\\"$.image\\"><img src class=\\"user-pic\\" />" & $.username }}',
+            '] : []) )] )',
+            '}'].join('')
     }
 }
