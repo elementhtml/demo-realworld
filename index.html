@@ -25,7 +25,7 @@
     <meta is="e-theme" resource="dark" id="theme">
     <meta is="e-router" name="rw" base="./*" content="templates/home.html" id="router">
     <meta is="e-pipe" source="`sessionStorage.setItem(user)!getItem(user)`" content-type="json" id="user">
-    <meta is="e-data" resource="|#user|_" target=":|body" transform='$userRender'>
+    <meta is="e-data" resource="|#user|_" target=":|body" transform='$userRender' id="user-render" force>
     <meta is="e-data" id="profile">
     <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=r:404">
 
