@@ -1,5 +1,6 @@
 <meta is="e-data" id="article-feed-pointer" data-resource="$articleDefault" target="|.page"
-    transform='$articleListRender' data-e-header-authorization force allow-empty>
+    transform='$articleListRender' pull=':|#user ~> {"@data-e-header-authorization": "Token " & $.token }' force
+    allow-empty>
 <meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$tagListRender'>
 
 <div class="home-page">
