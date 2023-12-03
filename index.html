@@ -29,6 +29,7 @@
     <meta is="e-data" id="profile">
     <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=r:404">
 
+
 </head>
 
 <body>
@@ -46,6 +47,17 @@
             </div>
         </nav>
     </header>
+
+    <aside>
+        <script>
+            //let test = new BroadcastChannel('test')
+            //test.addEventListener('message', event => console.log(event))
+        </script>
+        <meta is="e-map" listen="aside|input >> $.value >> test">
+        <meta is="e-map" listen="test >> $ >> aside|p">
+        <input data-test="abc">
+        <p></p>
+    </aside>
 
     <main></main>
 
