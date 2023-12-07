@@ -1,7 +1,5 @@
-<meta is="e-data" data-resource="api://api/profiles/{$slugFromHash(profile)}" target="|.profile-page"
-    transform='$profilePageRender' data-e-header-authorization force allow-empty id="user-info-pointer">
-<meta is="e-data" data-resource="api://api/articles?author={$slugFromHash(profile)}" target="|.page"
-    transform='$articleListRender' data-e-header-authorization force allow-empty id="article-feed-pointer">
+<!-- <meta is="e-cmap" :='user >> $merge([$each($, function($v, $k) { {"`[name=" & $k & "]`": $v} })]) >> |form'> -->
+<!-- <meta is="e-cmap" :='|form >> ( $._ ) >> user' prevent> -->
 
 <div class="profile-page">
     <div class="user-info">

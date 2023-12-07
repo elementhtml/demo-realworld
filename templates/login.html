@@ -1,7 +1,5 @@
-<meta is="e-pipe" class="api" source="api://api/users/login" transform='{"user": $}' options="method=POST"
-    content-type="json">
-<meta is="e-data" resource="|form|_submit" target="|.api" apply="write()" force>
-<meta is="e-data" resource="|.api|_" target="html|" transform='$authPostRender'>
+<meta is="e-cmap" :='|form >> ( $._ ) >> user' prevent>
+<meta is="e-cmap" :='user >> {"to()": "#/"} >> :|#router'>
 
 <div class="auth-page">
     <div class="container page">

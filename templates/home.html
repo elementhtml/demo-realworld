@@ -1,8 +1,3 @@
-<meta is="e-data" id="article-feed-pointer" data-resource="$articleDefault" target="|.page"
-    transform='$articleListRender' pull=':|#user ~> {"@data-e-header-authorization": "Token " & $.token }' force
-    allow-empty>
-<meta is="e-data" resource="api://api/tags" target="|.page .row .sidebar .tag-list" transform='$tagListRender'>
-
 <div class="home-page">
     <div class="banner">
         <div class="container">
@@ -32,8 +27,6 @@
                     <template>
                         <div class="article-preview">
                             <div class="article-meta">
-                                <meta is="e-data" data-resource="|button|!click" target options="method=POST"
-                                    data-e-header-authorization force touch="main|#article-feed-pointer">
                                 <a href><img src /></a>
                                 <div class="info">
                                     <a href class="author"></a>
@@ -63,7 +56,6 @@
                 <ul class="pagination">
                     <template>
                         <li class="page-item active">
-                            <meta is="e-data" resource="|a|!click" target="main|#article-feed-pointer">
                             <a class="page-link" href></a>
                         </li>
                     </template>

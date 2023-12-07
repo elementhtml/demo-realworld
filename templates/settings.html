@@ -1,8 +1,6 @@
-<meta is="e-data" data-resource="api://api/user" target="|.settings-page" transform='$settingsRender'
-    data-e-header-authorization>
-<meta is="e-data" data-resource="|form|_submit" target="api://api/user" transform='{ "user": $ }' options="method=PUT"
-    data-e-header-authorization force id="settings-updater">
-<meta is="e-data" resource="|#settings-updater|!change" target=":|#router" apply="to()">
+<meta is="e-cmap" :='user >> $merge([$each($, function($v, $k) { {"`[name=" & $k & "]`": $v} })]) >> |form'>
+<meta is="e-cmap" :='|form >> ( $._ ) >> user' prevent>
+
 
 <div class="settings-page">
     <div class="container page">
