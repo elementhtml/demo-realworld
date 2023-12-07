@@ -1,0 +1,12 @@
+($path := $substring($lookup($lookup($find(":|#router"), "value"), "hash"), 2) ; {
+    "`li:first-of-type a`": {"&active": $not($path) }, 
+    "`[href$=login]`": {"^display": $ ? "none": null, "&active": $path = "login", "..": "Sign In" }, 
+    "`[href$=register]`": {"^display": $ ? "none": null, "&active": $path = "register", "..": "Sign Up" }, 
+    "`[href$=editor]`": {"^display": $ ? null: "none", "&active": $contains($path, "editor/"), "<>": "<i class=\"ion-compose\"></i>&nbsp;New Article" }, 
+    "`[href$=settings]`": {"^display": $ ? null: "none", "&active": $path = "settings", "<>": "<i class=\"ion-gear-a\"></i>&nbsp;Settings" }, 
+    "`[href*=\\/profile\\/]`": {
+        "^display": $ ? null: "none", "&active": $contains($path, "profile/"), 
+        "@href": "#/profile/" & $.username, 
+        "<>": "<img src=\"" & ($.image ? $.image : $blankProfile) & "\" class=\"user-pic\" /> " & $.username
+    }        
+})

@@ -27,18 +27,7 @@
     <meta is="e-pipe" :="`sessionStorage.setItem(user) -> getItem(user)`" sync="user" content-type="json">
     <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=rw:404">
 
-    <meta is="e-cmap" :='user >> ( $path := $substring($lookup($lookup($find(":|#router"), "value"), "hash"), 2) ; {
-        "`li:first-of-type a`": {"&active": $not($path) }, 
-        "`[href$=login]`": {"^display": $ ? "none": null, "&active": $path = "login" }, 
-        "`[href$=register]`": {"^display": $ ? "none": null, "&active": $path = "register" }, 
-        "`[href$=editor]`": {"^display": $ ? null: "none", "&active": $contains($path, "editor/") }, 
-        "`[href$=settings]`": {"^display": $ ? null: "none", "&active": $path = "settings" }, 
-        "`[href*=\\/profile\\/]`": {
-            "^display": $ ? null: "none", "&active": $contains($path, "profile/"), 
-            "@href": "#/profile/" & $.username, 
-            "<>": "<img src=\"" & ($.image ? $.image : $blankProfile) & "\" class=\"user-pic\" /> " & $.username
-        }        
-    }) >> :|#mainnav' force>
+    <meta is="e-cmap" :='user >> jsonata://transforms/mainnav >> :|#mainnav' force>
 
     <template data-mainnav-item>
         <li class="nav-item">
@@ -58,21 +47,19 @@
                         <a class="nav-link active" href="#/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/login">Sign In</a>
+                        <a class="nav-link" href="#/login"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/register">Sign Up</a>
+                        <a class="nav-link" href="#/register"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/editor"> <i class="ion-compose"></i>&nbsp;New Article </a>
+                        <a class="nav-link" href="#/editor"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/settings"> <i class="ion-gear-a"></i>&nbsp;Settings </a>
+                        <a class="nav-link" href="#/settings"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/profile/eric-simons">
-                            <img src="" class="user-pic" /> Eric Simons
-                        </a>
+                        <a class="nav-link" href="#/profile/"></a>
                     </li>
                 </ul>
             </div>
