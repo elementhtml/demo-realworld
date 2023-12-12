@@ -1,5 +1,8 @@
-<meta is="e-cmap" :='|form >> ( $._ ) >> user' prevent>
-<meta is="e-cmap" :='user >> {"to()": "#/"} >> :|#router'>
+<meta is="e-dom" :="register << $ << :|form" prevent>
+<meta is="e-remote" :="register >> $ >> https://api.realworld.io/api/users" options='{"method": "POST"}'
+    content-type="json">
+<meta is="e-remote" :="user << $.user << https://api.realworld.io/api/users" content-type="json" passive>
+<meta is="e-dom" :='user >> {"to()": "#/"} >> ~|#router'>
 
 <div class="auth-page">
     <div class="container page">
@@ -7,7 +10,7 @@
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <h1 class="text-xs-center">Sign up</h1>
                 <p class="text-xs-center">
-                    <a href="./#login">Have an account?</a>
+                    <a href="./#/login">Have an account?</a>
                 </p>
                 <ul class="error-messages"></ul>
                 <form>
