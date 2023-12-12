@@ -1,4 +1,11 @@
-<!-- <meta is="e-data" resource="https://api.realworld.io/api/tags" target="|.tag-list"> -->
+<meta is="e-remote" :="tags << $.value.tags << https://api.realworld.io/api/tags" content-type="json">
+<meta is="e-dom"
+    :='tags >> {"<a.tag-pill.tag-default>": [$map($, function($t) {{"@href": "", "..": $t}})]} >> :|.tag-list'>
+
+<template data-e-value>
+    <a href="" class="tag-pill tag-default"></a>
+</template>
+
 
 <div class="home-page">
     <div class="banner">
@@ -64,11 +71,7 @@
             <div class="col-md-3">
                 <div class="sidebar">
                     <p>Popular Tags</p>
-                    <div class="tag-list">
-                        <template data-e-value>
-                            <a href="" class="tag-pill tag-default"></a>
-                        </template>
-                    </div>
+                    <div class="tag-list"></div>
                 </div>
             </div>
         </div>
