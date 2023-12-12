@@ -1,6 +1,6 @@
-<meta is="e-dom" :="register << $ << :|form" prevent>
-<meta is="e-remote" :="register >> $ >> https://api.realworld.io/api/users" options='{"method": "POST"}'
-    content-type="json">
+<meta is="e-dom" :="register << $._ << |form" prevent passive>
+<meta is="e-remote" :='register >> {"user": $} >> https://api.realworld.io/api/users'
+    options='{"method": "POST", "headers": {"Content-Type": "application/json;charset=UTF-8"}}' content-type="json">
 <meta is="e-remote" :="user << $.user << https://api.realworld.io/api/users" content-type="json" passive>
 <meta is="e-dom" :='user >> {"to()": "#/"} >> ~|#router'>
 

@@ -1,4 +1,4 @@
-<meta is="e-dom" :="login << $ << :|form" prevent>
+<meta is="e-dom" :="login << $ << |form" prevent>
 <meta is="e-remote" :="login >> $ >> https://api.realworld.io/api/users/login" options='{"method": "POST"}'
     content-type="json">
 <meta is="e-remote" :="user << $.user << https://api.realworld.io/api/users/login" content-type="json" passive>
