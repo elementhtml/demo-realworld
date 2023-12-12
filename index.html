@@ -34,11 +34,21 @@
     <!-- <script type="module"
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@85ce612e61306156102aaa26a4c2c0a561a216d6/element.js?load&expose&packages=rw'></script> -->
 
-    <meta is="e-router" name="rw" base="./*" content="templates/home.html" id="router">
-    <meta is="e-pipe" :="`sessionStorage.setItem(user) -> getItem(user)`" sync="user" content-type="json">
-    <meta is="e-content" resource="rw:#[a-z0-9-]+" target=":|main" rewrite="404=rw:404">
 
-    <meta is="e-cmap" :='user >> jsonata://transforms/mainnav >> :|#mainnav' force>
+    <meta is="e-router" id="router">
+
+    <meta is="e-proxy" :="user << $ << store`localStorage.getItem('user')`" content-type="json">
+    <meta is="e-proxy" :="user >> $ >> store`localStorage.setItem('user', $)`" content-type="json">
+
+    <meta is="e-dom" :='user >> `transforms/mainnav.jsonata` >> #mainnav'>
+
+    <meta is="e-dom"
+        :='currentSection << ( $section := $substringBefore($substring($.hash, 2), "/") ; $section ? $section : "home" ) << #router'>
+    <meta is="e-dom"
+        :='currentSection >> {"@:": "template << ( $.ok ? $.value : $404) << templates/" & $cell.value & ".html"} >> #templateLoader'>
+    <meta is="e-remote" id="templateLoader">
+    <meta is="e-dom" :='template >> {"<>": $} >> :|main'>
+
 
 
 </head>
