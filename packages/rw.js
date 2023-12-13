@@ -11,7 +11,7 @@ export default {
                     </div>
                 </div>
             `,
-        //        post: '{"method": "POST", "headers": {"Authorization": "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8"}}'
+        api: "https://api.realworld.io/api",
         post: {
             method: 'POST',
             headers: { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" }

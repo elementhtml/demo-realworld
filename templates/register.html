@@ -1,9 +1,7 @@
 <meta is="e-dom" :="registerForm << $._ << |form" prevent passive>
-<meta is="e-remote" :='registerForm >> {"user": $} >> https://api.realworld.io/api/users' content-type="json"
-    options='${~post}'>
-<meta is="e-remote"
-    :='{user, errors: registerErrors} << $lookup($.value, $cell.key) << https://api.realworld.io/api/users'
-    content-type="json" passive force>
+<meta is="e-remote" :='registerForm >> {"user": $} >> ${~api}/users' content-type="json" options='${~post}'>
+<meta is="e-remote" :='{user, errors: registerErrors} << $lookup($.value, $cell.key) << ${~api}/users'
+    content-type="json" force passive>
 <meta is="e-dom"
     :='registerErrors >> {"<li>": [$each($, function($v, $k) { $k & ": " & $join($v, ", ") })]} >> |.error-messages'>
 <meta is="e-dom" :='user >> ($.username ? "/" : null) >> #'>
