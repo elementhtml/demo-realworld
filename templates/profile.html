@@ -1,5 +1,11 @@
-<!-- <meta is="e-cmap" :='user >> $merge([$each($, function($v, $k) { {"`[name=" & $k & "]`": $v} })]) >> |form'> -->
-<!-- <meta is="e-cmap" :='|form >> ( $._ ) >> user' prevent> -->
+<meta is="e-dom" :='profileUser << $substringAfter($, "/profile/")  << #'>
+<meta is="e-dom" :='profileUser >> {"@:": "profile << $.value.profile << ${~api}/profiles/" & $} >> #profileGetter'>
+<meta is="e-remote" content-type="json" id="profileGetter">
+<meta is="e-dom" :='profile >> {
+    "`.user-img`": {"@src": $.image},
+    "`.username{}`": {"..": $.username},
+    "`.bio`": {"..": $.bio}
+} >> |.user-info'>
 
 <div class="profile-page">
     <div class="user-info">
@@ -28,18 +34,18 @@
                 <div class="articles-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item my">
-                            <meta is="e-data" resource="|a|!click" transform='$toggleFeedToAuthor' force>
+                            <!-- <meta is="e-data" resource="|a|!click" transform='$toggleFeedToAuthor' force> -->
                             <a class="nav-link active" href>My Articles</a>
                         </li>
                         <li class="nav-item favorited">
-                            <meta is="e-data" resource="|a|!click" transform='$toggleFeedToFavorited' force>
+                            <!-- <meta is="e-data" resource="|a|!click" transform='$toggleFeedToFavorited' force> -->
                             <a class="nav-link" href>Favorited Articles</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="article-list">
-                    <template>
+                    <!-- <template>
                         <div class="article-preview">
                             <div class="article-meta">
                                 <meta is="e-data" data-resource="|button|!click" target options="method=POST"
@@ -64,19 +70,19 @@
                                 </ul>
                             </a>
                         </div>
-                    </template>
-                    <template data-e-if-empty>
+                    </template> -->
+                    <!-- <template data-e-if-empty>
                         <p>No articles by this author yet!</p>
-                    </template>
+                    </template> -->
                 </div>
 
                 <ul class="pagination">
-                    <template>
+                    <!-- <template>
                         <li class="page-item active">
                             <meta is="e-data" resource="|a|!click" target="main|#article-feed-pointer">
                             <a class="page-link" href></a>
                         </li>
-                    </template>
+                    </template> -->
                 </ul>
             </div>
         </div>
