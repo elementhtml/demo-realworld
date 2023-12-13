@@ -1,11 +1,9 @@
 <meta is="e-dom" :='profileUser << $substringAfter($, "/profile/")  << #'>
-<meta is="e-dom" :='profileUser >> {"@:": "profile << $.value.profile << ${~api}/profiles/" & $} >> #profileGetter'>
-<meta is="e-remote" content-type="json" id="profileGetter">
-<meta is="e-dom" :='profile >> {
-    "`.user-img`": {"@src": $.image},
-    "`.username{}`": {"..": $.username},
-    "`.bio`": {"..": $.bio}
-} >> |.user-info'>
+<meta is="e-dom" :='profileUser >> {"@:": $target.`@data-directive-base` & $} >> #profileGetter'>
+<meta is="e-remote" data-directive-base="profile << $.value.profile << ${~api}/profiles/" content-type="json"
+    id="profileGetter">
+<meta is="e-dom"
+    :='profile >> {"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}} >> |.user-info'>
 
 <div class="profile-page">
     <div class="user-info">
