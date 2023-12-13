@@ -1,6 +1,5 @@
-<meta is="e-cmap" :='user >> $merge([$each($, function($v, $k) { {"`[name=" & $k & "]`": $v} })]) >> |form'>
-<meta is="e-cmap" :='|form >> ( $._ ) >> user' prevent>
-
+<meta is="e-dom" :="user << $._ << |form" prevent passive>
+<meta is="e-dom" :='user >> $merge([$each($, function($v, $k) { {"`[name=" & $k & "]`": {"value": $v} } })]) >> |form'>
 
 <div class="settings-page">
     <div class="container page">
