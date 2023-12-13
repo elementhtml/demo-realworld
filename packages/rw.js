@@ -1,3 +1,4 @@
+const headers = { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" }
 export default {
     variables: {
         blankProfile: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ico_user_profile_blank.png",
@@ -12,9 +13,6 @@ export default {
                 </div>
             `,
         api: "https://api.realworld.io/api",
-        post: {
-            method: 'POST',
-            headers: { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" }
-        }
+        post: { method: 'POST', headers }
     }
 }
