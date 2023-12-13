@@ -10,6 +10,11 @@ export default {
                         </div>
                     </div>
                 </div>
-            `
+            `,
+        //        post: '{"method": "POST", "headers": {"Authorization": "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8"}}'
+        post: {
+            method: 'POST',
+            headers: { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" }
+        }
     }
 }

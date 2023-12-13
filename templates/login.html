@@ -1,8 +1,12 @@
-<meta is="e-dom" :="login << $ << |form" prevent>
-<meta is="e-remote" :="login >> $ >> https://api.realworld.io/api/users/login" options='{"method": "POST"}'
-    content-type="json">
-<meta is="e-remote" :="user << $.user << https://api.realworld.io/api/users/login" content-type="json" passive>
-<meta is="e-dom" :='user >> {"to()": "#/"} >> ~|#router'>
+<meta is="e-dom" :="loginForm << $._ << |form" prevent passive>
+<meta is="e-remote" :='loginForm >> {"user": $} >> https://api.realworld.io/api/users/login'
+    options='{"method": "POST", "headers": {"Content-Type": "application/json;charset=UTF-8"}}' content-type="json">
+<meta is="e-remote"
+    :='{user, errors: loginErrors} << $lookup($.value, $cell.key) << https://api.realworld.io/api/users/login'
+    content-type="json" passive force>
+<meta is="e-dom"
+    :='loginErrors >> {"<li>": [$each($, function($v, $k) { $k & ": " & $join($v, ", ") })]} >> |.error-messages'>
+<meta is="e-dom" :='user >> ($.username ? "/" : null) >> #'>
 
 <div class="auth-page">
     <div class="container page">

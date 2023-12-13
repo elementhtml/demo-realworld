@@ -1,6 +1,6 @@
 <meta is="e-dom" :="registerForm << $._ << |form" prevent passive>
-<meta is="e-remote" :='registerForm >> {"user": $} >> https://api.realworld.io/api/users'
-    options='{"method": "POST", "headers": {"Content-Type": "application/json;charset=UTF-8"}}' content-type="json">
+<meta is="e-remote" :='registerForm >> {"user": $} >> https://api.realworld.io/api/users' content-type="json"
+    options='${~post}'>
 <meta is="e-remote"
     :='{user, errors: registerErrors} << $lookup($.value, $cell.key) << https://api.realworld.io/api/users'
     content-type="json" passive force>
