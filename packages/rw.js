@@ -13,6 +13,7 @@ export default {
                 </div>
             `,
         api: "https://api.realworld.io/api",
-        post: { method: 'POST', headers }
+        post: { method: 'POST', headers },
+        put: { method: 'PUT', headers }
     }
 }
