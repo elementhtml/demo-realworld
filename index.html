@@ -42,7 +42,7 @@
     <meta is="e-dom" :='user >> `transforms/mainnav.jsonata` >> #mainnav'>
 
     <meta is="e-dom"
-        :='currentSection << ( $section := $substringBefore($substring($.hash, 2), "/") ; $section ? $section : "home" ) << #router'>
+        :='currentSection << ( $section := $substringBefore($substring($.hash, 2), "/") ; $section ? $section : "home" ) << #'>
     <meta is="e-dom"
         :='currentSection >> {"@:": "template << ( $.ok ? $.value : $404) << templates/" & $cell.value & ".html"} >> #templateLoader'>
     <meta is="e-remote" id="templateLoader">
