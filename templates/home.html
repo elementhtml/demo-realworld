@@ -1,7 +1,6 @@
 <meta is="e-remote" :="tags << $.value.tags << ${~api}/tags" content-type="json">
 <meta is="e-dom"
     :='tags >> {"<a.tag-pill.tag-default>": [$map($, function($t) {{"@href": "", "..": $t}})]} >> :|.tag-list'>
-
 <meta is="e-dom" :='user >> {
     "`#feed-renderer`": {
         "@data-endpoint": $.username ? "articles/feed" : "articles", 
@@ -12,7 +11,6 @@
         "`.nav-item:last-of-type a`": {"&active": $not($.username)}
     }
 } >> |'>
-
 <meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a' prevent passive>
 <meta is="e-dom" :='articlesEndpoint >> {
         "`|.article-list`": {"<p>": "Loading articles..."}, 
@@ -41,8 +39,6 @@
         "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($a.tagList, function($t) { $t })}
     }
 }})]} : {"<p>": "You have no articles in your feed!"} >> |.article-list'>
-
-
 <meta is="e-dom" :='pagination >> {"<li.page-item>": $.count ? [$map([1..$ceil($.count/$.limit)], function($n) { ($offset := (($n-1) * $.limit) ; {
     "&active": ($offset = $.offset), 
     "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $.limit, "@href": "?offset=" & $offset & "&limit=" & $.limit } 
@@ -53,7 +49,6 @@
     "`|.article-list`": {"<p>": "Loading articles..."}, 
     "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": "@data-directive-template"
 } >> #feed-renderer' prevent>
-
 
 <template id="feed-article-preview">
     <div class="article-preview">
@@ -75,13 +70,6 @@
         </a>
     </div>
 </template>
-
-<template id="feed-page-item">
-    <li class="page-item active">
-        <a class="page-link" href></a>
-    </li>
-</template>
-
 
 <div class="home-page">
     <div class="banner">
