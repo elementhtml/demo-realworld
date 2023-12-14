@@ -47,6 +47,12 @@
     "&active": ($offset = $.offset), 
     "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $.limit, "@href": "?offset=" & $offset & "&limit=" & $.limit } 
 })})] : [] } >> |.pagination'>
+<meta is="e-dom" :='currentPage << { "offset": $.`@data-offset`, "limit": $.`@data-limit` } << |.pagination li a'
+    prevent>
+<meta is="e-dom" :='currentPage >> {
+    "`|.article-list`": {"<p>": "Loading articles..."}, 
+    "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": "@data-directive-template"
+} >> #feed-renderer' prevent>
 
 
 <template id="feed-article-preview">
