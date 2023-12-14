@@ -1,3 +1,25 @@
+<meta is="e-dom" :='articleSlug << ($ and $contains($, "/article/") ? $substringAfter($, "/article/") : null) << #'>
+<meta is="e-dom" :='articleSlug >> {"@:": $target.`@data-directive-base` & $} >> #article-getter'>
+<meta is="e-remote" data-directive-base="article << $.value.article << ${~api}/articles/" content-type="json"
+    id="article-getter">
+<meta is="e-dom" :='article >> {
+    "`.banner > .container`": {
+        "`h1`": $.title, 
+        "`.article-meta`": {
+            "`a`": {"@href": "#/profile/" & $.author.username}, "`img`": {"@src": $.author.image}, 
+            "`.author`": {"@href": "#/profile/" & $.author.username, "..": $.author.username}, 
+            "`.date`": $fromMillis($toMillis($.createdAt), "[MNn] [D1o]"), 
+            "`button.favorite .counter`": $.favoritesCount
+        }
+    }, 
+    "`.page`": {
+        "`blockquote`": $.description, "`.body`": $.body, 
+        "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($.tagList, function($t) { $t })} 
+    }
+} >> |.article-page'>
+
+
+
 <!-- <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}" target="|.article-page"
     transform='$articleRender' data-e-header-authorization force allow-empty id="article-pointer">
 <meta is="e-data" data-resource="api://api/user" target="|.comment-author-img" transform='$.user.image'
@@ -47,11 +69,7 @@
             <div class="col-md-12">
                 <blockquote></blockquote>
                 <div class="body"></div>
-                <ul class="tag-list">
-                    <!-- <template>
-                        <li class="tag-default tag-pill tag-outline"></li>
-                    </template> -->
-                </ul>
+                <ul class="tag-list"></ul>
             </div>
         </div>
 
