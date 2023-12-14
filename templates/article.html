@@ -1,5 +1,6 @@
 <meta is="e-dom" :='articleSlug << ($ and $contains($, "/article/") ? $substringAfter($, "/article/") : null) << #'>
-<meta is="e-dom" :='articleSlug >> {"@:": $target.`@data-directive-base` & $} >> #article-getter'>
+<meta is="e-dom"
+    :='articleSlug >> {"@:": $target.`@data-directive-base` & $replace($, "!", "%21") } >> #article-getter'>
 <meta is="e-remote" data-directive-base="article << $.value.article << ${~api}/articles/" content-type="json"
     id="article-getter">
 <meta is="e-dom" :='article >> {
