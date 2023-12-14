@@ -5,7 +5,7 @@
     "`#feed-renderer`": {"@data-endpoint": $.username ? "articles/feed" : "articles", "@:": $find("#feed-renderer").`@data-directive-template`}, 
     "`.feed-toggle`": {"`.nav-item:first-of-type a`": {"&active": $.username}, "`.nav-item:last-of-type a`": {"&active": $not($.username)}}
 } >> |'>
-<meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a' prevent passive>
+<meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a' prevent passive force>
 <meta is="e-dom" :='articlesEndpoint >> {
     "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
     "@data-endpoint": $, "@data-filter": "&", "@data-tag": "&", "refresh()": "@data-directive-template", 

@@ -71,7 +71,12 @@
         prevent>
     <meta is="e-dom" :='currentPage >> {
         "`:|.article-list`": {"<p>": "Loading articles..."}, "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": "@data-directive-template"
-    } >> #feed-renderer' prevent>
+    } >> #feed-renderer'>
+
+    <meta is="e-dom" :="tag << $.textContent << :|.tag-list a" prevent passive>
+    <meta is="e-dom" :='tag >> {
+        "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, "@data-tag": "&tag=" & $, "refresh()": "@data-directive-template" 
+    } >> #feed-renderer'>
 
     <template id="feed-article-preview">
         <div class="article-preview">
