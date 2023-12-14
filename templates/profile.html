@@ -1,15 +1,16 @@
 <meta is="e-dom" :='profileUser << ($ and $contains($, "/profile/") ? $substringAfter($, "/profile/") : null) << #'>
-<meta is="e-dom" :='profileUser >> {"@:": $target.`@data-directive-base` & $} >> #profile-getter'>
+<meta is="e-dom"
+    :='profileUser >> {"@:": $target.`@data-directive-base` & $, "`#article-toggler`": {"touch()": null} } >> #profile-getter'>
 <meta is="e-remote" data-directive-base="profile << $.value.profile << ${~api}/profiles/" content-type="json"
     id="profile-getter">
 <meta is="e-dom"
     :='profile >> {"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}} >> |.user-info'>
 <meta is="e-dom"
     :='articlesFilter << ($cell.value ? $join([$.`@href`,$getCell("profileUser").value],"=") : ("author=" & $getCell("profileUser").value)) << |.articles-toggle a'
-    prevent>
+    prevent passive id="article-toggler">
 <meta is="e-dom" :='articlesFilter >> {
     "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
-    "@data-filter": "&" & $, "refresh()": "@data-directive-template", 
+    "@data-endpoint": "articles", "@data-filter": "&" & $, "@data-tag": "&", "refresh()": "@data-directive-template", 
     "`:|.articles-toggle`": {"`.nav-item:first-of-type a`": {"&active": $contains($, "author") }, "`.nav-item:last-of-type a`": {"&active": $contains($, "favorited") }}
 } >> #feed-renderer'>
 

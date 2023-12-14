@@ -48,9 +48,9 @@
 
     <meta is="e-remote" data-directive-template='{feed, pagination} << 
     ($cell.key = "feed" ? $.value.articles : { "count": $.value.articlesCount, "offset": ${@data-offset}, "limit": ${@data-limit} }) 
-        << ${~api}/${@data-endpoint}?limit=${@data-limit}&offset=${@data-offset}${@data-filter}' content-type="json"
-        options='${~get}' data-endpoint="articles" data-filter="" data-limit="10" data-offset="0" id="feed-renderer"
-        force>
+        << ${~api}/${@data-endpoint}?limit=${@data-limit}&offset=${@data-offset}${@data-filter}${@data-tag}'
+        content-type="json" options='${~get}' data-endpoint="articles" data-filter="&" data-tag="&" data-limit="10"
+        data-offset="0" id="feed-renderer" force>
 
     <meta is="e-dom" :='feed >> $count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
         "`.article-meta`": { 

@@ -8,7 +8,7 @@
 <meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a' prevent passive>
 <meta is="e-dom" :='articlesEndpoint >> {
     "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
-    "@data-endpoint": $, "@data-filter": "",  "refresh()": "@data-directive-template", 
+    "@data-endpoint": $, "@data-filter": "&", "@data-tag": "&", "refresh()": "@data-directive-template", 
     "`:|.feed-toggle`": {"`.nav-item:first-of-type a`": {"&active": $ = "articles/feed" }, "`.nav-item:last-of-type a`": {"&active": $ = "articles" }}
 } >> #feed-renderer'>
 
