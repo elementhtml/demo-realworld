@@ -1,9 +1,9 @@
-<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}" target="|.article-page"
+<!-- <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}" target="|.article-page"
     transform='$articleRender' data-e-header-authorization force allow-empty id="article-pointer">
 <meta is="e-data" data-resource="api://api/user" target="|.comment-author-img" transform='$.user.image'
     data-e-header-authorization>
 <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}/comments" target="|.comments"
-    transform='$commentsRender' data-e-header-authorization>
+    transform='$commentsRender' data-e-header-authorization> -->
 
 <div class="article-page">
     <div class="banner">
@@ -16,26 +16,26 @@
                     <span class="date"></span>
                 </div>
                 <button class="btn btn-sm btn-outline-secondary follow">
-                    <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/follow"
-                        options="method=POST" data-e-header-authorization>
+                    <!-- <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/follow"
+                        options="method=POST" data-e-header-authorization> -->
                     <i class="ion-plus-round"></i>
                     &nbsp; Follow <span class="author"></span> <span class="counter"></span>
                 </button>
                 &nbsp;&nbsp;
                 <button class="btn btn-sm btn-outline-primary favorite">
-                    <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/favorite"
-                        options="method=POST" data-e-header-authorization>
+                    <!-- <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/favorite"
+                        options="method=POST" data-e-header-authorization> -->
                     <i class="ion-heart"></i>
                     &nbsp; Favorite Article <span class="counter"></span>
                 </button>
                 <button class="btn btn-sm btn-outline-secondary edit">
-                    <meta is="e-data" resource="||!click"
-                        transform='{"`#router`.to(./#edit/" & $slugFromHash(article) & ")": true}'>
+                    <!-- <meta is="e-data" resource="||!click"
+                        transform='{"`#router`.to(./#edit/" & $slugFromHash(article) & ")": true}'> -->
                     <i class="ion-edit"></i> Edit Article
                 </button>
                 <button class="btn btn-sm btn-outline-danger delete">
-                    <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}"
-                        options="method=DELETE" data-e-header-authorization>
+                    <!-- <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}"
+                        options="method=DELETE" data-e-header-authorization> -->
                     <i class="ion-trash-a"></i> Delete Article
                 </button>
             </div>
@@ -48,9 +48,9 @@
                 <blockquote></blockquote>
                 <div class="body"></div>
                 <ul class="tag-list">
-                    <template>
+                    <!-- <template>
                         <li class="tag-default tag-pill tag-outline"></li>
-                    </template>
+                    </template> -->
                 </ul>
             </div>
         </div>
@@ -83,10 +83,10 @@
                                 <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
                                 <span class="date-posted">Dec 29th</span>
                                 <span class="mod-options">
-                                    <meta is="e-data" resource="||!click"
+                                    <!-- <meta is="e-data" resource="||!click"
                                         target="api://api/articles/{$slugFromHash(article)}/comments/{`[id]|`.id}"
                                         options="method=DELETE">
-                                    <i class="ion-trash-a"></i>
+                                    <i class="ion-trash-a"></i> -->
                                 </span>
                             </div>
                         </div>
