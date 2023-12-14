@@ -2,7 +2,6 @@
 <meta is="e-dom" :='{user, settingsForm} << 
     (($cell.key = "user") ? $merge([$._, {"token": $getCell("user").token }]) : $._) << |form' prevent passive>
 <meta is="e-remote" :='settingsForm >> {"user": $ } >> ${~api}/user' content-type="json" options="${~put}">
-
 <meta is="e-dom" :="user << {} << |.logout" passive>
 <meta is="e-dom" :='user >> ($.username ? null : "/") >> #'>
 
@@ -11,9 +10,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <h1 class="text-xs-center">Your Settings</h1>
-
                 <ul class="error-messages"></ul>
-
                 <form>
                     <fieldset>
                         <fieldset class="form-group">
@@ -38,7 +35,6 @@
                     </fieldset>
                 </form>
                 <hr />
-                <!-- <meta is="e-data" data-resource="|.logout|!click" target=":|#user" transform='null' apply="write()"> -->
                 <button class="btn btn-outline-danger logout">Or click here to logout</button>
             </div>
         </div>
