@@ -70,8 +70,9 @@
 
     <meta is="e-remote" data-directive-template='{feed, pagination} << 
     ($cell.key = "feed" ? $.value.articles : { "count": $.value.articlesCount, "offset": ${@data-offset}, "limit": ${@data-limit} }) 
-        << ${~api}/${@data-endpoint}?limit=${@data-limit}&offset=${@data-offset}' content-type="json" options='${~get}'
-        data-endpoint="articles" data-limit="10" data-offset="0" id="feed-renderer">
+        << ${~api}/${@data-endpoint}?limit=${@data-limit}&offset=${@data-offset}${@data-filter}' content-type="json"
+        options='${~get}' data-endpoint="articles" data-filter="" data-limit="10" data-offset="0" id="feed-renderer"
+        force>
 
 
     <meta is="e-dom" :='feed >> $count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
@@ -88,7 +89,7 @@
             "`p`": $a.description, 
             "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($a.tagList, function($t) { $t })}
         }
-    }})]} : {"<p>": "You have no articles in your feed!"} >> :|.article-list'>
+    }})]} : {"<p>": "No articles in this feed..."} >> :|.article-list'>
     <meta is="e-dom" :='pagination >> {"<li.page-item>": $.count ? [$map([1..$ceil($.count/$.limit)], function($n) { ($offset := (($n-1) * $.limit) ; {
         "&active": ($offset = $.offset), 
         "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $.limit, "@href": "?offset=" & $offset & "&limit=" & $.limit } 

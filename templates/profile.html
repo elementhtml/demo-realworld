@@ -7,19 +7,14 @@
 
 <meta is="e-dom" :='articlesFilter << $join([$.`@href`,$getCell("profileUser").value],"=") << |.articles-toggle a'
     prevent passive>
-<meta is="e-dom" :='articlesFilter >> {
-    "`|.article-list`": {"<p>": "Loading articles..."}, 
-    "@data-filter": $, "refresh()": "@data-directive-template", 
-    "`|.articles-toggle`": {
-        "`.nav-item:first-of-type a`": {"&active": $contains($, "author=") }, 
-        "`.nav-item:last-of-type a`": {"&active": $contains($, "favorited=") }    
+<meta is="e-dom" :='articlesFilter >> ( $console("articlesFilter: ", $, $contains($, "author")) ; {
+    "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
+    "@data-filter": "&" & $, "refresh()": "@data-directive-template", 
+    "`:|.articles-toggle`": {
+        "`.nav-item:first-of-type a`": {"&active": $contains($, "author") }, 
+        "`.nav-item:last-of-type a`": {"&active": $contains($, "favorited") }    
     }
-} >> #feed-renderer'>
-<meta is="e-remote" data-directive-template='{feed, pagination} << 
-    ($cell.key = "feed" ? $.value.articles : { "count": $.value.articlesCount, "offset": ${@data-offset}, "limit": ${@data-limit} }) 
-        << ${~api}/articles?limit=${@data-limit}&offset=${@data-offset}&${@data-filter}' content-type="json"
-    options='${~get}' data-filter="" data-limit="10" data-offset="0" id="feed-renderer">
-
+}) >> #feed-renderer'>
 
 <div class="profile-page">
     <div class="user-info">
@@ -47,7 +42,7 @@
                 <div class="articles-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item my">
-                            <a class="nav-link active" href="author">My Articles</a>
+                            <a class="nav-link" href="author">My Articles</a>
                         </li>
                         <li class="nav-item favorited">
                             <a class="nav-link" href="favorited">Favorited Articles</a>
@@ -60,14 +55,3 @@
         </div>
     </div>
 </div>
-
-<!-- <meta is="e-dom" :='pagination >> {"<li.page-item>": $.count ? [$map([1..$ceil($.count/$.limit)], function($n) { ($offset := (($n-1) * $.limit) ; {
-    "&active": ($offset = $.offset), 
-    "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $.limit, "@href": "?offset=" & $offset & "&limit=" & $.limit } 
-})})] : [] } >> |.pagination'> -->
-<!-- <meta is="e-dom" :='currentPage << { "offset": $.`@data-offset`, "limit": $.`@data-limit` } << |.pagination li a'
-    prevent> -->
-<!-- <meta is="e-dom" :='currentPage >> {
-    "`|.article-list`": {"<p>": "Loading articles..."}, 
-    "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": "@data-directive-template"
-} >> #feed-renderer' prevent> -->
