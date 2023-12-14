@@ -5,6 +5,22 @@
 <meta is="e-dom"
     :='profile >> {"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}} >> |.user-info'>
 
+<meta is="e-dom" :='articlesFilter << $join([$.`@href`,$getCell("profileUser").value],"=") << |.articles-toggle a'
+    prevent passive>
+<meta is="e-dom" :='articlesFilter >> {
+    "`|.article-list`": {"<p>": "Loading articles..."}, 
+    "@data-filter": $, "refresh()": "@data-directive-template", 
+    "`|.articles-toggle`": {
+        "`.nav-item:first-of-type a`": {"&active": $contains($, "author=") }, 
+        "`.nav-item:last-of-type a`": {"&active": $contains($, "favorited=") }    
+    }
+} >> #feed-renderer'>
+<meta is="e-remote" data-directive-template='{feed, pagination} << 
+    ($cell.key = "feed" ? $.value.articles : { "count": $.value.articlesCount, "offset": ${@data-offset}, "limit": ${@data-limit} }) 
+        << ${~api}/articles?limit=${@data-limit}&offset=${@data-offset}&${@data-filter}' content-type="json"
+    options='${~get}' data-filter="" data-limit="10" data-offset="0" id="feed-renderer">
+
+
 <div class="profile-page">
     <div class="user-info">
         <div class="container">
@@ -25,64 +41,33 @@
             </div>
         </div>
     </div>
-
     <div class="container page">
         <div class="row">
             <div class="col-xs-12 col-md-10 offset-md-1">
                 <div class="articles-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item my">
-                            <!-- <meta is="e-data" resource="|a|!click" transform='$toggleFeedToAuthor' force> -->
-                            <a class="nav-link active" href>My Articles</a>
+                            <a class="nav-link active" href="author">My Articles</a>
                         </li>
                         <li class="nav-item favorited">
-                            <!-- <meta is="e-data" resource="|a|!click" transform='$toggleFeedToFavorited' force> -->
-                            <a class="nav-link" href>Favorited Articles</a>
+                            <a class="nav-link" href="favorited">Favorited Articles</a>
                         </li>
                     </ul>
                 </div>
-
-                <div class="article-list">
-                    <!-- <template>
-                        <div class="article-preview">
-                            <div class="article-meta">
-                                <meta is="e-data" data-resource="|button|!click" target options="method=POST"
-                                    data-e-header-authorization force touch="main|#article-feed-pointer">
-                                <a href><img src /></a>
-                                <div class="info">
-                                    <a href class="author"></a>
-                                    <span class="date"></span>
-                                </div>
-                                <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                                    <i class="ion-heart"></i> <span class="favorites-count"></span>
-                                </button>
-                            </div>
-                            <a href class="preview-link">
-                                <h1></h1>
-                                <p></p>
-                                <span>Read more...</span>
-                                <ul class="tag-list">
-                                    <template data-e-value>
-                                        <li class="tag-default tag-pill tag-outline"></li>
-                                    </template>
-                                </ul>
-                            </a>
-                        </div>
-                    </template> -->
-                    <!-- <template data-e-if-empty>
-                        <p>No articles by this author yet!</p>
-                    </template> -->
-                </div>
-
-                <ul class="pagination">
-                    <!-- <template>
-                        <li class="page-item active">
-                            <meta is="e-data" resource="|a|!click" target="main|#article-feed-pointer">
-                            <a class="page-link" href></a>
-                        </li>
-                    </template> -->
-                </ul>
+                <div class="article-list"></div>
+                <ul class="pagination"></ul>
             </div>
         </div>
     </div>
 </div>
+
+<!-- <meta is="e-dom" :='pagination >> {"<li.page-item>": $.count ? [$map([1..$ceil($.count/$.limit)], function($n) { ($offset := (($n-1) * $.limit) ; {
+    "&active": ($offset = $.offset), 
+    "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $.limit, "@href": "?offset=" & $offset & "&limit=" & $.limit } 
+})})] : [] } >> |.pagination'> -->
+<!-- <meta is="e-dom" :='currentPage << { "offset": $.`@data-offset`, "limit": $.`@data-limit` } << |.pagination li a'
+    prevent> -->
+<!-- <meta is="e-dom" :='currentPage >> {
+    "`|.article-list`": {"<p>": "Loading articles..."}, 
+    "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": "@data-directive-template"
+} >> #feed-renderer' prevent> -->
