@@ -9,7 +9,10 @@
 <meta is="e-dom" :='articlesEndpoint >> {
     "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
     "@data-endpoint": $, "@data-filter": "&", "@data-tag": "&", "refresh()": "@data-directive-template", 
-    "`:|.feed-toggle`": {"`.nav-item:first-of-type a`": {"&active": $ = "articles/feed" }, "`.nav-item:last-of-type a`": {"&active": $ = "articles" }}
+    "`:|.feed-toggle`": {
+        "`.nav-item:first-of-type a`": {"&active": $ = "articles/feed" }, "`.nav-item:nth-of-type(2) a`": {"&active": $ = "articles" }, 
+        "`.nav-item:last-of-type`": {"^display": "none"}
+    }
 } >> #feed-renderer'>
 
 <div class="home-page">
@@ -29,6 +32,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="articles">Global Feed</a>
+                        </li>
+                        <li class="nav-item" style="display: none;">
+                            <a class="nav-link" href="articles">#tag</a>
                         </li>
                     </ul>
                 </div>
