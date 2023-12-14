@@ -12,9 +12,19 @@
         "`.nav-item:last-of-type a`": {"&active": $not($.username)}
     }
 } >> |'>
+
+<meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a' prevent passive>
+<meta is="e-dom" :='articlesEndpoint >> {
+        "`|.article-list`": {"<p>": "Loading articles..."}, 
+        "@data-endpoint": $, "refresh()": "@data-directive-template", 
+        "`|.feed-toggle`": {
+            "`.nav-item:first-of-type a`": {"&active": $ = "articles/feed" }, 
+            "`.nav-item:last-of-type a`": {"&active": $ = "articles" }    
+        }
+    } >> #feed-renderer'>
 <meta is="e-remote" data-directive-template='{feed, pagination} << ($cell.key = "feed" ? $.value.articles : { "count": $.value.articlesCount }) 
         << ${~api}/${@data-endpoint}?limit=${@data-limit}&offset=${@data-offset}' content-type="json" options='${~get}'
-    data-limit="10" data-offset="0" data-endpoint="articles" id="feed-renderer">
+    data-endpoint="articles" data-limit="10" data-offset="0" id="feed-renderer">
 <meta is="e-dom" :='feed >> $count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
     "`.article-meta`": { 
         "`[href]{}`": {"@href": "#/profile/" & $a.author.username}, 
@@ -73,10 +83,10 @@
                 <div class="feed-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item">
-                            <a class="nav-link" href="./">Your Feed</a>
+                            <a class="nav-link" href="articles/feed">Your Feed</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./">Global Feed</a>
+                            <a class="nav-link" href="articles">Global Feed</a>
                         </li>
                     </ul>
                 </div>
