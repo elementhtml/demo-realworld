@@ -1,6 +1,6 @@
 <meta is="e-dom" :='articleSlug << ($ and $contains($, "/article/") ? $substringAfter($, "/article/") : null) << #'>
 <meta is="e-dom"
-    :='articleSlug >> {"@:": $target.`@data-directive-base` & $replace($, "!", "%21") } >> #article-getter'>
+    :='articleSlug >> ($ ? {"@:": $target.`@data-directive-base` & $replace($, "!", "%21") } : null) >> #article-getter'>
 <meta is="e-remote" data-directive-base="article << $.value.article << ${~api}/articles/" content-type="json"
     id="article-getter">
 <meta is="e-dom" :='article >> {
@@ -104,8 +104,8 @@
                                 <span class="mod-options">
                                     <!-- <meta is="e-data" resource="||!click"
                                         target="api://api/articles/{$slugFromHash(article)}/comments/{`[id]|`.id}"
-                                        options="method=DELETE">
-                                    <i class="ion-trash-a"></i> -->
+                                        options="method=DELETE">-->
+                                    <i class="ion-trash-a"></i>
                                 </span>
                             </div>
                         </div>
