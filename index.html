@@ -73,9 +73,9 @@
         "`:|.article-list`": {"<p>": "Loading articles..."}, "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": true
     } >> #feed-renderer'>
 
-    <meta is="e-dom" :="tag << $.textContent << :|.tag-list a" prevent passive>
+    <meta is="e-dom" :="tag << $.textContent << :|.tag-list a" prevent passive force>
     <meta is="e-dom" :='tag >> {
-        "`:|.feed-toggle`": {"`li:nth-of-type(2)`": {"`a`": {"&active": false}}, "`li:nth-of-type(3)`": {"^display": null, "`a`": {"&active": true, "..": "#" & $} } }, 
+        "`:|.feed-toggle`": {"`li{}`": {"`a`": {"&active": false}}, "`li:nth-of-type(3)`": {"^display": null, "`a`": {"&active": true, "..": "#" & $} } }, 
         "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, "@data-tag": "&tag=" & $, "@data-offset": "0", "refresh()": true 
     } >> #feed-renderer'>
 
