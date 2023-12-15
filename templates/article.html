@@ -39,7 +39,7 @@
 <meta is="e-dom" :="newComment << $._ << |.comment-form" prevent passive>
 <meta is="e-remote" :='newComment >> {"comment": $} >> ${~api}/articles/${#articleSlug.value}/comments'
     content-type="json" options='${~post}' lazy id="comment-poster">
-
+<meta is="e-dom" :='newComment >> { "`#comment-getter`": {"touch()": []}, "value": "" } >> |.comment-form textarea'>
 
 <template id="comment">
     <div class="card">
