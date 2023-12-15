@@ -5,9 +5,8 @@
     "`.tag-control`": {"value": "", "focus()": {}}, "`datalist`": {"<option>": $}, 
     "`.tag-list`": {"<span.tag-default.tag-pill>": [$map($, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}
 } >> |'>
-
 <meta is="e-dom" :='newArticle << $._ << |form' prevent>
-
+<meta is="e-remote" :='newArticle >> {"article": $} >> ${~api}/articles' options="${~post}" content-type="json">
 
 
 <div class="editor-page">
