@@ -19,7 +19,6 @@
         "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($.tagList, function($t) { $t })} 
     }
 } >> |.article-page'>
-
 <meta is="e-remote"
     :="comments << $.value.comments ? $.value.comments : null << ${~api}/articles/${#articleSlug.value}/comments"
     content-type="json" passive lazy id="comment-getter">
@@ -35,7 +34,6 @@
      }})]
 } >> |.comments'>
 <meta is="e-dom" :="user >> $.image >> |.comment-author-img">
-
 <meta is="e-dom" :="newComment << $._ << |.comment-form" prevent passive>
 <meta is="e-remote" :='newComment >> {"comment": $} >> ${~api}/articles/${#articleSlug.value}/comments'
     content-type="json" options='${~post}' lazy id="comment-poster">
@@ -59,8 +57,6 @@
         </div>
     </div>
 </template>
-
-
 
 <div class="article-page">
     <div class="banner">
@@ -90,7 +86,6 @@
             </div>
         </div>
     </div>
-
     <div class="container page">
         <div class="row article-content">
             <div class="col-md-12">
@@ -99,9 +94,7 @@
                 <ul class="tag-list"></ul>
             </div>
         </div>
-
         <hr />
-
         <div class="row">
             <div class="col-xs-12 col-md-8 offset-md-2">
                 <form class="card comment-form">

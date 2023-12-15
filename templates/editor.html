@@ -1,13 +1,14 @@
-<!-- <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(editor)}" target="|.page" transform='{
-    "`.error-messages`": $each($.errors, function($v, $k) {  $k & " " & $join($v, ", ") }), 
-    "`form`": $.article, "`#tagTracker`": $join($.article.tagList, ",")
-}' data-e-header-authorization>
-<meta is="e-data" data-resource="|form|_submit" target="api://api/articles"
-    transform='{ "article": $merge([$, {"tagList": [$sort([$distinct([$filter([$split($find("|#tagTracker").value, ",")], function($t) { $trim($t) })])])] }]) }'
-    options="method=POST" data-e-header-authorization force id="article-updater">
-<meta is="e-data" resource="|#article-updater|!change" target=":|#router" apply id="post-submit-handler">
-<meta is="e-data" resource="|form [name=title]|_" target="|#post-submit-handler"
-    transform='{ "@apply": "load(./#editor/" & $lowercase($replace($trim($),/[^a-zA-Z0-9]+/,"-")) & ")" }'> -->
+<meta is="e-dom"
+    :='articleTagList << $cell.value ? [$sort([$distinct([$append($cell.value, $.value)])])] : [$.value] << |.tag-control'
+    force>
+<meta is="e-dom" :='articleTagList >> {
+    "`.tag-control`": {"value": "", "focus()": {}}, "`datalist`": {"<option>": $}, 
+    "`.tag-list`": {"<span.tag-default.tag-pill>": [$map($, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}
+} >> |'>
+
+<meta is="e-dom" :='newArticle << $._ << |form' prevent>
+
+
 
 <div class="editor-page">
     <div class="container page">
@@ -29,21 +30,9 @@
                                 name="body"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <!-- <meta is="e-data" resource="|input|_" target="|[name=tagList]" transform='[]' apply="append"
-                                and='|input[placeholder] ~> "" ; #tagTracker ~> $join($append($split($target.value,","), $), ",") '> -->
-                            <input type="text" class="form-control" placeholder="Enter tags">
-                            <input type="hidden" id="tagTracker">
-                            <div class="tag-list" name="tagList">
-                                <!-- <template data-e-slot="span span">
-                                    <span class="tag-default tag-pill">
-                                        <meta is="e-data" resource="|i|!click" target="#tagTracker"
-                                            transform='( $tag := $find("span|span").textContent ; $tags := [$split($find("fieldset|#tagTracker").value,",")] ; $join([$filter($tags, function($t) { $t != $tag })] , ",") )'
-                                            and='span| ~> "" ~> remove()' allow-empty>
-                                        <i class="ion-close-round"></i>
-                                        <span></span>
-                                    </span>
-                                </template> -->
-                            </div>
+                            <input type="text" class="form-control tag-control" placeholder="Enter tags">
+                            <datalist name="tagList"></datalist>
+                            <div class="tag-list"></div>
                         </fieldset>
                         <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
                             Publish Article
