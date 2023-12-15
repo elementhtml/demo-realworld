@@ -1,9 +1,9 @@
 <meta is="e-dom"
     :='articleSlug << ($ and $contains($, "/article/") ? $replace($substringAfter($, "/article/"), "!", "%21") : null) << #'>
 <meta is="e-dom"
-    :='articleSlug >> {"`#article-getter`": {"refresh()": []}, "`#comment-getter`": {"refresh()": []}} >> |'>
-<meta is="e-remote" :="article << $.value.article << ${~api}/articles/${#articleSlug.value}" if="${#articleSlug.value}"
-    content-type="json" id="article-getter">
+    :='articleSlug >> {"`#article-getter`": {"refresh()": true}, "`#comment-getter`": {"refresh()": true}} >> |'>
+<meta is="e-remote" :="article << $.value.article << ${~api}/articles/${#articleSlug.value}" content-type="json" passive
+    id="article-getter">
 <meta is="e-dom" :='article >> {
     "`.banner > .container`": {
         "`h1`": $.title, 
@@ -21,9 +21,19 @@
 } >> |.article-page'>
 
 <meta is="e-remote"
-    :="comments << $.value.comments ? $.value.comments : [] << ${~api}/articles/${#articleSlug}/comments"
-    if="${#articleSlug}" content-type="json" id="comment-getter">
-
+    :="comments << $.value.comments ? $.value.comments : [] << ${~api}/articles/${#articleSlug.value}/comments"
+    content-type="json" passive id="comment-getter">
+<meta is="e-dom" :='comments >> {
+    "<%#comment%>": [$map($, function($c){{ 
+        "#": $c.id, 
+        "`.card-block p`": $c.body,
+        "`.card-footer`": {
+            "`a{}`": {"@href": "#/profile/" & $c.author.username}, "`img`": {"@src": $c.author.image},
+            "`.comment-author`": {"@href": "#/profile/" & $c.author.username, "..": $c.author.username},
+            "`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]")
+        } 
+     }})]
+} >> |.comments'>
 
 
 
@@ -33,18 +43,19 @@
             <p class="card-text"></p>
         </div>
         <div class="card-footer">
-            <a href="./#profile/author" class="comment-author">
+            <a href class="comment-author">
                 <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
             </a>
             &nbsp;
-            <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-            <span class="date-posted">Dec 29th</span>
+            <a href class="comment-author"></a>
+            <span class="date-posted"></span>
             <span class="mod-options">
                 <i class="ion-trash-a"></i>
             </span>
         </div>
     </div>
 </template>
+
 
 
 <div class="article-page">
