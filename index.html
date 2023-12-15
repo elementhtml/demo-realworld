@@ -30,9 +30,9 @@
             }
         }
     </script>
-    <!-- <script type="module" src='../element/element.js?load&expose&packages=rw'></script> -->
-    <script type="module"
-        src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script>
+    <script type="module" src='../element/element.js?load&expose&packages=rw'></script>
+    <!-- <script type="module"
+        src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
     <meta is="e-proxy" :="user << $ << store`localStorage.getItem('user')`" content-type="json">
     <meta is="e-proxy" :="user >> $ >> store`localStorage.setItem('user', $)`" content-type="json">
@@ -46,11 +46,11 @@
     <meta is="e-remote" id="templateLoader">
     <meta is="e-dom" :='template >> {"<>": $} >> :|main'>
 
-    <meta is="e-remote" data-directive-template='{feed, pagination} << 
+    <meta is="e-remote" :='{feed, pagination} << 
     ($cell.key = "feed" ? $.value.articles : { "count": $.value.articlesCount, "offset": ${@data-offset}, "limit": ${@data-limit} }) 
         << ${~api}/${@data-endpoint}?limit=${@data-limit}&offset=${@data-offset}${@data-filter}${@data-tag}'
         content-type="json" options='${~get}' data-endpoint="articles" data-filter="&" data-tag="&" data-limit="10"
-        data-offset="0" id="feed-renderer" force>
+        data-offset="0" id="feed-renderer" force passive>
 
     <meta is="e-dom" :='feed >> $count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
         "`.article-meta`": { 
@@ -70,13 +70,13 @@
     <meta is="e-dom" :='currentPage << { "offset": $.`@data-offset`, "limit": $.`@data-limit` } << :|.pagination li a'
         prevent>
     <meta is="e-dom" :='currentPage >> {
-        "`:|.article-list`": {"<p>": "Loading articles..."}, "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": "@data-directive-template"
+        "`:|.article-list`": {"<p>": "Loading articles..."}, "@data-limit": $.limit, "@data-offset": $.offset, "refresh()": []
     } >> #feed-renderer'>
 
     <meta is="e-dom" :="tag << $.textContent << :|.tag-list a" prevent passive force>
     <meta is="e-dom" :='tag >> {
         "`:|.feed-toggle`": {"`li:nth-of-type(2)`": {"`a`": {"&active": false}}, "`li:nth-of-type(3)`": {"^display": null, "`a`": {"&active": true, "..": "#" & $} } }, 
-        "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, "@data-tag": "&tag=" & $, "refresh()": "@data-directive-template" 
+        "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, "@data-tag": "&tag=" & $, "refresh()": [] 
     } >> #feed-renderer'>
 
     <template id="feed-article-preview">

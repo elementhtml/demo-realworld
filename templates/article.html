@@ -1,8 +1,9 @@
-<meta is="e-dom" :='articleSlug << ($ and $contains($, "/article/") ? $substringAfter($, "/article/") : null) << #'>
 <meta is="e-dom"
-    :='articleSlug >> ($ ? {"@:": $target.`@data-directive-base` & $replace($, "!", "%21") } : null) >> #article-getter'>
-<meta is="e-remote" data-directive-base="article << $.value.article << ${~api}/articles/" content-type="json"
-    id="article-getter">
+    :='articleSlug << ($ and $contains($, "/article/") ? $replace($substringAfter($, "/article/"), "!", "%21") : null) << #'>
+<meta is="e-dom"
+    :='articleSlug >> {"`#article-getter`": {"refresh()": []}, "`#comment-getter`": {"refresh()": []}} >> |'>
+<meta is="e-remote" :="article << $.value.article << ${~api}/articles/${#articleSlug.value}" if="${#articleSlug.value}"
+    content-type="json" id="article-getter">
 <meta is="e-dom" :='article >> {
     "`.banner > .container`": {
         "`h1`": $.title, 
@@ -19,14 +20,32 @@
     }
 } >> |.article-page'>
 
+<meta is="e-remote"
+    :="comments << $.value.comments ? $.value.comments : [] << ${~api}/articles/${#articleSlug}/comments"
+    if="${#articleSlug}" content-type="json" id="comment-getter">
 
 
-<!-- <meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}" target="|.article-page"
-    transform='$articleRender' data-e-header-authorization force allow-empty id="article-pointer">
-<meta is="e-data" data-resource="api://api/user" target="|.comment-author-img" transform='$.user.image'
-    data-e-header-authorization>
-<meta is="e-data" data-resource="api://api/articles/{$slugFromHash(article)}/comments" target="|.comments"
-    transform='$commentsRender' data-e-header-authorization> -->
+
+
+<template id="comment">
+    <div class="card">
+        <div class="card-block">
+            <p class="card-text"></p>
+        </div>
+        <div class="card-footer">
+            <a href="./#profile/author" class="comment-author">
+                <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
+            </a>
+            &nbsp;
+            <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
+            <span class="date-posted">Dec 29th</span>
+            <span class="mod-options">
+                <i class="ion-trash-a"></i>
+            </span>
+        </div>
+    </div>
+</template>
+
 
 <div class="article-page">
     <div class="banner">
@@ -39,26 +58,18 @@
                     <span class="date"></span>
                 </div>
                 <button class="btn btn-sm btn-outline-secondary follow">
-                    <!-- <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/follow"
-                        options="method=POST" data-e-header-authorization> -->
                     <i class="ion-plus-round"></i>
                     &nbsp; Follow <span class="author"></span> <span class="counter"></span>
                 </button>
                 &nbsp;&nbsp;
                 <button class="btn btn-sm btn-outline-primary favorite">
-                    <!-- <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}/favorite"
-                        options="method=POST" data-e-header-authorization> -->
                     <i class="ion-heart"></i>
                     &nbsp; Favorite Article <span class="counter"></span>
                 </button>
                 <button class="btn btn-sm btn-outline-secondary edit">
-                    <!-- <meta is="e-data" resource="||!click"
-                        transform='{"`#router`.to(./#edit/" & $slugFromHash(article) & ")": true}'> -->
                     <i class="ion-edit"></i> Edit Article
                 </button>
                 <button class="btn btn-sm btn-outline-danger delete">
-                    <!-- <meta is="e-data" resource="||!click" target="api://api/articles/{$slugFromHash(article)}"
-                        options="method=DELETE" data-e-header-authorization> -->
                     <i class="ion-trash-a"></i> Delete Article
                 </button>
             </div>
@@ -87,31 +98,7 @@
                         <button class="btn btn-sm btn-primary">Post Comment</button>
                     </div>
                 </form>
-
-                <div class="comments">
-                    <template>
-                        <div class="card">
-                            <div class="card-block">
-                                <p class="card-text"></p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="./#profile/author" class="comment-author">
-                                    <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                                </a>
-                                &nbsp;
-                                <a href="./#profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                                <span class="date-posted">Dec 29th</span>
-                                <span class="mod-options">
-                                    <!-- <meta is="e-data" resource="||!click"
-                                        target="api://api/articles/{$slugFromHash(article)}/comments/{`[id]|`.id}"
-                                        options="method=DELETE">-->
-                                    <i class="ion-trash-a"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-
+                <div class="comments"></div>
             </div>
         </div>
     </div>
