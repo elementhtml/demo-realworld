@@ -53,6 +53,7 @@
         data-offset="0" id="feed-renderer" force passive>
 
     <meta is="e-dom" :='feed >> $count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
+        "#": $a.slug, 
         "`.article-meta`": { 
             "`[href]{}`": {"@href": "#/profile/" & $a.author.username}, "`img`": {"@src": $a.author.image}, 
             "`.author`": {"@href": "#/profile/" & $a.author.username, "..": $a.author.username}, 
@@ -78,6 +79,11 @@
         "`:|.feed-toggle`": {"`li{}`": {"`a`": {"&active": false}}, "`li:nth-of-type(3)`": {"^display": null, "`a`": {"&active": true, "..": "#" & $} } }, 
         "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, "@data-tag": "&tag=" & $, "@data-offset": "0", "refresh()": true 
     } >> #feed-renderer'>
+
+    <meta is="e-dom"
+        :='articleToFavorite << $seek(".article-preview|").id << :|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *'
+        passive id="test">
+    <!-- <meta is="e-remote" :="articleToFavorite >> $ >> ${~api}/articles/:slug/favorite" lazy> -->
 
     <template id="feed-article-preview">
         <div class="article-preview">
