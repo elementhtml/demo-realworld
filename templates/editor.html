@@ -1,5 +1,19 @@
 <meta is="e-dom"
     :='articleSlug << ($ and $contains($, "/editor/") ? $replace($substringAfter($, "/editor/"), "!", "%21") : null) << #'>
+<meta is="e-remote" :='articleSlug >> $ ? {"refresh()": true} : null >> |#article-getter'>
+
+<meta is=" e-remote"
+    :='{editingArticle, articleTagList} << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug}'
+    content-type="json" lazy passive id="article-getter">
+<meta is="e-dom" :='editingArticle >> {
+    "`[name=title]`": $.title, "`[name=description]`": $.description, "`[name=body]`": $.body 
+} >> |form'>
+
+<meta is="e-dom"
+    :='{new: newArticle, edit: editingArticle} << ( $cell.value.slug ? $merge([$cell.value, $._]) : $._ ) << |form'
+    prevent>
+<meta is="e-remote" :='newArticle >> {"article": $} >> ${~api}/articles' options="${~post}" content-type="json">
+<meta is="e-remote" :='editingArticle << $.article << ${~api}/articles' content-type="json" passive>
 
 
 <meta is="e-dom"
@@ -9,13 +23,6 @@
     "`.tag-control`": {"value": "", "focus()": {}}, "`datalist`": {"<option>": $}, 
     "`.tag-list`": {"<span.tag-default.tag-pill>": [$map($, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}
 } >> |'>
-
-<meta is="e-dom"
-    :='{new: newArticle, edit: editingArticle} << ( $cell.value.slug ? $merge([$cell.value, $._]) : $._ ) << |form'
-    prevent>
-<meta is="e-remote" :='newArticle >> {"article": $} >> ${~api}/articles' options="${~post}" content-type="json">
-<meta is="e-remote" :='editingArticle << $.article << ${~api}/articles' content-type="json" passive>
-
 
 
 <div class="editor-page">
