@@ -1,21 +1,22 @@
 <meta is="e-dom"
     :='articleSlug << ($ and $contains($, "/editor/") ? $replace($substringAfter($, "/editor/"), "!", "%21") : null) << #'>
-<meta is="e-remote" :='articleSlug >> $ ? {"refresh()": true} : null >> |#article-getter'>
-<meta is=" e-remote"
-    :='{loadedArticle, articleTagList} << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug}'
+<meta is="e-dom" :='articleSlug >> $ ? {"refresh()": true} : null >> #article-getter'>
+
+<meta is="e-remote"
+    :='{loadedArticle, articleTagList} << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug.value}'
     content-type="json" lazy passive id="article-getter">
 <meta is="e-dom"
     :='loadedArticle >> { "`[name=title]`": $.title, "`[name=description]`": $.description, "`[name=body]`": $.body } >> |form'>
 
-
-<meta is="e-dom" :='{newArticle, editedArticle} << 
-    ( $slug := $getCell("articleSlug").value ; $cell.key = "editedArticle" ? ($slug ? $._ : {} ) : ($slug ? {} : $._ ) ) 
+<meta is="e-dom" :='{new: newArticle, edit: editedArticle} << 
+    ( $slug := $getCell("articleSlug").value ; $cell.key = "edit" ? ($slug ? $._ : {} ) : ($slug ? {} : $._ ) ) 
 << |form' prevent passive>
 
-<meta is="e-remote" :='newArticle >> $.title ? {"article": $} : nulll >> ${~api}/articles' options="${~post}"
+
+<meta is="e-remote" :='newArticle >> $.title ? {"article": $} : null >> ${~api}/articles' options="${~post}"
     content-type="json">
-<meta is="e-remote" :='editedArticle >> $.title ? {"article": $} : nulll >> ${~api}/articles' options="${~put}"
-    content-type="json">
+<meta is="e-remote" :='editedArticle >> $.title ? {"article": $} : null >> ${~api}/articles/${#articleSlug}'
+    options="${~put}" content-type="json" id="article-saver">
 
 
 <meta is="e-dom"
@@ -25,7 +26,6 @@
     "`.tag-control`": {"value": "", "focus()": {}}, "`datalist`": {"<option>": $}, 
     "`.tag-list`": {"<span.tag-default.tag-pill>": [$map($, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}
 } >> |'>
-
 
 <div class="editor-page">
     <div class="container page">

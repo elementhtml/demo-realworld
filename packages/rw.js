@@ -15,6 +15,8 @@ export default {
         api: "https://api.realworld.io/api",
         get: { method: 'GET', headers },
         post: { method: 'POST', headers },
-        put: { method: 'PUT', headers }
+        put: { method: 'PUT', headers },
+        delete: { method: 'PUT', headers },
+        flex: { method: '${@data-method}', headers }
     }
 }
