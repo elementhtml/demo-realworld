@@ -2,23 +2,21 @@
     :='articleSlug << ($ and $contains($, "/editor/") ? $replace($substringAfter($, "/editor/"), "!", "%21") : "") << #'>
 <meta is="e-dom" :='articleSlug >> {"`#article-get`": {"refresh()": $ }, "`#article-put`": {"refresh()": false}} >> |'>
 <meta is="e-remote"
-    :='{loadedArticle, articleTagList} << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug.value}'
+    :='{loadedArticle, articleTagList, savedArticle} 
+    << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug.value}'
     content-type="json" lazy passive id="article-get">
 <meta is="e-dom"
     :='loadedArticle >> {"`[name=title]`": $.title, "`[name=description]`": $.description, "`[name=body]`": $.body} >> |form'>
 <meta is="e-dom" :='{new: newArticle, edit: editedArticle} << 
     ($slug := $getCell("articleSlug").value ; $cell.key = "edit" ? ($slug ? $._ : {} ) : ($slug ? {} : $._ )) 
     << |form' prevent passive>
-
-<meta is="e-remote" :='editedArticle >> $.title ? {"article": $} : null >> ${~api}/articles/${#articleSlug.value}'
+<meta is="e-remote"
+    :='editedArticle >> ($getCell("articleSlug").value ? {"article": $} : null) >> ${~api}/articles/${#articleSlug.value}'
     options="${~put}" content-type="json" lazy passive id="article-put">
-
-<meta is="e-remote" :='newArticle >> $.title ? {"article": $} : null >> ${~api}/articles' options="${~post}"
-    content-type="json">
-<meta is="e-remote" :='savedArticle << $.article << ${~api}/articles' content-type="json">
-<!-- <meta is="e-dom" :='savedArticle >> {"hash": "/editor/" & $.slug, "reload()": true} >> :'> -->
-
-
+<meta is="e-remote" :='newArticle >> $getCell("articleSlug").value ? null : {"article": $} >> ${~api}/articles/'
+    options="${~post}" content-type="json">
+<meta is="e-dom"
+    :='savedArticle >> $getCell("articleSlug").value ? null : {"hash": "/editor/" & $.slug, "reload()": true} >> :'>
 <meta is="e-dom"
     :='articleTagList << $cell.value ? [$sort([$distinct([$append($cell.value, $.value)])])] : [$.value] << |.tag-control'
     force>
