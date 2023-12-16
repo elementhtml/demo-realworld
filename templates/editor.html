@@ -1,19 +1,21 @@
 <meta is="e-dom"
     :='articleSlug << ($ and $contains($, "/editor/") ? $replace($substringAfter($, "/editor/"), "!", "%21") : null) << #'>
 <meta is="e-remote" :='articleSlug >> $ ? {"refresh()": true} : null >> |#article-getter'>
-
 <meta is=" e-remote"
-    :='{editingArticle, articleTagList} << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug}'
+    :='{loadedArticle, articleTagList} << ($cell.key = "articleTagList" ? $.value.article.tagList : $.value.article) << ${~api}/articles/${#articleSlug}'
     content-type="json" lazy passive id="article-getter">
-<meta is="e-dom" :='editingArticle >> {
-    "`[name=title]`": $.title, "`[name=description]`": $.description, "`[name=body]`": $.body 
-} >> |form'>
-
 <meta is="e-dom"
-    :='{new: newArticle, edit: editingArticle} << ( $cell.value.slug ? $merge([$cell.value, $._]) : $._ ) << |form'
-    prevent>
-<meta is="e-remote" :='newArticle >> {"article": $} >> ${~api}/articles' options="${~post}" content-type="json">
-<meta is="e-remote" :='editingArticle << $.article << ${~api}/articles' content-type="json" passive>
+    :='loadedArticle >> { "`[name=title]`": $.title, "`[name=description]`": $.description, "`[name=body]`": $.body } >> |form'>
+
+
+<meta is="e-dom" :='{newArticle, editedArticle} << 
+    ( $slug := $getCell("articleSlug").value ; $cell.key = "editedArticle" ? ($slug ? $._ : {} ) : ($slug ? {} : $._ ) ) 
+<< |form' prevent passive>
+
+<meta is="e-remote" :='newArticle >> $.title ? {"article": $} : nulll >> ${~api}/articles' options="${~post}"
+    content-type="json">
+<meta is="e-remote" :='editedArticle >> $.title ? {"article": $} : nulll >> ${~api}/articles' options="${~put}"
+    content-type="json">
 
 
 <meta is="e-dom"
