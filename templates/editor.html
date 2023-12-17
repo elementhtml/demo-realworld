@@ -1,24 +1,16 @@
-<meta is="e-dom"
-    :='articleSlug << ($ and $contains($, "/editor/") ? $replace($substringAfter($, "/editor/"), "!", "%21") : "") << #'>
-<meta is="e-remote" :='{loadedArticle, articleTagList, savedArticle} 
-    << ($key = "articleTagList" ? $.article.tagList : $.article) << ${~api}/articles/${#articleSlug}'
-    content-type="json">
-<meta is="e-dom" :='loadedArticle >> $ >> |form'>
-<meta is="e-dom" :='{new: newArticle, edit: editedArticle} << 
-    ($slug := $cell("articleSlug") ; $key = "edit" ? ($slug ? $form : {} ) : ($slug ? {} : $form )) 
-    << |form'>
-<meta is="e-remote"
-    :='editedArticle >> ($cell("articleSlug") ? {"article": $} : null) >> ${~api}/articles/${#articleSlug}'
-    options="${~put}" content-type="json">
-<meta is="e-remote" :='newArticle >> $cell("articleSlug") ? null : {"article": $} >> ${~api}/articles/'
-    options="${~post}" content-type="json">
-<meta is="e-dom" :='savedArticle >> $cell("articleSlug") ? null : "/editor/" & $.slug >> #'>
-<meta is="e-dom"
-    :='articleTagList << $cell() ? [$sort([$distinct([$append($cell(), $.value)])])] : [$.value] << |.tag-control'>
-<meta is="e-dom" :='articleTagList >> {
-    "`.tag-control`": {"value": "", "focus()": {}}, "`datalist`": {"<option>": $}, 
-    "`.tag-list`": {"<span.tag-default.tag-pill>": [$map($, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}
-} >> |'>
+<meta is="e-flow" :='!# >> slug: /\/editor\/([a-z0-9\-\!]+)/ >> #articleSlug 
+    >> ${~api}/articles/${slug} >>  
+    >> article: ($.article) >> $(|form) >> ($article.tagList) >> #tagList' content-type="json">
+<meta is="e-flow" :='$(|.tag-control) >> ($tagList := $cell("tagList"); $tagList ? [$sort([$distinct([$append(tagList, $.value)])])] : [$.value]) >> #tagList 
+        >> {"value": "", "focus()": {}} >> $(|.tag-control)'>
+<meta is="e-flow"
+    :='tagList: #tagList >> ({"<option>": $}) >> ${datalist} 
+    >> ({"<span.tag-default.tag-pill>": [$map($tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) >> $(|.tag-list)'>
+
+<meta is="e-flow" :='$(|form) >> ({"article": $form}) >> api: ${~api}/articles/${#articleSlug} >> ' content-type="json"
+    data-api="${~put}">
+<meta is="e-flow" :='$(|form) >> ($not($cell("articleSlug"))) >> ({"article": $form}) >> api: ${~api}/articles 
+    >> ($.article.slug) >> #' content-type="json" data-api="${~post}">
 
 <div class="editor-page">
     <div class="container page">
