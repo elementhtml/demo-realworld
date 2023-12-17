@@ -1,9 +1,6 @@
-<meta is="e-dom" :="loginForm << $form << |form">
-<meta is="e-remote" :='loginForm >> {"user": $} >> ${~api}/users/login' content-type="json" options='${~post}'>
-<meta is="e-remote" :='{user, errors: loginErrors} << $lookup($, $key) << ${~api}/users/login' content-type="json">
-<meta is="e-dom"
-    :='loginErrors >> {"<li>": ($ ? [$each($, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])} >> |.error-messages'>
-<meta is="e-dom" :='user >> ($.username ? "/" : null) >> #'>
+<meta is="e-flow" :='$(|form) >> ({"user": $form}) >> api: ${~api}/users/login >> #{user} 
+    >> ({"<li>": ($api.errors ? [$each($api.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
+    >> ($api.user ? "/" : null) >> #' content-type="json" data-api='${~post}'>
 
 <div class="auth-page">
     <div class="container page">

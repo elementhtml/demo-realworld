@@ -1,0 +1,12 @@
+$count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
+    "#": $a.slug, 
+    "`.article-meta`": { 
+        "`[href]{}`": {"@href": "#/profile/" & $a.author.username}, "`img`": {"@src": $a.author.image}, 
+        "`.author`": {"@href": "#/profile/" & $a.author.username, "..": $a.author.username}, 
+        "`.date`": $fromMillis($toMillis($a.createdAt), "[MNn] [D1o]"), "`.favorites-count`": $a.favoritesCount
+    }, 
+    "`.preview-link`": {
+        "@href": "#/article/" & $a.slug, "`h1`": $a.title, "`p`": $a.description, 
+        "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($a.tagList, function($t) { $t })}
+    }
+}})]} : {"<p>": "No articles in this feed..."}

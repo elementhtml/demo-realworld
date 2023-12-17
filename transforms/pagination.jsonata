@@ -1,0 +1,4 @@
+{"<li.page-item>": $.count ? [$map([1..$ceil($.count/$.limit)], function($n) { ($offset := (($n-1) * $.limit) ; {
+    "&active": ($offset = $.offset), 
+    "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $.limit, "@href": "?offset=" & $offset & "&limit=" & $.limit } 
+})})] : [] }

@@ -1,9 +1,6 @@
-<meta is="e-dom" :='user >> $merge([$each($, function($v, $k) { {"`[name=" & $k & "]`": {"value": $v} } })]) >> |form'>
-<meta is="e-dom" :='{user, settingsForm} << 
-    (($key = "user") ? $merge([$form, {"token": $cell("user").token }]) : $form) << |form'>
-<meta is="e-remote" :='settingsForm >> {"user": $ } >> ${~api}/user' content-type="json" options="${~put}">
-<meta is="e-dom" :="user << {} << |.logout">
-<meta is="e-dom" :='user >> ($.username ? null : "/") >> #'>
+<meta is="e-flow" :='#user >> ($form($)) >> $(|form)'>
+<meta is="e-flow" :='$(|form) >> ({"user": $form}) >> ${~api}/user >> #{user}' content-type="json" data-api="${~put}">
+<meta is="e-flow" :='$(|.logout) >> {} >> #user >> "/" >> #'>
 
 <div class="settings-page">
     <div class="container page">

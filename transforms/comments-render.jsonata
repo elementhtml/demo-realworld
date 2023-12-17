@@ -1,0 +1,11 @@
+{
+    "<%#comment%>": [$map($.comments, function($c){{ 
+        "#": $c.id, 
+        "`.card-block p`": $c.body,
+        "`.card-footer`": {
+            "`a{}`": {"@href": "#/profile/" & $c.author.username}, "`img`": {"@src": $c.author.image},
+            "`.comment-author`": {"@href": "#/profile/" & $c.author.username, "..": $c.author.username},
+            "`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]")
+        } 
+     }})]
+}

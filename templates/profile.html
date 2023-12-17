@@ -1,14 +1,10 @@
-<meta is="e-dom" :='profileUser << ($ and $contains($, "/profile/") ? $substringAfter($, "/profile/") : null) << #'>
-<meta is="e-remote" :="profile << $.profile << ${~api}/profiles/${#profileUser}" content-type="json">
-<meta is="e-dom"
-    :='profile >> {"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}} >> |.user-info'>
-<meta is="e-dom"
-    :='articlesFilter << ($cell() ? $join([$.`@href`, $cell("profileUser")],"=") : ("author=" & $cell("profileUser"))) << |.articles-toggle a'>
-<meta is="e-dom" :='articlesFilter >> {
-    "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
-    "@data-endpoint": "articles", "@data-filter": "&" & $, "@data-tag": "&", "@data-offset": "0", 
-    "`:|.articles-toggle`": {"`.nav-item:first-of-type a`": {"&active": $contains($, "author") }, "`.nav-item:last-of-type a`": {"&active": $contains($, "favorited") }}
-} >> #feed-renderer'>
+<meta is="e-flow"
+    :='!# >> /\/profile\/([a-z0-9\-]+)/ >> #profileUser >> ${~api}/profiles/${} 
+        >> ({"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}}) >> $(|.user-info)'>
+<meta is="e-flow" :='$(|.articles-toggle a) 
+    >> ($merge([$cell("feedConfig"), {"author": "", "favorited": ""}, {$.`@href`: $cell("profileUser")}, {"endpoint": "articles", "tag": "", "offset": 0}])) 
+    >> #feedConfig >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle) 
+    >> {"<p>": "Loading articles..."} >> $(:|.article-list) >> {"..": ""} >> $(:|.pagination)'>
 
 <div class="profile-page">
     <div class="user-info">

@@ -1,19 +1,13 @@
-<meta is="e-remote" :="tags << $.tags << ${~api}/tags" content-type="json">
-<meta is="e-dom"
-    :='tags >> {"<a.tag-pill.tag-default>": [$map($, function($t) {{"@href": "", "..": $t}})]} >> :|.tag-list'>
-<meta is="e-dom" :='user >> {
-    "`#feed-renderer`": {"@data-endpoint": $.username ? "articles/feed" : "articles", "@data-filter": "&", "@data-tag": "&", "@data-offset": "0"}, 
-    "`.feed-toggle`": {"`.nav-item:first-of-type a`": {"&active": $.username}, "`.nav-item:last-of-type a`": {"&active": $not($.username)}}
-} >> |'>
-<meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a'>
-<meta is="e-dom" :='articlesEndpoint >> {
-    "@data-endpoint": $, "@data-filter": "&", "@data-tag": "&", "@data-offset": "0", 
-    "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
-    "`:|.feed-toggle`": {
-        "`.nav-item:first-of-type a`": {"&active": $ = "articles/feed" }, "`.nav-item:nth-of-type(2) a`": {"&active": $ = "articles" }, 
-        "`.nav-item:last-of-type`": {"^display": "none"}
-    }
-} >> #feed-renderer'>
+<meta is="e-flow"
+    :='!^ >> ${~api}/tags >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.tag-list)'
+    content-type="json">
+<meta is="e-flow"
+    :='user: #user >> ({"endpoint": $.username ? "articles/feed" : "articles", "filter": "", "tag": "", "offset": 0}) >> #feedConfig 
+    >> ({"`.nav-item:first-of-type a`": {"&active": $user.username}, "`.nav-item:last-of-type a`": {"&active": $not($user.username)}}) >> $(.feed-toggle)'>
+<meta is="e-flow" :='$(|.feed-toggle a) >> ({"endpoint": $.`@href`, "filter": "", "tag": "", "offset": 0}) >> #feedConfig 
+    >> ({"`.nav-item:first-of-type a`": {"&active": $.endpoint = "articles/feed" }, "`.nav-item:nth-of-type(2) a`": {"&active": $.endpoint = "articles" }, 
+        "`.nav-item:last-of-type`": {"^display": "none"}}) 
+    >> $(:|.feed-toggle) >> {"<p>": "Loading articles..."} >> $(:|.article-list) >> {"..": ""} >> $(:|.pagination)'>
 
 <div class="home-page">
     <div class="banner">

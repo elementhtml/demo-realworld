@@ -1,0 +1,15 @@
+{
+    "`.banner > .container`": {
+        "`h1`": $.title, 
+        "`.article-meta`": {
+            "`a`": {"@href": "#/profile/" & $.author.username}, "`img`": {"@src": $.author.image}, 
+            "`.author`": {"@href": "#/profile/" & $.author.username, "..": $.author.username}, 
+            "`.date`": $fromMillis($toMillis($.createdAt), "[MNn] [D1o]"), 
+            "`button.favorite .counter`": $.favoritesCount
+        }
+    }, 
+    "`.page`": {
+        "`blockquote`": $.description, "`.body`": $.body, 
+        "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($.tagList, function($t) { $t })} 
+    }
+}

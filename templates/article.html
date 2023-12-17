@@ -1,39 +1,10 @@
-<meta is="e-dom"
-    :='articleSlug << ($ and $contains($, "/article/") ? $replace($substringAfter($, "/article/"), "!", "%21") : null) << #'>
-<meta is="e-remote" :="article << $.article << ${~api}/articles/${#articleSlug}" content-type="json">
-<meta is="e-dom" :='article >> {
-    "`.banner > .container`": {
-        "`h1`": $.title, 
-        "`.article-meta`": {
-            "`a`": {"@href": "#/profile/" & $.author.username}, "`img`": {"@src": $.author.image}, 
-            "`.author`": {"@href": "#/profile/" & $.author.username, "..": $.author.username}, 
-            "`.date`": $fromMillis($toMillis($.createdAt), "[MNn] [D1o]"), 
-            "`button.favorite .counter`": $.favoritesCount
-        }
-    }, 
-    "`.page`": {
-        "`blockquote`": $.description, "`.body`": $.body, 
-        "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($.tagList, function($t) { $t })} 
-    }
-} >> |.article-page'>
-<meta is="e-remote" :="comments << $.comments ? $.comments : null << ${~api}/articles/${#articleSlug}/comments"
+<meta is="e-flow" :='!# >> slug: /\/article\/([a-z0-9\-\!]+)/ >> #articleSlug >> ${~api}/articles/${} >> ($.article) >> #article 
+    >> ${~api}/articles/${slug}/comments >> (`transforms/comments-render.jsonata`) >> $(|.comments)'
     content-type="json">
-<meta is="e-dom" :='comments >> {
-    "<%#comment%>": [$map($, function($c){{ 
-        "#": $c.id, 
-        "`.card-block p`": $c.body,
-        "`.card-footer`": {
-            "`a{}`": {"@href": "#/profile/" & $c.author.username}, "`img`": {"@src": $c.author.image},
-            "`.comment-author`": {"@href": "#/profile/" & $c.author.username, "..": $c.author.username},
-            "`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]")
-        } 
-     }})]
-} >> |.comments'>
-<meta is="e-dom" :="user >> $.image >> |.comment-author-img">
-<meta is="e-dom" :="newComment << $form << |.comment-form">
-<meta is="e-remote" :='newComment >> {"comment": $} >> ${~api}/articles/${#articleSlug}/comments' content-type="json"
-    options='${~post}'>
-<meta is="e-dom" :='newComment >> { "value": "" } >> |.comment-form textarea'>
+<meta is="e-flow" :='#article >> (`transforms/article-render.jsonata`) >> $(|.article-page)'>
+<meta is="e-flow" :='#user >> ($.image) >> $(|.comment-author-img)'>
+<meta is="e-flow" :='$(|.comment-form) >> comment: ($form) >> {"comment": $} >> api: ${~api}/articles/${#articleSlug}/comments 
+    >> {"value": ""} >> $(|.comment-form textarea)' content-type="json" data-api="${~post}">
 
 <template id="comment">
     <div class="card">
