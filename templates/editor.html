@@ -6,7 +6,6 @@
 <meta is="e-flow"
     :='tagList: #tagList >> ({"<option>": $}) >> ${datalist} 
     >> ({"<span.tag-default.tag-pill>": [$map($tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) >> $(|.tag-list)'>
-
 <meta is="e-flow" :='$(|form) >> ({"article": $form}) >> api: ${~api}/articles/${#articleSlug} >> ' content-type="json"
     data-api="${~put}">
 <meta is="e-flow" :='$(|form) >> ($not($cell("articleSlug"))) >> ({"article": $form}) >> api: ${~api}/articles 

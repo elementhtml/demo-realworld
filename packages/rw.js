@@ -16,7 +16,6 @@ export default {
         get: { method: 'GET', headers },
         post: { method: 'POST', headers },
         put: { method: 'PUT', headers },
-        delete: { method: 'PUT', headers },
-        flex: { method: '${@data-method}', headers }
+        delete: { method: 'PUT', headers }
     }
 }
