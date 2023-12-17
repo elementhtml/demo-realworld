@@ -1,7 +1,6 @@
-<meta is="e-dom" :="loginForm << $._ << |form" prevent passive>
+<meta is="e-dom" :="loginForm << $form << |form">
 <meta is="e-remote" :='loginForm >> {"user": $} >> ${~api}/users/login' content-type="json" options='${~post}'>
-<meta is="e-remote" :='{user, errors: loginErrors} << $lookup($.value, $cell.key) << ${~api}/users/login'
-    content-type="json" force passive>
+<meta is="e-remote" :='{user, errors: loginErrors} << $lookup($, $key) << ${~api}/users/login' content-type="json">
 <meta is="e-dom"
     :='loginErrors >> {"<li>": ($ ? [$each($, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])} >> |.error-messages'>
 <meta is="e-dom" :='user >> ($.username ? "/" : null) >> #'>

@@ -1,13 +1,13 @@
-<meta is="e-remote" :="tags << $.value.tags << ${~api}/tags" content-type="json">
+<meta is="e-remote" :="tags << $.tags << ${~api}/tags" content-type="json">
 <meta is="e-dom"
     :='tags >> {"<a.tag-pill.tag-default>": [$map($, function($t) {{"@href": "", "..": $t}})]} >> :|.tag-list'>
 <meta is="e-dom" :='user >> {
-    "`#feed-renderer`": {"@data-endpoint": $.username ? "articles/feed" : "articles", "@data-filter": "&", "@data-tag": "&", "refresh()": true}, 
+    "`#feed-renderer`": {"@data-endpoint": $.username ? "articles/feed" : "articles", "@data-filter": "&", "@data-tag": "&", "@data-offset": "0"}, 
     "`.feed-toggle`": {"`.nav-item:first-of-type a`": {"&active": $.username}, "`.nav-item:last-of-type a`": {"&active": $not($.username)}}
 } >> |'>
-<meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a' prevent passive force>
+<meta is="e-dom" :='articlesEndpoint << $.`@href` << |.feed-toggle a'>
 <meta is="e-dom" :='articlesEndpoint >> {
-    "@data-endpoint": $, "@data-filter": "&", "@data-tag": "&", "@data-offset": "0", "refresh()": true, 
+    "@data-endpoint": $, "@data-filter": "&", "@data-tag": "&", "@data-offset": "0", 
     "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}, 
     "`:|.feed-toggle`": {
         "`.nav-item:first-of-type a`": {"&active": $ = "articles/feed" }, "`.nav-item:nth-of-type(2) a`": {"&active": $ = "articles" }, 

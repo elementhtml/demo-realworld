@@ -1,9 +1,6 @@
 <meta is="e-dom"
     :='articleSlug << ($ and $contains($, "/article/") ? $replace($substringAfter($, "/article/"), "!", "%21") : null) << #'>
-<meta is="e-dom"
-    :='articleSlug >> {"`#article-getter`": {"refresh()": true}, "`#comment-getter`": {"refresh()": true}, "`#comment-poster`": {"refresh()": false}} >> |'>
-<meta is="e-remote" :="article << $.value.article << ${~api}/articles/${#articleSlug.value}" content-type="json" passive
-    lazy id="article-getter">
+<meta is="e-remote" :="article << $.article << ${~api}/articles/${#articleSlug}" content-type="json">
 <meta is="e-dom" :='article >> {
     "`.banner > .container`": {
         "`h1`": $.title, 
@@ -19,9 +16,8 @@
         "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($.tagList, function($t) { $t })} 
     }
 } >> |.article-page'>
-<meta is="e-remote"
-    :="comments << $.value.comments ? $.value.comments : null << ${~api}/articles/${#articleSlug.value}/comments"
-    content-type="json" passive lazy id="comment-getter">
+<meta is="e-remote" :="comments << $.comments ? $.comments : null << ${~api}/articles/${#articleSlug}/comments"
+    content-type="json">
 <meta is="e-dom" :='comments >> {
     "<%#comment%>": [$map($, function($c){{ 
         "#": $c.id, 
@@ -34,10 +30,10 @@
      }})]
 } >> |.comments'>
 <meta is="e-dom" :="user >> $.image >> |.comment-author-img">
-<meta is="e-dom" :="newComment << $._ << |.comment-form" prevent passive>
-<meta is="e-remote" :='newComment >> {"comment": $} >> ${~api}/articles/${#articleSlug.value}/comments'
-    content-type="json" options='${~post}' lazy id="comment-poster">
-<meta is="e-dom" :='newComment >> { "`#comment-getter`": {"touch()": []}, "value": "" } >> |.comment-form textarea'>
+<meta is="e-dom" :="newComment << $form << |.comment-form">
+<meta is="e-remote" :='newComment >> {"comment": $} >> ${~api}/articles/${#articleSlug}/comments' content-type="json"
+    options='${~post}'>
+<meta is="e-dom" :='newComment >> { "value": "" } >> |.comment-form textarea'>
 
 <template id="comment">
     <div class="card">
