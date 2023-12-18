@@ -36,30 +36,19 @@
 
     <script is="e-flow" type="script/flow">
         ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
-
         !# >> /\/([a-z0-9\-]+)\// ?? "home" >> #currentSection
-
         #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-
         #currentSection >> templates / ${ }.html >> ($response.ok ? { "<>": $ } : $404) >> $(:| main)
-
         #! { method: "GET" }
-
         config: #feedConfig >> api: ${ ~api } /$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{ feed, pagination }
-
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article - list)
-
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
-
         $(:|.pagination li a) >> ($merge([$cell("feedConfig"), {"offset": $.`@data-offset`, "limit": $.`@data-limit`}])) >> #feedConfig 
             >> {"<p>": "Loading articles..."} >> $(:|.article-list)
-
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $() >> ({"tag": $tag, "offset": 0}) >> #feedConfig
-
         #! { method: "POST" }
-            
         $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
             >> api: ${~api}/articles/${slug}/favorite
     </script>
