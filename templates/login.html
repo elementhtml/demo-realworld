@@ -1,6 +1,9 @@
-<meta is="e-flow" :='$(|form) >> ({"user": $form}) >> api: ${~api}/users/login >> #{user} 
-    >> ({"<li>": ($api.errors ? [$each($api.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
-    >> ($api.user ? "/" : null) >> #' content-type="json" data-api='${~post}'>
+<script is="e-flow" type="script/flow">
+    #! { method: "POST" }
+    $(|form) >> ({"user": $form}) >> api: ${~api}/users/login >> #{user} 
+        >> ({"<li>": ($api.errors ? [$each($api.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
+        >> ($api.user ? "/" : null) >> #
+</script>
 
 <div class="auth-page">
     <div class="container page">

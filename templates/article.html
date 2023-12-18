@@ -1,10 +1,12 @@
-<meta is="e-flow" :='!# >> slug: /\/article\/([a-z0-9\-\!]+)/ >> #articleSlug >> ${~api}/articles/${} >> ($.article) >> #article 
-    >> ${~api}/articles/${slug}/comments >> (`transforms/comments-render.jsonata`) >> $(|.comments)'
-    content-type="json">
-<meta is="e-flow" :='#article >> (`transforms/article-render.jsonata`) >> $(|.article-page)'>
-<meta is="e-flow" :='#user >> ($.image) >> $(|.comment-author-img)'>
-<meta is="e-flow" :='$(|.comment-form) >> comment: ($form) >> {"comment": $} >> api: ${~api}/articles/${#articleSlug}/comments 
-    >> {"value": ""} >> $(|.comment-form textarea)' content-type="json" data-api="${~post}">
+<script is="e-flow" type="script/flow">
+    #! {method: 'POST'}
+    !# >> slug: /\/article\/([a-z0-9\-\!]+)/ >> #articleSlug >> ${~api}/articles/${} >> ($.article) >> #article 
+        >> ${~api}/articles/${slug}/comments >> (`transforms/comments-render.jsonata`) >> $(|.comments)
+    #article >> (`transforms/article-render.jsonata`) >> $(|.article-page)
+    #user >> ($.image) >> $(|.comment-author-img)
+    $(|.comment-form) >> comment: ($form) >> {"comment": $} >> api: ${~api}/articles/${#articleSlug}/comments 
+        >> {"value": ""} >> $(|.comment-form textarea)
+</script>
 
 <template id="comment">
     <div class="card">

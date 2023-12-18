@@ -1,10 +1,12 @@
-<meta is="e-flow"
-    :='!# >> /\/profile\/([a-z0-9\-]+)/ >> #profileUser >> ${~api}/profiles/${} 
-        >> ({"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}}) >> $(|.user-info)'>
-<meta is="e-flow" :='$(|.articles-toggle a) 
-    >> ($merge([$cell("feedConfig"), {"author": "", "favorited": ""}, {$.`@href`: $cell("profileUser")}, {"endpoint": "articles", "tag": "", "offset": 0}])) 
-    >> #feedConfig >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle) 
-    >> {"<p>": "Loading articles..."} >> $(:|.article-list) >> {"..": ""} >> $(:|.pagination)'>
+<script is="e-flow" type="script/flow">
+    !# >> /\/profile\/([a-z0-9\-]+)/ >> #profileUser >> ${~api}/profiles/${} 
+        >> ({"`.user-img`": {"@src": $.image}, "`.username{}`": {"..": $.username}, "`.bio`": {"..": $.bio}}) >> $(|.user-info)
+    $(|.articles-toggle a) 
+        >> ($merge([$cell("feedConfig"), {"author": "", "favorited": ""}, {$.`@href`: $cell("profileUser")}, {"endpoint": "articles", "tag": "", "offset": 0}])) 
+        >> #feedConfig >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle) 
+        >> {"<p>": "Loading articles..."} >> $(:|.article-list) >> {"..": ""} >> $(:|.pagination)
+</script>
+
 
 <div class="profile-page">
     <div class="user-info">

@@ -1,6 +1,9 @@
-<meta is="e-flow" :='#user >> ($form($)) >> $(|form)'>
-<meta is="e-flow" :='$(|form) >> ({"user": $form}) >> ${~api}/user >> #{user}' content-type="json" data-api="${~put}">
-<meta is="e-flow" :='$(|.logout) >> {} >> #user >> "/" >> #'>
+<script is="e-flow" type="script/flow">
+    #! {method: "PUT"}
+    #user >> ($form($)) >> $(|form)
+    $(|form) >> ({"user": $form}) >> ${~api}/user >> #{user}
+    $(|.logout) >> {} >> #user >> "/" >> #
+</script>
 
 <div class="settings-page">
     <div class="container page">

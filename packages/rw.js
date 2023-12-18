@@ -1,4 +1,3 @@
-const headers = { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" }
 export default {
     context: {
         "content-type": "json",
@@ -15,9 +14,5 @@ export default {
                 </div>
             `,
         api: "https://api.realworld.io/api",
-        get: { method: 'GET', headers },
-        post: { method: 'POST', headers },
-        put: { method: 'PUT', headers },
-        delete: { method: 'PUT', headers }
     }
 }
