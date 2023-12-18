@@ -1,6 +1,8 @@
 const headers = { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" }
 export default {
-    variables: {
+    context: {
+        "content-type": "json",
+        headers: { Authorization: "Token ${#user.token}", "Content-Type": "application/json;charset=UTF-8" },
         blankProfile: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ico_user_profile_blank.png",
         404: `
                 <div class="home-page">
