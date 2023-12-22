@@ -34,7 +34,7 @@
     <!-- <script type="module"
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
-    <script is="e-flow" type="script/flow">
+    <script is="e-flow" type="script/flow" id="test">
         !# >> /\/([a-z0-9\-]+)\// ?? "home" >> #currentSection
         # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
@@ -52,6 +52,7 @@
         # $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
             >> api: ${~api}/articles/${slug}/favorite
     </script>
+    <script>window.test = document.getElementById('test')</script>
     <template id="feed-article-preview">
         <div class="article-preview">
             <div class="article-meta">
