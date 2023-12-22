@@ -38,7 +38,7 @@
         # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
         !# >> section: /\/([a-z0-9\-]+)\// ?? "home" >> %currentSection
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        # #currentSection >> templates / ${ }.html >> ($response.ok ? { "<>": $ } : $404) >> $(:| main)
+        %currentSection >> templates/${}.html >> ($response.ok ? { "<>": $ } : $context.404) >> $(:|main)
         # #! { method: "GET" }
         # config: #feedConfig >> api: ${ ~api } /$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
