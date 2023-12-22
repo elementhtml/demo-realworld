@@ -36,7 +36,7 @@
 
     <script is="e-flow" type="script/flow" id="test">
         # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
-        !# >> section: /\/([a-z0-9\-]+)\// ?? "home"
+        !# >> section: /\/([a-z0-9\-]+)\// ?? "home" >> %currentSection
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         # #currentSection >> templates / ${ }.html >> ($response.ok ? { "<>": $ } : $404) >> $(:| main)
         # #! { method: "GET" }
