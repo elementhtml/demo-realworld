@@ -35,8 +35,8 @@
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
     <script is="e-flow" type="script/flow" id="test">
-        !# >> /\/([a-z0-9\-]+)\// ?? "home" >> #currentSection
         # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
+        !# >> /\/([a-z0-9\-]+)\// ?? "home" >> #currentSection
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         # #currentSection >> templates / ${ }.html >> ($response.ok ? { "<>": $ } : $404) >> $(:| main)
         # #! { method: "GET" }
@@ -52,7 +52,19 @@
         # $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
             >> api: ${~api}/articles/${slug}/favorite
     </script>
-    <script>window.test = document.getElementById('test')</script>
+    <script>
+        window.test = document.getElementById('test')
+        window.setTimeout(() => {
+            console.log(JSON.stringify({
+                handlers: test.handlers.map(h => `${h}`),
+                filters: test.filters.map(h => `${h}`),
+                cellNames: test.cellNames,
+                slots: test.slots,
+                statements: test.statements
+            }, null, 4))
+        }, 1000)
+        test.addEventListener('done-0-0', event => console.log(event))
+    </script>
     <template id="feed-article-preview">
         <div class="article-preview">
             <div class="article-meta">
