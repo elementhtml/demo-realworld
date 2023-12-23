@@ -36,9 +36,8 @@
 
     <script is="e-flow" type="script/flow" id="test">
         # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
-        !# >> section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> %currentSection
+        !# >> section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html >> ($.ok ? { "<>": $.value } : $context.`404` ) >> $(:|main)
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        %currentSection >> templates/${}.html >> ($.ok ? { "<>": $.value } : $context.`404` ) >> $(:|main)
         # config: #feedConfig >> api: ${ ~api } /$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{ feed, pagination }
