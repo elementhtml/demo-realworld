@@ -39,7 +39,6 @@
         !# >> section: /\/([a-z0-9\-]+)\// ?? "home" >> %currentSection
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         %currentSection >> templates/${}.html >> ($response.ok ? { "<>": $ } : $context.404) >> $(:|main)
-        # #! { method: "GET" }
         # config: #feedConfig >> api: ${ ~api } /$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{ feed, pagination }
@@ -48,25 +47,25 @@
         # $(:|.pagination li a) >> ($merge([$cell("feedConfig"), {"offset": $.`@data-offset`, "limit": $.`@data-limit`}])) >> #feedConfig 
             >> {"<p>": "Loading articles..."} >> $(:|.article-list)
         # $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $() >> ({"tag": $tag, "offset": 0}) >> #feedConfig
-        # #! { method: "POST" }
         # $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
             >> api: ${~api}/articles/${slug}/favorite
     </script>
     <script>
         window.test = document.getElementById('test')
         window.setTimeout(() => {
-            console.log(JSON.stringify({
+            console.log({
                 handlers: test.handlers.map(h => `${h}`),
                 filters: test.filters.map(h => `${h}`),
                 cellNames: test.cellNames,
                 fieldNames: test.fieldNames,
                 fields: test.fields,
-                statements: test.statements
-            }, null, 4))
+                statements: test.statements,
+                init: test.init
+            })
         }, 1000)
-        test.addEventListener('done-0-0', event => console.log(event))
-        test.addEventListener('done-0-1', event => console.log(event))
         test.addEventListener('done-0-2', event => console.log(event))
+        test.addEventListener('done-1-0', event => console.log(event))
+        test.addEventListener('done-1-1', event => console.log(event))
     </script>
     <template id="feed-article-preview">
         <div class="article-preview">
