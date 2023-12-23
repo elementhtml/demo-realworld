@@ -1,4 +1,4 @@
-<script is="e-flow" type="script/flow">
+<!-- <script is="e-flow" type="script/flow">
     !# >> slug: /\/editor\/([a-z0-9\-\!]+)/ >> #articleSlug 
         >> ${~api}/articles/${slug} >> article: ($.article) >> $(|form) >> ($article.tagList) >> #tagList
     $(|.tag-control) >> ($tagList := $cell("tagList"); $tagList ? [$sort([$distinct([$append(tagList, $.value)])])] : [$.value]) >> #tagList 
@@ -12,7 +12,7 @@
     #! {method: 'POST'}
     $(|form) >> ($not($cell("articleSlug"))) >> ({"article": $form}) >> api: ${~api}/articles 
     >> ($.article.slug) >> #
-</script>
+</script> -->
 
 <div class="editor-page">
     <div class="container page">

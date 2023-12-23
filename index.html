@@ -35,7 +35,7 @@
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
     <script is="e-flow" type="script/flow" id="test">
-        # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
+        `localStorage.getItem(user)` >> #user >> `localStorage.setItem(user, ${})`
         !# >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html >> ($.ok ? { "<>": $.value } : $context.`404` ) >> $(:|main)
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         # config: #feedConfig >> api: ${ ~api } /$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
@@ -62,10 +62,9 @@
                 init: test.init
             })
         }, 1000)
-        test.addEventListener('done-1-0', event => console.log('done-1-0', event))
-        test.addEventListener('done-1-1', event => console.log('done-1-1', event))
-        test.addEventListener('done-1-2', event => console.log('done-1-2', event))
-        test.addEventListener('done-1-3', event => console.log('done-1-3', event))
+        test.addEventListener('done-0-0', event => console.log('done-0-0', event))
+        test.addEventListener('done-0-1', event => console.log('done-0-1', event))
+        test.addEventListener('done-0-2', event => console.log('done-0-2', event))
     </script>
     <template id="feed-article-preview">
         <div class="article-preview">
