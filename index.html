@@ -36,9 +36,9 @@
 
     <script is="e-flow" type="script/flow" id="test">
         # ! >> `localStorage.getItem('user')` >> #user >> `localStorage.setItem('user', ${})`
-        !# >> section: /\/([a-z0-9\-]+)\// ?? "home" >> %currentSection
+        !# >> section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> %currentSection
         # #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        %currentSection >> templates/${}.html >> ($response.ok ? { "<>": $ } : $context.404) >> $(:|main)
+        %currentSection >> templates/${}.html >> ($.ok ? { "<>": $.value } : $context.`404` ) >> $(:|main)
         # config: #feedConfig >> api: ${ ~api } /$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{ feed, pagination }
@@ -63,9 +63,10 @@
                 init: test.init
             })
         }, 1000)
-        test.addEventListener('done-0-2', event => console.log(event))
-        test.addEventListener('done-1-0', event => console.log(event))
-        test.addEventListener('done-1-1', event => console.log(event))
+        test.addEventListener('done-1-0', event => console.log('done-1-0', event))
+        test.addEventListener('done-1-1', event => console.log('done-1-1', event))
+        test.addEventListener('done-1-2', event => console.log('done-1-2', event))
+        test.addEventListener('done-1-3', event => console.log('done-1-3', event))
     </script>
     <template id="feed-article-preview">
         <div class="article-preview">
