@@ -34,7 +34,7 @@
     <!-- <script type="module"
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
-    <script is="e-flow" type="script/flow" id="test">
+    <script is="e-flow" type="script/flow" id="index">
         `localStorage.getItem(user)` >> #user >> `localStorage.setItem(user, ${})`
         !# >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html >> ($.ok ? { "<>": $.value } : $context.`404`) >> $(:|main)
         #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
@@ -50,21 +50,25 @@
             >> api: ${~api}/articles/${slug}/favorite
     </script>
     <script>
-        window.test = document.getElementById('test')
         window.setTimeout(() => {
-            console.log({
-                handlers: test.handlers.map(h => `${h}`),
-                filters: test.filters.map(h => `${h}`),
-                cellNames: test.cellNames,
-                fieldNames: test.fieldNames,
-                fields: test.fields,
-                statements: test.statements,
-                init: test.init
-            })
+
+            window.test = document.getElementById('register')
+            window.setTimeout(() => {
+                console.log({
+                    handlers: test.handlers.map(h => `${h}`),
+                    filters: test.filters.map(h => `${h}`),
+                    cellNames: test.cellNames,
+                    fieldNames: test.fieldNames,
+                    fields: test.fields,
+                    statements: test.statements,
+                    init: test.init
+                })
+            }, 1000)
+            test.addEventListener('done-0-0', event => console.log('done-0-0', event))
+            // test.addEventListener('done-2-1', event => console.log('done-2-1', event))
+            // test.addEventListener('done-2-2', event => console.log('done-2-2', event))
+
         }, 1000)
-        test.addEventListener('done-2-0', event => console.log('done-2-0', event))
-        test.addEventListener('done-2-1', event => console.log('done-2-1', event))
-        test.addEventListener('done-2-2', event => console.log('done-2-2', event))
     </script>
     <template id="feed-article-preview">
         <div class="article-preview">
