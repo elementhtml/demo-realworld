@@ -52,11 +52,10 @@
     <script>
         window.setTimeout(() => {
 
-            window.test = document.getElementById('register')
+            window.test = document.getElementById('index')
             window.setTimeout(() => {
                 console.log({
                     handlers: test.handlers.map(h => `${h}`),
-                    filters: test.filters.map(h => `${h}`),
                     cellNames: test.cellNames,
                     fieldNames: test.fieldNames,
                     fields: test.fields,
