@@ -1,5 +1,5 @@
 <script is="e-flow" type="script/flow" id="register">
-    $(|form) >> ({"user": $._named}) >> api: ~${~api}/users~ >> `console.log(${api})` >> #{user} 
+    $(|form) >> ({"user": $._named}) >> api: ~${~api}/users~ >> #{user, errors: %errors} >> `console.log(${%errors})`
     #     >> ({"<li>": ($api.errors ? [$each($api.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
     #     >> ($api.user ? "/" : null) >> #
 </script>
