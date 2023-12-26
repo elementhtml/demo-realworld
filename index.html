@@ -35,9 +35,9 @@
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
     <script is="e-flow" type="script/flow" id="index">
-        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
         # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
-        #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
+        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
+        #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         |* config: #feedConfig >> api: ${~api}/$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{feed, pagination}
@@ -50,11 +50,11 @@
             >> api: ${~api}/articles/${slug}/favorite
     </script>
     <script>
-        window.setTimeout(() => {
 
-            window.test = document.getElementById('index')
-            test.addEventListener('done-0-0', event => console.log('done-0-0', event))
-            test.addEventListener('done-0-1', event => console.log('done-0-1', event))
+        window.test = document.getElementById('index')
+        // test.addEventListener('done-0-3', event => console.log('done-0-3'))
+
+        window.setTimeout(() => {
 
             // window.setTimeout(() => {
             //     console.log({
