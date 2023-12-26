@@ -1,9 +1,10 @@
-<!-- <script is="e-flow" type="script/flow">
-    #! { method: "POST" }
-    $(|form) >> ({"user": $form}) >> api: ${~api}/users/login >> #{user} 
-        >> ({"<li>": ($api.errors ? [$each($api.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
-        >> ($api.user ? "/" : null) >> #
-</script> -->
+<script is="e-flow" type="script/flow" id="login">
+    $(|form) >> ({"user": $._named}) >> api: ~${~api}/users/login~ >> #{user, errors: %errors}
+    %errors >> ({"<li>": ($fields.errors ? [$each($fields.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
+        >> $(:|.error-messages)
+    #user >> ($ ? "/" : null) >> #
+</script>
+
 
 <div class="auth-page">
     <div class="container page">
