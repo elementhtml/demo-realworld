@@ -1,9 +1,8 @@
-<!-- <script is="e-flow" type="script/flow">
-    #! {method: "PUT"}
-    #user >> ($form($)) >> $(|form)
-    $(|form) >> ({"user": $form}) >> ${~api}/user >> #{user}
+<script is="e-flow" type="script/flow">
+    #user >> $(|form)
+    $(|form) >> ({"user": $._named}) >> ~${~api}/user~ >> #{user}
     $(|.logout) >> {} >> #user >> "/" >> #
-</script> -->
+</script>
 
 <div class="settings-page">
     <div class="container page">
