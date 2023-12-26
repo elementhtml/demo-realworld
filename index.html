@@ -35,18 +35,18 @@
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
     <script is="e-flow" type="script/flow" id="index">
-        `sessionStorage.getItem(user)` >> #user >> `console.log("test", ${})` >> `sessionStorage.setItem(user, ${})`
-        !# >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
+        `sessionStorage.getItem(user)` >> #user >> `sessionStorage.setItem(user, ${})`
+        # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
         #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        # config: #feedConfig >> api: ${~api}/$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
+        |* config: #feedConfig >> api: ${~api}/$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{feed, pagination}
-        # #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
-        # #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
-        # $(:|.pagination li a) >> ($merge([$cell("feedConfig"), {"offset": $.`@data-offset`, "limit": $.`@data-limit`}])) >> #feedConfig 
+        |* #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
+        |* #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
+        |* $(:|.pagination li a) >> ($merge([$cell("feedConfig"), {"offset": $.`@data-offset`, "limit": $.`@data-limit`}])) >> #feedConfig 
             >> {"<p>": "Loading articles..."} >> $(:|.article-list)
-        # $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $() >> ({"tag": $tag, "offset": 0}) >> #feedConfig
-        # $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
+        |* $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $() >> ({"tag": $tag, "offset": 0}) >> #feedConfig
+        |* $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
             >> api: ${~api}/articles/${slug}/favorite
     </script>
     <script>
