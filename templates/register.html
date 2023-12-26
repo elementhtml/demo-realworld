@@ -1,4 +1,4 @@
-<script is="e-flow" type="script/flow" id="register">
+<script is="e-flow" type="script/flow">
     $(|form) >> ({"user": $._named}) >> api: ~${~api}/users~ >> #{user, errors: %errors}
     %errors >> ({"<li>": ($fields.errors ? [$each($fields.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
         >> $(:|.error-messages)
