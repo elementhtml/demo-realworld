@@ -1,6 +1,6 @@
 <script is="e-flow" type="script/flow">
     #user >> ($form($)) >> $(|form)
-    $(|form) >> ({"user": $._named}) >> ~${~api}/user~ >> #{user}
+    $(|form) >> ({"body": {"user": $._named}, "method": "PUT", "headers": $cells.headers}) >> ~${~api}/user~ >> #{user}
     $(|.logout) >> {} >> #user >> ($ ? null : "/") >> #
 </script>
 

@@ -38,6 +38,7 @@
         # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
         #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
+        #user >> ({"Content-Type": "application/json", "Authorization": $ ? "Token " & $.token : null }) >> #headers
         |* config: #feedConfig >> api: ${~api}/$.endpoint?limit=${limit}&offset=${offset}&tag=${tag}&author=${author}&favorited=${favorited} 
             >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
             >> #{feed, pagination}
