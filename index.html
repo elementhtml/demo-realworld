@@ -42,8 +42,8 @@
 
         [{"limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null}, "articles"] >> #[feedConfig, feedEndpoint]
         #{config: #feedConfig, endpoint: #feedEndpoint} >> ($.endpoint ? $join([$.endpoint, $queryString($.config)], "?") : null) >> ~${~api}/${}~ 
-        |*    >> ({ "#feed": $.articles, "#pagination": { "count": $.articlesCount, "offset": $config.offset, "limit": $config.limit } })
-        |*    >> #{feed, pagination}
+            >> ({ "feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit }})
+            >> #{feed, pagination}
 
         |* #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         |* #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
