@@ -38,7 +38,7 @@
         # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
         [{"limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null}, "articles"] >> #[feedConfig, feedEndpoint]
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
-        #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) >> ($cells.user.token ? "articles/feed" : "articles") >> #feedEndpoint
+        #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) >> ("articles" & ($cells.user.token ? "/feed" : "")) >> #feedEndpoint
             >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
         
         #[feedConfig, feedEndpoint] >> qs: ($queryString($[0])) >> ({"headers": $cells.headers, "method": "GET"}) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
