@@ -46,8 +46,9 @@
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)        
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
 
-        |* $(:|.pagination li a) >> ($merge([$cell("feedConfig"), {"offset": $.`@data-offset`, "limit": $.`@data-limit`}])) >> #feedConfig 
-            >> {"<p>": "Loading articles..."} >> $(:|.article-list)
+        $(:|.pagination li a) >> ($merge([$cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
+            >> { "`.article-list`": {"<p>": "Loading articles..."}, "`.pagination`": {"..": ""} } >> $(:|.page)
+                
         |* $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $() >> ({"tag": $tag, "offset": 0}) >> #feedConfig
         |* $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($seek(".article-preview|").id) 
             >> api: ${~api}/articles/${slug}/favorite
