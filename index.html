@@ -36,13 +36,15 @@
 
     <script is="e-flow" type="script/flow" id="index">
         # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
-        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
-        #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
-            >> ({"Content-Type": "application/json", "Authorization": $ ? "Token " & $cells.user.token : null }) >> #headers
         [{"limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null}, "articles"] >> #[feedConfig, feedEndpoint]
-        #{config: #feedConfig, endpoint: #feedEndpoint} >> ($.endpoint ? $join([$.endpoint, $queryString($.config)], "?") : null) >> ~${~api}/${}~ 
+        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
+        #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) >> ($cells.user.token ? "articles/feed" : "articles") >> #feedEndpoint
+            >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
+        
+        #[feedConfig, feedEndpoint] >> qs: ($queryString($[0])) >> ({"headers": $cells.headers, "method": "GET"}) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({ "feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit }})
             >> #{feed, pagination}
+
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)        
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
         $(:|.pagination li a) >> ($merge([$cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
