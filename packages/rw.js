@@ -12,6 +12,7 @@ export default {
                 </div>
             `,
         api: "https://api.realworld.io/api",
-        feedDefaultConfig: { "limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null }
+        feedDefaultConfig: { "limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null },
+        articleLoading: { "`.article-list`": { "<p>": "Loading articles..." }, "`.pagination`": { "..": "" } }
     }
 }
