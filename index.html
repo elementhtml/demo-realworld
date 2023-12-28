@@ -37,7 +37,6 @@
     <script is="e-flow" type="script/flow" id="index">
         # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
-        [{"limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null}, "articles"] >> #[feedConfig, feedEndpoint]
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
             >> ($cells.headers and (($cells.feedEndpoint = "articles") or ($cells.feedEndpoint = "articles/feed" and $cells.headers.Authorization)) ? {"headers": $cells.headers, "method": "GET"} : null) 
             >> ~${~api}/${#feedEndpoint}?${$qs}~ 
@@ -47,10 +46,10 @@
             >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
-        $(:|.pagination li a) >> ($merge([$cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
+        $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
             >> {"`.article-list`": {"<p>": "Loading articles..."}, "`.pagination`": {"..": ""}} >> $(:|.page)
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
-            >> ([ "articles", $merge([$cells.feedConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
+            >> (["articles", $merge([$context.feedDefaultConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
         $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) >> article: ($single($cells.feed, function($v) {$v.slug = $labels.slug}))
             >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${slug}/favorite~ 
             >> ( [$map($cells.feed, function($v){ $v.slug = $labels.slug ? $.article : $v }  )] ) >> #feed
