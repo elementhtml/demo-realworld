@@ -1,18 +1,17 @@
-<!-- <script is="e-flow" type="script/flow">
-    !# >> slug: /\/editor\/([a-z0-9\-\!]+)/ >> #articleSlug 
-        >> ${~api}/articles/${slug} >> article: ($.article) >> $(|form) >> ($article.tagList) >> #tagList
-    $(|.tag-control) >> ($tagList := $cell("tagList"); $tagList ? [$sort([$distinct([$append(tagList, $.value)])])] : [$.value]) >> #tagList 
+<script is="e-flow" type="script/flow">
+    # >> %slug: /\/editor\/([a-z0-9\-\!]+)/ >> ~${~api}/articles/${}~ >> %{article} >> ($form($.article)) >> $(|form) >> ($.article.tagList) >> %tagList
+
+    $(|.tag-control) >> ($fields.tagList ? [$sort([$distinct([$append($fields.tagList, $.value)])])] : [$.value]) >> %tagList 
         >> {"value": "", "focus()": {}} >> $(|.tag-control)
-    tagList: #tagList >> ({"<option>": $}) >> ${datalist} 
-        >> ({"<span.tag-default.tag-pill>": [$map($tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) >> $(|.tag-list)
+
+    %tagList >> ({"<option>": $}) >> $(|datalist) 
+        >> ({"<span.tag-default.tag-pill>": [$map($fields.tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) >> $(|.tag-list)
     
-    #! {method: 'PUT'}
-    $(|form) >> ({"article": $form}) >> api: ${~api}/articles/${#articleSlug} 
+    $(|form) >> ({"method": "PUT", "headers": $cells.headers, "body": {"article": $._named}}) >> ~${~api}/articles/${%slug}~
     
-    #! {method: 'POST'}
-    $(|form) >> ($not($cell("articleSlug"))) >> ({"article": $form}) >> api: ${~api}/articles 
-    >> ($.article.slug) >> #
-</script> -->
+    $(|form) >> ($not($fields.slug)) >> ({"method": "POST", "headers": $cells.headers, "body": {"article": $._named}}) >> ~${~api}/articles~
+        >> ($.article.slug) >> #
+</script>
 
 <div class="editor-page">
     <div class="container page">
