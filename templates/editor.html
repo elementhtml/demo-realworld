@@ -1,16 +1,12 @@
 <script is="e-flow" type="script/flow">
     # >> %slug: /\/editor\/([a-z0-9\-\!]+)/ >> ~${~api}/articles/${}~ >> %{article} >> ($form($.article)) >> $(|form) >> ($.article.tagList) >> %tagList
-
     $(|.tag-control) >> ($fields.tagList ? [$sort([$distinct([$append($fields.tagList, $.value)])])] : [$.value]) >> %tagList 
         >> {"value": "", "focus()": {}} >> $(|.tag-control)
-
     %tagList >> ({"<option>": $}) >> $(|datalist) 
         >> ({"<span.tag-default.tag-pill>": [$map($fields.tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) >> $(|.tag-list)
-    
-    $(|form) >> ({"method": "PUT", "headers": $cells.headers, "body": {"article": $._named}}) >> ~${~api}/articles/${%slug}~
-    
-    $(|form) >> ($not($fields.slug)) >> ({"method": "POST", "headers": $cells.headers, "body": {"article": $._named}}) >> ~${~api}/articles~
-        >> ($.article.slug) >> #
+    $(|form) >> ($fields.slug ? {"method": "PUT", "headers": $cells.headers, "body": {"article": $._named}} : null) >> ~${~api}/articles/${%slug}~
+    $(|form) >> ($fields.slug ? null : {"method": "POST", "headers": $cells.headers, "body": {"article": $._named}}) >> ~${~api}/articles~
+        >> ("/article/" & $.article.slug) >> #
 </script>
 
 <div class="editor-page">
