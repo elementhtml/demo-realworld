@@ -1,15 +1,11 @@
 <script is="e-flow" type="script/flow">
     ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.tag-list)
-
     #[user, feedEndpoint, feedConfig] 
         >> ({"`.nav-item:nth-of-type(1)`": {"^display": $cells.user.username ? null : "none", "`a`": {"&active": $cells.feedEndpoint = "articles/feed"} }})
         >> ( $hasTag := $boolean($cells.feedConfig.tag) ; $merge([$, {"`.nav-item:nth-of-type(2) a`": {"&active": $not($hasTag) and ($cells.feedEndpoint = "articles") }}])) 
         >> ( $hasTag := $boolean($cells.feedConfig.tag) ; $merge([$, {"`.nav-item:nth-of-type(3) a`": {"&active": $hasTag, "^display": $hasTag ? null : "none" }}])) 
         >> $(|.feed-toggle)
-
-    |* $(|.feed-toggle a) >> ({"endpoint": $.`@href`, "filter": "", "tag": "", "offset": 0}) >> #feedConfig 
-        >> ({"`.nav-item:first-of-type a`": {"&active": $.endpoint = "articles/feed" }, "`.nav-item:nth-of-type(2) a`": {"&active": $.endpoint = "articles" }, "`.nav-item:last-of-type`": {"^display": "none"}}) 
-        >> $(:|.feed-toggle) >> {"<p>": "Loading articles..."} >> $(:|.article-list) >> {"..": ""} >> $(:|.pagination)
+    $(|.feed-toggle a) >> ([$.`@href`, $merge([$cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) >> #[feedEndpoint, feedConfig] 
 </script>
 
 <div class="home-page">
