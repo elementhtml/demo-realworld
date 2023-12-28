@@ -44,6 +44,7 @@
             >> #{feed, pagination}
         #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
             >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
+
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
 

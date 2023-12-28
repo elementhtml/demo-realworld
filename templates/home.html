@@ -7,7 +7,8 @@
         >> ( $hasTag := $boolean($cells.feedConfig.tag) ; $merge([$, {"`.nav-item:nth-of-type(2) a`": {"&active": $not($hasTag) and ($cells.feedEndpoint = "articles") }}])) 
         >> ( $hasTag := $boolean($cells.feedConfig.tag) ; $merge([$, {"`.nav-item:nth-of-type(3) a`": {"&active": $hasTag, "^display": $hasTag ? null : "none" }}])) 
         >> $(|.feed-toggle)
-    $(|.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) >> #[feedEndpoint, feedConfig] 
+    $(|.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) >> #[feedEndpoint, feedConfig]
+        >> ${~articleLoading} >> $(:|.page) 
 </script>
 
 <div class="home-page">

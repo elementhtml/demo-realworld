@@ -4,6 +4,7 @@
         >> (["articles", $merge([$context.feedDefaultConfig, {"author": $fields.profile.username}])]) >> #[feedEndpoint, feedConfig] 
     $(|.articles-toggle a) >> ($merge([$context.feedDefaultConfig, {$.`@href`: $fields.profile.username}])) >> #feedConfig
         >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle)
+        >> ${~articleLoading} >> $(:|.page)
 </script>
 
 <div class="profile-page">
