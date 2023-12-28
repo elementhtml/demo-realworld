@@ -47,8 +47,7 @@
         #[feed, feedConfig, feedEndpoint] >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
 
-        $(:|.pagination li a)
-            >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
+        $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
             >> {"`.article-list`": {"<p>": "Loading articles..."}, "`.pagination`": {"..": ""}} >> $(:|.page)
 
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
