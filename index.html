@@ -35,7 +35,7 @@
         src='https://cdn.jsdelivr.net/gh/elementhtml/element@8aca9f1a13c3230a1b607d06f2e1675a24f54069/element.js?load&expose&packages=rw'></script> -->
 
     <script is="e-flow" type="script/flow" id="index">
-        # >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
+        # ?? "home" >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
             >> ($cells.headers and (($cells.feedEndpoint = "articles") or ($cells.feedEndpoint = "articles/feed" and $cells.headers.Authorization)) ? {"headers": $cells.headers, "method": "GET"} : null) 
