@@ -48,6 +48,8 @@
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
 
+        #{feed, pagination} >> ( $console($) )  
+
         $(:|.pagination li a) >> #feedConfig: ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
             >> ${~articleLoading} >> $(:|.page)
             
