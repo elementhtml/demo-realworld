@@ -1,7 +1,9 @@
 <script is="e-flow" type="script/flow">
     ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.tag-list)
-    |* user: #user >> ({"endpoint": $.username ? "articles/feed" : "articles", "filter": "", "tag": "", "offset": 0}) >> #feedConfig 
-        >> ({"`.nav-item:first-of-type a`": {"&active": $user.username}, "`.nav-item:last-of-type a`": {"&active": $not($user.username)}}) >> $(.feed-toggle)
+
+    #[user, feedEndpoint] >> ( {"`.nav-item:first-of-type`": {"^display": $cells.user.username ? "unset" : "none" }}) 
+        >> $(|.feed-toggle)
+
     |* $(|.feed-toggle a) >> ({"endpoint": $.`@href`, "filter": "", "tag": "", "offset": 0}) >> #feedConfig 
         >> ({"`.nav-item:first-of-type a`": {"&active": $.endpoint = "articles/feed" }, "`.nav-item:nth-of-type(2) a`": {"&active": $.endpoint = "articles" }, "`.nav-item:last-of-type`": {"^display": "none"}}) 
         >> $(:|.feed-toggle) >> {"<p>": "Loading articles..."} >> $(:|.article-list) >> {"..": ""} >> $(:|.pagination)
@@ -19,7 +21,7 @@
             <div class="col-md-9">
                 <div class="feed-toggle">
                     <ul class="nav nav-pills outline-active">
-                        <li class="nav-item">
+                        <li class="nav-item" style="display: none;">
                             <a class="nav-link" href="articles/feed">Your Feed</a>
                         </li>
                         <li class="nav-item">
