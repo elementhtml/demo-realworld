@@ -50,7 +50,7 @@
         $(:|.pagination li a) >> ($merge([$cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
             >> {"`.article-list`": {"<p>": "Loading articles..."}, "`.pagination`": {"..": ""}} >> $(:|.page)
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
-            >> ($merge([$cells.feedConfig, {"offset": 0, "tag": $labels.tag}])) >> #feedConfig
+            >> ([ "articles", $merge([$cells.feedConfig, {"offset": 0, "tag": $labels.tag}])]  ) >> #[feedEndpoint, feedConfig]
         $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) 
             >> ({"headers": $cells.headers, "method": "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
             >> ( [$map($cells.feed, function($v){ $v.slug = $labels.slug ? $.article : $v }  )] ) >> #feed
