@@ -51,8 +51,8 @@
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
             >> (["articles", $merge([$context.feedDefaultConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
         $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) >> article: ($single($cells.feed, function($v) {$v.slug = $labels.slug}))
-            >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${slug}/favorite~ 
-            >> ( [$map($cells.feed, function($v){ $v.slug = $labels.slug ? $.article : $v }  )] ) >> #feed
+            >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
+            >> ([$map($cells.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> #feed
     </script>
     <template id="feed-article-preview">
         <div class="article-preview">

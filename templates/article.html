@@ -1,12 +1,11 @@
-<!-- <script is="e-flow" type="script/flow">
-    #! {method: 'POST'}
-    !# >> slug: /\/article\/([a-z0-9\-\!]+)/ >> #articleSlug >> ${~api}/articles/${} >> ($.article) >> #article 
-        >> ${~api}/articles/${slug}/comments >> (`transforms/comments-render.jsonata`) >> $(|.comments)
-    #article >> (`transforms/article-render.jsonata`) >> $(|.article-page)
+<script is="e-flow" type="script/flow">
+    # >> %slug: /\/article\/([a-z0-9\-\!]+)/ >> ~${~api}/articles/${}~ >> %{article}
+        >> (`transforms/article-render.jsonata`) >> $(|.article-page)
+        >> {"method": "GET"} >> ~${~api}/articles/${%slug}/comments~ >> (`transforms/comments-render.jsonata`) >> $(|.comments)
     #user >> ($.image) >> $(|.comment-author-img)
-    $(|.comment-form) >> comment: ($form) >> {"comment": $} >> api: ${~api}/articles/${#articleSlug}/comments 
-        >> {"value": ""} >> $(|.comment-form textarea)
-</script> -->
+    $(|.comment-form) >> ({"method": "POST", "headers": $cells.headers, "body": {"comment": $._named}}) 
+        >> ~${~api}/articles/${%slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
+</script>
 
 <template id="comment">
     <div class="card">

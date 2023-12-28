@@ -1,15 +1,15 @@
 {
     "`.banner > .container`": {
-        "`h1`": $.title, 
+        "`h1`": $fields.article.title, 
         "`.article-meta`": {
-            "`a`": {"@href": "#/profile/" & $.author.username}, "`img`": {"@src": $.author.image}, 
-            "`.author`": {"@href": "#/profile/" & $.author.username, "..": $.author.username}, 
-            "`.date`": $fromMillis($toMillis($.createdAt), "[MNn] [D1o]"), 
-            "`button.favorite .counter`": $.favoritesCount
+            "`a`": {"@href": "#/profile/" & $fields.article.author.username}, "`img`": {"@src": $fields.article.author.image}, 
+            "`.author`": {"@href": "#/profile/" & $fields.article.author.username, "..": $fields.article.author.username}, 
+            "`.date`": $fromMillis($toMillis($fields.article.createdAt), "[MNn] [D1o]"), 
+            "`button.favorite .counter`": $fields.article.favoritesCount
         }
     }, 
     "`.page`": {
-        "`blockquote`": $.description, "`.body`": $.body, 
-        "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($.tagList, function($t) { $t })} 
+        "`blockquote`": $fields.article.description, "`.body`": $fields.article.body, 
+        "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($fields.article.tagList, function($t) { $t })} 
     }
 }
