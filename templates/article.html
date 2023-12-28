@@ -1,5 +1,5 @@
 <script is="e-flow" type="script/flow">
-    # >> %slug: /\/article\/([a-z0-9\-\!]+)/ >> ~${~api}/articles/${}~ >> %{article}
+    # >> %slug: /\/article\/(.+)/ >> ~${~api}/articles/${}~ >> %{article}
         >> (`transforms/article-render.jsonata`) >> $(|.article-page)
         >> {"method": "GET"} >> ~${~api}/articles/${%slug}/comments~ >> (`transforms/comments-render.jsonata`) >> $(|.comments)
     #user >> ($.image) >> $(|.comment-author-img)

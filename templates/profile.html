@@ -1,5 +1,5 @@
 <script is="e-flow" type="script/flow">
-    # >> /\/profile\/([a-z0-9\-]+)/ >> ~${~api}/profiles/${}~ >> %{profile}
+    # >> /\/profile\/(.+)/ >> ~${~api}/profiles/${}~ >> %{profile}
         >> ({"`.user-img`": {"@src": $.profile.image}, "`.username{}`": {"..": $.profile.username}, "`.bio`": {"..": $.profile.bio}}) >> $(|.user-info)
         >> (["articles", $merge([$context.feedDefaultConfig, {"author": $fields.profile.username}])]) >> #[feedEndpoint, feedConfig] 
     $(|.articles-toggle a) >> ($merge([$context.feedDefaultConfig, {$.`@href`: $fields.profile.username}])) >> #feedConfig

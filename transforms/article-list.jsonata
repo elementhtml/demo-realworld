@@ -1,4 +1,4 @@
-$count($) ? {"<%#feed-article-preview%>": [$map($, function($a) {{
+$count($cells.feed) ? {"<%#feed-article-preview%>": [$map($cells.feed, function($a) {{
     "#": $a.slug, 
     "`.article-meta`": { 
         "`[href]{}`": {"@href": "#/profile/" & $a.author.username}, "`img`": {"@src": $a.author.image}, 

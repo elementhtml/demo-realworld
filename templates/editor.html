@@ -1,5 +1,5 @@
 <script is="e-flow" type="script/flow">
-    # >> %slug: /\/editor\/([a-z0-9\-\!]+)/ >> ~${~api}/articles/${}~ >> %{article} >> ($form($.article)) >> $(|form)
+    # >> %slug: /\/editor\/(.+)/ >> ~${~api}/articles/${}~ >> %{article} >> ($form($.article)) >> $(|form)
     %article >> ($fields.article.tagList) >> %tagList
     $(|.tag-control) >> ($fields.tagList ? [$sort([$distinct([$append($fields.tagList, $.value)])])] : [$.value]) >> %tagList 
         >> {"value": "", "focus()": {}} >> $(|.tag-control)
