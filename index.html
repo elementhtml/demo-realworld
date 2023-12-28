@@ -50,9 +50,9 @@
         $(:|.pagination li a) >> ($merge([$cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) >> #feedConfig 
             >> {"`.article-list`": {"<p>": "Loading articles..."}, "`.pagination`": {"..": ""}} >> $(:|.page)
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
-            >> ([ "articles", $merge([$cells.feedConfig, {"offset": 0, "tag": $labels.tag}])]  ) >> #[feedEndpoint, feedConfig]
-        $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) 
-            >> ({"headers": $cells.headers, "method": "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
+            >> ([ "articles", $merge([$cells.feedConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
+        $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) >> article: ($single($cells.feed, function($v) {$v.slug = $labels.slug}))
+            >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${slug}/favorite~ 
             >> ( [$map($cells.feed, function($v){ $v.slug = $labels.slug ? $.article : $v }  )] ) >> #feed
     </script>
     <template id="feed-article-preview">
