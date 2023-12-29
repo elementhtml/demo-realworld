@@ -5,8 +5,7 @@
     $(|.articles-toggle a) >> ($merge([$context.feedDefaultConfig, {$.`@href`: $fields.profile.username}])) >> #feedConfig
         >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle)
         >> ${~articleLoading} >> $(:|.page)
-    %profile >> ( $isMe := $cells.user.username = $.username; {"`.follow`": {"^display": $isMe ? "none" : null, "&active": $.following, "`i`": { "@class": $.following ? "ion-minus-round" : "ion-plus-round" }}, "`.edit`": {"^display": $isMe ? null : "none"} }) 
-        >> $(|.user-info)
+    %profile >> (`transforms/profile.jsonata`) >> $(|.user-info)
     $(|.follow, .follow *) >> username: ($fields.profile.username) >> ({"headers": $cells.headers, "method": $fields.profile.following ? "DELETE" : "POST"}) 
         >> ~${~api}/profiles/${username}/follow~ >> %{profile}
     $(|.edit, .edit *) >> "/settings" >> #

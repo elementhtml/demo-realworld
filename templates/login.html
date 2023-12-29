@@ -1,7 +1,5 @@
 <script is="e-flow" type="script/flow">
-    $(|form) >> ({"user": $._named}) >> ~${~api}/users/login~ >> #{user, errors: %errors}
-    %errors >> ({"<li>": ($fields.errors ? [$each($fields.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])})
-        >> $(:|.error-messages)
+    $(|form) >> ({"user": $._named}) >> ~${~api}/users/login~ >> #{user, errors}
     #user >> ($ ? "/" : null) >> #
 </script>
 

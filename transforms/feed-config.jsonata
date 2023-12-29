@@ -1,0 +1,4 @@
+(
+    $cells.headers and (($cells.feedEndpoint = "articles") or ($cells.feedEndpoint = "articles/feed" and $cells.headers.Authorization)) 
+        ? {"headers": $cells.headers, "method": "GET"} : null
+)

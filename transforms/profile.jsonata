@@ -1,0 +1,8 @@
+( 
+    $isMe := $cells.user.username = $.username; {
+        "`.follow`": {"^display": $isMe ? "none" : null, "&active": $.following, 
+            "`i`": { "@class": $.following ? "ion-minus-round" : "ion-plus-round" }
+        }, 
+        "`.edit`": {"^display": $isMe ? null : "none"} 
+    }
+)
