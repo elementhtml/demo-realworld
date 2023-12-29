@@ -42,7 +42,7 @@
             >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
             >> %{feed!, pagination!}
-        #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
+        #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
             >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
         %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
