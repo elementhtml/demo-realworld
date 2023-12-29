@@ -9,7 +9,7 @@
         }
     }, 
     "`.page`": {
-        "`blockquote`": $fields.article.description, "`.body`": $fields.article.body, 
+        "`blockquote`": $fields.article.description, "`.body`": $markdown2Html($fields.article.body), 
         "`.tag-list`": {"<li.tag-default.tag-pill.tag-outline>": $map($fields.article.tagList, function($t) { $t })} 
     }
 }

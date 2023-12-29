@@ -6,7 +6,7 @@
     %tagList >> ({"<option>": $}) >> $(|datalist) 
         >> ({"<span.tag-default.tag-pill>": [$map($fields.tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) >> $(|.tag-list)
     $(|form) >> form: ($) >> endpoint: ($fields.slug ? "articles/" & $fields.slug : "articles")
-        >> ( $console("form", $labels) ;  {"method": ($fields.slug ? "PUT" : "POST"), "headers": $cells.headers, "body": {"article": $labels.form._named}}  ) 
+        >> ({"method": ($fields.slug ? "PUT" : "POST"), "headers": $cells.headers, "body": {"article": $labels.form._named}}) 
         >> ~${~api}/${endpoint}~ >> ("/article/" & $.article.slug) >> #
 </script>
 
