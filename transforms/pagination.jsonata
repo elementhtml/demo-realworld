@@ -1,4 +1,4 @@
-{"<li.page-item>": $cells.pagination.count ? [$map([1..$ceil($cells.pagination.count/$cells.pagination.limit)], function($n) { ($offset := (($n-1) * $cells.pagination.limit) ; {
-    "&active": ($offset = $cells.pagination.offset), 
-    "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $cells.pagination.limit, "@href": "?offset=" & $offset & "&limit=" & $cells.pagination.limit } 
+{"<li.page-item>": $fields.pagination.count ? [$map([1..$ceil($fields.pagination.count/$fields.pagination.limit)], function($n) { ($offset := (($n-1) * $fields.pagination.limit) ; {
+    "&active": ($offset = $fields.pagination.offset), 
+    "<a.page-link>": { "..": $n, "@data-offset": $offset, "@data-limit": $fields.pagination.limit, "@href": "?offset=" & $offset & "&limit=" & $fields.pagination.limit } 
 })})] : [] }
