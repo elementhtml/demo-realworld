@@ -8,7 +8,8 @@
     %article 
         >> ({"&active": $fields.article.author.following, "`i`": {"@class": "ion-" & ($fields.article.author.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow)
         >> ({"&active": $fields.article.favorited, "`i`": {"@class": "ion-" & ($fields.article.favorited ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .favorite)
-        >> ({"^display": $cells.user.username = $.author.username ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
+        >> ({"^display": $cells.user.username = $fields.article.author.username ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
+
     $(|.article-meta .follow) >> author: ($fields.article.author.username) >> ({"headers": $cells.headers ,"method": $fields.article.author.following ? "DELETE" : "POST"  }) 
         >> ~${~api}/profiles/${author}/follow~ >> {"reload()": true} >> :
     $(|.article-meta .favorite) >> ({"headers": $cells.headers ,"method": $fields.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${%slug}/favorite~ >> %{article}
