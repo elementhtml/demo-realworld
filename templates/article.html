@@ -5,6 +5,12 @@
     #user >> ($.image) >> $(|.comment-author-img)
     $(|.comment-form) >> ({"method": "POST", "headers": $cells.headers, "body": {"comment": $._named}}) 
         >> ~${~api}/articles/${%slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
+
+    %article >> vars: ($isMe := $cells.user.username = $.author.username; {"isMe": $isMe, "following": $.author.following or $isMe}) 
+        >> ({"&active": $labels.vars.following, "`i`": {"@class": "ion-" & ($labels.vars.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow, .article-meta .favorite{})
+        >> ({"^display": $labels.vars.isMe ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
+
+
 </script>
 
 <template id="comment">
@@ -45,10 +51,10 @@
                     <i class="ion-heart"></i>
                     &nbsp; Favorite Article <span class="counter"></span>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary edit">
+                <button class="btn btn-sm btn-outline-secondary edit" style="display: none;">
                     <i class="ion-edit"></i> Edit Article
                 </button>
-                <button class="btn btn-sm btn-outline-danger delete">
+                <button class="btn btn-sm btn-outline-danger delete" style="display: none;">
                     <i class="ion-trash-a"></i> Delete Article
                 </button>
             </div>

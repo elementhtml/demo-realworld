@@ -8,7 +8,7 @@
     %profile >> ( $isMe := $cells.user.username = $.username; {"`.follow`": {"^display": $isMe ? "none" : null, "&active": $.following, "`i`": { "@class": $.following ? "ion-minus-round" : "ion-plus-round" }}, "`.edit`": {"^display": $isMe ? null : "none"} }) 
         >> $(|.user-info)
     $(|.follow, .follow *) >> username: ($fields.profile.username) >> ({"headers": $cells.headers, "method": $fields.profile.following ? "DELETE" : "POST"}) 
-        >> ~${~api}/profiles/${username}/follow~ >> ($.profile) >> %profile
+        >> ~${~api}/profiles/${username}/follow~ >> %{profile}
     $(|.edit, .edit *) >> "/settings" >> #
 </script>
 

@@ -5,7 +5,7 @@
             "`a`": {"@href": "#/profile/" & $fields.article.author.username}, "`img`": {"@src": $fields.article.author.image}, 
             "`.author`": {"@href": "#/profile/" & $fields.article.author.username, "..": $fields.article.author.username}, 
             "`.date`": $fromMillis($toMillis($fields.article.createdAt), "[MNn] [D1o]"), 
-            "`button.favorite .counter`": $fields.article.favoritesCount
+            "`button.favorite`": { "&active": $fields.article.favorited, "`.counter`": $fields.article.favoritesCount }
         }
     }, 
     "`.page`": {
