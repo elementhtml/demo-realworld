@@ -6,8 +6,11 @@
     $(|.comment-form) >> ({"method": "POST", "headers": $cells.headers, "body": {"comment": $._named}}) 
         >> ~${~api}/articles/${%slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
     %article >> vars: ($isMe := $cells.user.username = $.author.username; {"isMe": $isMe, "following": $.author.following or $isMe}) 
-        >> ({"&active": $labels.vars.following, "`i`": {"@class": "ion-" & ($labels.vars.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow, .article-meta .favorite{})
+        >> ({"&active": $labels.vars.following, "`i`": {"@class": "ion-" & ($labels.vars.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow)
+        >> ({"&active": $fields.article.favorited, "`i`": {"@class": "ion-" & ($fields.article.favorited ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .favorite)
         >> ({"^display": $labels.vars.isMe ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
+
+    $(|.article-meta .favorite) >> ({"headers": $cells.headers ,"method": $fields.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${%slug}/favorite~ >> %{article!}
 
     $(|.article-meta .edit) >> ("/editor/" & $fields.slug) >> #
 
