@@ -41,7 +41,7 @@
             >> ($cells.headers and (($cells.feedEndpoint = "articles") or ($cells.feedEndpoint = "articles/feed" and $cells.headers.Authorization)) ? {"headers": $cells.headers, "method": "GET"} : null) 
             >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
-            >> %{feed, pagination}
+            >> %{feed!, pagination!}
         #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
             >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
 
@@ -55,7 +55,7 @@
             >> (["articles", $merge([$context.feedDefaultConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
         $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) >> article: ($single($fields.feed, function($v) {$v.slug = $labels.slug}))
             >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
-            >> ([$map($fields.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> %feed
+            >> ([$map($fields.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> %feed!
     </script>
     <template id="feed-article-preview">
         <div class="article-preview">
