@@ -5,17 +5,15 @@
     #user >> ($.image) >> $(|.comment-author-img)
     $(|.comment-form) >> ({"method": "POST", "headers": $cells.headers, "body": {"comment": $._named}}) 
         >> ~${~api}/articles/${%slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
-    %article >> vars: ($isMe := $cells.user.username = $.author.username; {"isMe": $isMe, "following": $.author.following or $isMe}) 
-        >> ({"&active": $labels.vars.following, "`i`": {"@class": "ion-" & ($labels.vars.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow)
+    %article 
+        >> ({"&active": $fields.article.author.following, "`i`": {"@class": "ion-" & ($fields.article.author.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow)
         >> ({"&active": $fields.article.favorited, "`i`": {"@class": "ion-" & ($fields.article.favorited ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .favorite)
-        >> ({"^display": $labels.vars.isMe ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
-
-    $(|.article-meta .favorite) >> ({"headers": $cells.headers ,"method": $fields.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${%slug}/favorite~ >> %{article!}
-
+        >> ({"^display": $cells.user.username = $.author.username ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
+    $(|.article-meta .follow) >> author: ($fields.article.author.username) >> ({"headers": $cells.headers ,"method": $fields.article.author.following ? "DELETE" : "POST"  }) 
+        >> ~${~api}/profiles/${author}/follow~ >> {"reload()": true} >> :
+    $(|.article-meta .favorite) >> ({"headers": $cells.headers ,"method": $fields.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${%slug}/favorite~ >> %{article}
     $(|.article-meta .edit) >> ("/editor/" & $fields.slug) >> #
-
     $(|.article-meta .delete) >> ({"headers": $cells.headers ,"method": "DELETE"}) >> ~~${~api}/articles/${%slug}~~ >> ($.ok ? "/profile/" & $cells.user.username : null) >> #
-
 </script>
 
 <template id="comment">
