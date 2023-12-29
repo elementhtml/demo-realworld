@@ -5,11 +5,13 @@
     #user >> ($.image) >> $(|.comment-author-img)
     $(|.comment-form) >> ({"method": "POST", "headers": $cells.headers, "body": {"comment": $._named}}) 
         >> ~${~api}/articles/${%slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
-
     %article >> vars: ($isMe := $cells.user.username = $.author.username; {"isMe": $isMe, "following": $.author.following or $isMe}) 
         >> ({"&active": $labels.vars.following, "`i`": {"@class": "ion-" & ($labels.vars.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow, .article-meta .favorite{})
         >> ({"^display": $labels.vars.isMe ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
 
+    $(|.article-meta .edit) >> ("/editor/" & $fields.slug) >> #
+
+    $(|.article-meta .delete) >> ({"headers": $cells.headers ,"method": "DELETE"}) >> ~~${~api}/articles/${%slug}~~ >> ($.ok ? "/profile/" & $cells.user.username : null) >> #
 
 </script>
 
