@@ -40,7 +40,7 @@
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
             >> ($cells.headers and (($cells.feedEndpoint = "articles") or ($cells.feedEndpoint = "articles/feed" and $cells.headers.Authorization)) ? {"headers": $cells.headers, "method": "GET"} : null) 
             >> ~${~api}/${#feedEndpoint}?${$qs}~ 
-            >> ({ "feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit }})
+            >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
             >> #{feed, pagination}
         #user >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
             >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
@@ -48,10 +48,8 @@
         #feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         #pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
 
-        #{feed, pagination} >> ( $console($) )  
-
-        $(:|.pagination li a) >> #feedConfig: ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
-            >> ${~articleLoading} >> $(:|.page)
+        $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
+            >> #feedConfig
             
         $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
             >> (["articles", $merge([$context.feedDefaultConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
