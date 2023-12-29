@@ -1,10 +1,15 @@
 <script is="e-flow" type="script/flow">
     # >> /\/profile\/(.+)/ >> ~${~api}/profiles/${}~ >> %{profile}
         >> ({"`.user-img`": {"@src": $.profile.image}, "`.username{}`": {"..": $.profile.username}, "`.bio`": {"..": $.profile.bio}}) >> $(|.user-info)
-        >> (["articles", $merge([$context.feedDefaultConfig, {"author": $fields.profile.username}])]) >> #[feedEndpoint, feedConfig] 
+        >> (["articles", $merge([$context.feedDefaultConfig, {"author": $fields.profile.username}])]) >> #[feedEndpoint!, feedConfig!] 
     $(|.articles-toggle a) >> ($merge([$context.feedDefaultConfig, {$.`@href`: $fields.profile.username}])) >> #feedConfig
         >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle)
         >> ${~articleLoading} >> $(:|.page)
+    %profile >> ( $isMe := $cells.user.username = $.username; {"`.follow`": {"^display": $isMe ? "none" : null, "`i`": { "@class": $.following ? "ion-minus-round" : "ion-plus-round" }}, "`.edit`": {"^display": $isMe ? null : "none"} }) 
+        >> $(|.user-info)
+    $(|.follow, .follow *) >> username: ($fields.profile.username) >> ({"headers": $cells.headers, "method": $fields.profile.following ? "DELETE" : "POST"}) 
+        >> ~${~api}/profiles/${username}/follow~ >> ($.profile) >> %profile
+    $(|.edit, .edit *) >> "/settings" >> #
 </script>
 
 <div class="profile-page">
@@ -15,11 +20,11 @@
                     <img src class="user-img" />
                     <h4 class="username"></h4>
                     <p class="bio"></p>
-                    <button class="btn btn-sm btn-outline-secondary action-btn follow">
+                    <button class="btn btn-sm btn-outline-secondary action-btn follow" style="display: none;">
                         <i class="ion-plus-round"></i>
                         &nbsp; Follow <span class="username"></span>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary action-btn edit">
+                    <button class="btn btn-sm btn-outline-secondary action-btn edit" style="display: none;">
                         <i class="ion-gear-a"></i>
                         &nbsp; Edit Profile Settings
                     </button>
