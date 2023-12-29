@@ -1,4 +1,4 @@
-( $console("section", $fields.section) ; {
+( {
     "`li:first-of-type a`": {"&active": $fields.section = "home" }, 
     "`[href$=login]`": {"^display": $cells.user ? "none": null, "&active": $fields.section = "login", "..": "Sign In" }, 
     "`[href$=register]`": {"^display": $cells.user ? "none": null, "&active": $fields.section = "register", "..": "Sign Up" }, 
