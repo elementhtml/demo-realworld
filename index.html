@@ -30,20 +30,23 @@
             }
         }
     </script>
-    <!-- <script type="module" src='../element/element.js?load&expose&packages=rw'></script> -->
-    <script type="module"
-        src='https://cdn.jsdelivr.net/gh/elementhtml/element@ae81ed8a1cd92e0cf80e26249775066089d14bc7/element.js?load&expose&packages=rw'></script>
+    <script type="module" src='../element/element.js?load&expose&packages=rw'></script>
+    <!-- <script type="module"
+        src='https://cdn.jsdelivr.net/gh/elementhtml/element@ae81ed8a1cd92e0cf80e26249775066089d14bc7/element.js?load&expose&packages=rw'></script> -->
 
     <script is="e-flow" type="script/flow" id="index">
-        # ?? "home" >> /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
+        # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main) 
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
             >> ($cells.headers and (($cells.feedEndpoint = "articles") or ($cells.feedEndpoint = "articles/feed" and $cells.headers.Authorization)) ? {"headers": $cells.headers, "method": "GET"} : null) 
             >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
             >> %{feed!, pagination!}
         #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
-            >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers
+            >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers            
+
+        %[section, #user] >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
+
         %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
         $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
