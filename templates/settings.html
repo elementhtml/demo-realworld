@@ -1,7 +1,7 @@
 <script is="e-flow" type="script/flow">
     #user >> ($form($)) >> $(|form)
     $(|form) >> ({"body": {"user": $._named}, "method": "PUT", "headers": $cells.headers}) >> ~${~api}/user~ >> #{user}
-    $(|.logout) >> {} >> #user >> ($ ? null : "/") >> #
+    $(|.logout) >> {} >> #user >> ($ ? null : "/") >> # >> `sessionStorage.removeItem(user)`
 </script>
 
 <div class="settings-page">
