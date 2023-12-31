@@ -1,4 +1,4 @@
-<script is="e-flow" type="script/flow">
+<script is="e-flowscript" type="script/flow">
     # >> %slug: /\/article\/(.+)/ >> ~${~api}/articles/${}~ >> %{article}
         >> (`transforms/article-render.jsonata`) >> $(|.article-page)
         >> {"method": "GET"} >> ~${~api}/articles/${%slug}/comments~ >> (`transforms/comments-render.jsonata`) >> $(|.comments)

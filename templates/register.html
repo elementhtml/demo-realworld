@@ -1,4 +1,4 @@
-<script is="e-flow" type="script/flow">
+<script is="e-flowscript" type="script/flow">
     $(|form) >> ({"user": $._named}) >> ~${~api}/users~ >> #{user, errors}
     #user >> ($ ? "/" : null) >> #
 </script>

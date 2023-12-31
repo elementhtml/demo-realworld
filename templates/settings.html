@@ -1,4 +1,4 @@
-<script is="e-flow" type="script/flow">
+<script is="e-flowscript" type="script/flow">
     #user >> ($form($)) >> $(|form)
     $(|form) >> ({"body": {"user": $._named}, "method": "PUT", "headers": $cells.headers}) >> ~${~api}/user~ >> #{user}
     $(|.logout) >> {} >> #user >> ($ ? null : "/") >> # 

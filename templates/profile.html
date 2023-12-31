@@ -1,4 +1,4 @@
-<script is="e-flow" type="script/flow">
+<script is="e-flowscript" type="script/flow">
     # >> /\/profile\/(.+)/ >> ~${~api}/profiles/${}~ >> %{profile}
         >> ({"`.user-img`": {"@src": $.profile.image}, "`.username{}`": {"..": $.profile.username}, "`.bio`": {"..": $.profile.bio}}) >> $(|.user-info)
         >> (["articles", $merge([$context.feedDefaultConfig, {"author": $fields.profile.username}])]) >> #[feedEndpoint!, feedConfig!] 
