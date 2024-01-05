@@ -130,6 +130,7 @@
         fetchpriority="low"></script>
 
     <script is="e-flowscript" type="script/flow" id="index">
+        ${~dummyFeed} >> %feed
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`        
         # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 

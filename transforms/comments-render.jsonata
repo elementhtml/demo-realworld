@@ -3,7 +3,7 @@
         "#": $c.id, 
         "`.card-block p`": $c.body,
         "`.card-footer`": {
-            "`a{}`": {"@href": "#/profile/" & $c.author.username}, "`img`": {"@src": $c.author.image, "@alt": $c.author.username},
+            "`a{}`": {"@href": "#/profile/" & $c.author.username}, "`img`": {"@src": $c.author.image ? $c.author.image : $context.blankProfile, "@alt": $c.author.username},
             "`.comment-author`": {"@href": "#/profile/" & $c.author.username, "..": $c.author.username},
             "`.date-posted`": $fromMillis($toMillis($c.createdAt), "[MNn] [D1o]")
         } 

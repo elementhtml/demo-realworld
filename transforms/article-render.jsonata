@@ -2,7 +2,8 @@
     "`.banner > .container`": {
         "`h1`": $fields.article.title, 
         "`.article-meta`": {
-            "`a`": {"@href": "#/profile/" & $fields.article.author.username}, "`img`": {"@src": $fields.article.author.image, "@alt": $fields.article.author.username }, 
+            "`a`": {"@href": "#/profile/" & $fields.article.author.username}, 
+                "`img`": {"@src": $fields.article.author.image ? $fields.article.author.image : $context.blankProfile, "@alt": $fields.article.author.username }, 
             "`.author`": {"@href": "#/profile/" & $fields.article.author.username, "..": $fields.article.author.username}, 
             "`.date`": $fromMillis($toMillis($fields.article.createdAt), "[MNn] [D1o]"), 
             "`button.favorite`": { "&active": $fields.article.favorited, "`.counter`": $fields.article.favoritesCount }

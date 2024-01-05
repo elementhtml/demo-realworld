@@ -7,6 +7,6 @@
     "`[href*=\\/profile\\/]`": {
         "^display": $cells.user ? null: "none", "&active": $fields.section = "profile", 
         "@href": "#/profile/" & $cells.user.username, 
-        "<>": "<img src=\"" & ($.image ? $.image : $blankProfile) & "\" alt=\"" & $cells.user.username & "\" class=\"user-pic\" /> " & $cells.user.username
+        "<>": "<img src=\"" & ($.image ? $.image : $context.blankProfile) & "\" alt=\"" & $cells.user.username & "\" class=\"user-pic\" /> " & $cells.user.username
     }        
 } )
