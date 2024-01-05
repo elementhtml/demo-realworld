@@ -134,6 +134,7 @@
 
     <script is="e-flowscript" type="script/flow" id="index">
         ${~dummyFeed} >> %feed
+        %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`        
         # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
@@ -143,7 +144,6 @@
         #user ?? {} >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
         #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(:|.error-messages)
         %{section, user: #user} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
         $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
             >> #feedConfig
