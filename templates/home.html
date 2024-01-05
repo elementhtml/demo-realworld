@@ -4,7 +4,8 @@
     ${~feedDefaultConfig} >> #feedConfig!
     #[user, feedEndpoint, feedConfig] >> (`transforms/feed-toggle.jsonata`) >> $(|.feed-toggle)
     $(|.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) 
-        >> #[feedEndpoint, feedConfig] >> ${~articleLoading} >> $(:|.page) 
+        >> #[feedEndpoint, feedConfig] 
+    |* >> ${~articleLoading} >> $(:|.page) 
 </script>
 
 <div class="home-page">
