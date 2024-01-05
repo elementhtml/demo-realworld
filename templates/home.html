@@ -1,5 +1,4 @@
 <script is="e-flowscript" type="script/flow">
-    ${~dummyFeed} >> %feed
     ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.sidebar .tag-list)
     "articles" >> #feedEndpoint
     ${~feedDefaultConfig} >> #feedConfig!
