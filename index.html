@@ -4,23 +4,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        img-src 'self' data: https://api.realworld.io/ https://upload.wikimedia.org/; 
+        style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/ https://code.ionicframework.com/ https://demo.productionready.io/;
+        script-src 'unsafe-inline' 'self' https://cdn.jsdelivr.net/; 
+        script-src-elem 'unsafe-inline' 'self' blob: https://cdn.jsdelivr.net/ https://static.cloudflareinsights.com/; 
+        script-src-attr 'none';
+        connect-src 'self' https://cdn.jsdelivr.net/ https://api.realworld.io/; 
+        font-src https://fonts.googleapis.com/ https://fonts.gstatic.com/ https://code.ionicframework.com/;
+        object-src 'none'; 
+        base-uri 'self'">
     <title>ElementHTML • RealWorld</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="//code.ionicframework.com" crossorigin>
-    <link rel="preconnect" href="//demo.productionready.io" crossorigin>
+    <link rel="preconnect" href="https://code.ionicframework.com" crossorigin>
+    <link rel="preconnect" href="https://demo.productionready.io" crossorigin>
+    <link rel="preconnect" href="https://api.realworld.io" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
 
     <link rel="preload" as="style"
-        href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap">
-    <link rel="preload" as="style" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="preload" as="style" href="//demo.productionready.io/main.css">
+        href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap">
+    <link rel="preload" as="style" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="preload" as="style" href="https://demo.productionready.io/main.css">
     <link rel="preload" as="style" href="theme/dark.css">
 
-    <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+
     <link
-        href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"
+        href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"
         rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="//demo.productionready.io/main.css" />
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://demo.productionready.io/main.css" />
     <link rel="stylesheet" href="theme/dark.css" />
 
     <script type="importmap">
@@ -30,12 +46,9 @@
             }
         }
     </script>
-    <link rel="modulepreload" href="../element/element.js?load&expose&packages=rw">
-    <!-- <link rel="modulepreload"
-        href="https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.2/element.js?load&expose&packages=rw"> -->
-    <script type="module" src='../element/element.js?load&expose&packages=rw'></script>
-    <!-- <script type="module" src='https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.2/element.js?load&expose&packages=rw'
-        async fetchpriority="low"></script> -->
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.5/element.js?load&packages=rw">
+    <script type="module" src='https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.5/element.js?load&packages=rw' async
+        fetchpriority="low"></script>
 
     <script is="e-flowscript" type="script/flow" id="index">
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`        
@@ -59,6 +72,7 @@
             >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
             >> ([$map($fields.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> %feed!
     </script>
+
     <template id="feed-article-preview">
         <div class="article-preview">
             <div class="article-meta">
