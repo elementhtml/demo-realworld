@@ -9,7 +9,7 @@
         img-src 'self' data: https://api.realworld.io/ https://upload.wikimedia.org/; 
         style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/ https://code.ionicframework.com/ https://demo.productionready.io/;
         script-src 'self' https://cdn.jsdelivr.net/; 
-        script-src-elem 'unsafe-inline' 'self' blob: https://cdn.jsdelivr.net/ https://static.cloudflareinsights.com/; 
+        script-src-elem 'unsafe-inline' 'self' blob: https://cdn.jsdelivr.net/ https://static.cloudflareinsights.com/ https://unpkg.com/; 
         script-src-attr 'none';
         connect-src 'self' https://cdn.jsdelivr.net/ https://api.realworld.io/; 
         font-src https://fonts.googleapis.com/ https://fonts.gstatic.com/ https://code.ionicframework.com/;
@@ -26,20 +26,22 @@
     <link rel="preconnect" href="https://api.realworld.io" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
     <link rel="preload" as="style"
         href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap">
-    <link rel="preload" as="style" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- <link rel="preload" as="style" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
     <link rel="preload" as="style" href="https://demo.productionready.io/main.css">
-    <!-- <link rel="preload" as="style" href="theme/dark.css"> -->
-
+    <!-- <link rel="preload" as="font" href="https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1"
+    crossorigin> -->
+    <link rel="preload" as="style" href="theme/dark.css">
 
     <link
         href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"
         rel="stylesheet" type="text/css" />
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" /> -->
     <link rel="stylesheet" href="https://demo.productionready.io/main.css" />
-    <!-- <link rel="stylesheet" href="theme/dark.css" /> -->
+    <link rel="stylesheet" href="theme/dark.css" />
     <style>
         .navbar-brand {
             color: #428342 !important;
@@ -49,41 +51,26 @@
             color: #000000ad;
         }
 
-        .home-page .banner p {
-            color: #3a3a3a;
+        .home-page .banner p,
+        .tag-default {
+            color: #3a3a3a !important;
         }
 
-        .nav-pills.outline-active .nav-link {
-            color: #585858;
-        }
-
-        a {
-            color: #316331;
-        }
-
-        .article-meta .info .date {
-            color: #585858;
-        }
-
-        .article-preview .preview-link p {
-            color: #585858;
-        }
-
-        .article-preview .preview-link span {
-            color: #585858;
-        }
-
+        .nav-pills.outline-active .nav-link,
+        .article-meta .info .date,
+        .article-preview .preview-link p,
+        .article-preview .preview-link span,
         .tag-default.tag-outline {
             color: #585858 !important;
         }
 
+        a,
         .page-link {
             color: #316331;
         }
 
         .tag-default {
             background-color: #cccccc;
-            color: #3a3a3a !important;
         }
 
         .tag-default[href]:focus,
@@ -94,6 +81,41 @@
 
         footer .attribution {
             color: #000000;
+        }
+
+        .article-list:empty,
+        .tag-list:empty,
+        .pagination:empty {
+            background-color: #f3f3f3;
+            height: 2000px;
+            border-radius: 4px;
+        }
+
+        .tag-list:empty,
+        .pagination:empty {
+            height: 110px;
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .article-list:empty,
+            .pagination:empty,
+            .tag-list:empty {
+                width: 100vw;
+                border-radius: 0;
+            }
+
+            .article-list:empty,
+            .tag-list:empty,
+            .pagination:empty {
+                height: 3000px;
+            }
+
+            .tag-list:empty,
+            .pagination:empty {
+                height: 55px;
+            }
+
         }
     </style>
 
@@ -106,6 +128,10 @@
     </script>
     <link rel="modulepreload" href="https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.5/element.js?load&packages=rw">
     <script type="module" src='https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.5/element.js?load&packages=rw' async
+        fetchpriority="low"></script>
+
+    <link rel="modulepreload" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" async
         fetchpriority="low"></script>
 
     <script is="e-flowscript" type="script/flow" id="index">
@@ -183,7 +209,36 @@
         </nav>
     </header>
 
-    <main></main>
+    <main>
+        <div class="home-page">
+            <div class="banner">
+                <div class="container">
+                    <h1 class="logo-font">conduit</h1>
+                    <p>A place to share your knowledge.</p>
+                </div>
+            </div>
+            <div class="container page">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="feed-toggle">
+                            <ul class="nav nav-pills outline-active">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="articles">Global Feed</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="article-list"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="sidebar">
+                            <p>Popular Tags</p>
+                            <div class="tag-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <footer>
         <div class="container">

@@ -1,4 +1,4 @@
 {
     "`:|.feed-toggle`": {"`li{}`": {"`a`": {"&active": false}}, "`li:nth-of-type(3)`": {"^display": null, "`a`": {"&active": true, "..": "#" & $} } }, 
-    "`:|.article-list`": {"<p>": "Loading articles..."}, "`:|.pagination`": {"..": ""}
+    "`:|.article-list`": $lookup($context.articleLoading, "`.article-list`")
 }
