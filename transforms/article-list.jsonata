@@ -1,7 +1,7 @@
 $count($fields.feed) ? {"<%#feed-article-preview%>": [$map($fields.feed, function($a) {{
     "#": $a.slug, 
     "`.article-meta`": { 
-        "`[href]{}`": {"@href": "#/profile/" & $a.author.username}, "`img`": {"@src": $a.author.image}, 
+        "`[href]{}`": {"@href": "#/profile/" & $a.author.username}, "`img`": {"@src": $a.author.image, "@alt": $a.author.username }, 
         "`.author`": {"@href": "#/profile/" & $a.author.username, "..": $a.author.username}, 
         "`.date`": $fromMillis($toMillis($a.createdAt), "[MNn] [D1o]"), "`.favorites-count`": $a.favoritesCount, 
         "`button`": {"&active": $a.favorited }

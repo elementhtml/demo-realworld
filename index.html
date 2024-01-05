@@ -8,7 +8,7 @@
         default-src 'self'; 
         img-src 'self' data: https://api.realworld.io/ https://upload.wikimedia.org/; 
         style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/ https://code.ionicframework.com/ https://demo.productionready.io/;
-        script-src 'unsafe-inline' 'self' https://cdn.jsdelivr.net/; 
+        script-src 'self' https://cdn.jsdelivr.net/; 
         script-src-elem 'unsafe-inline' 'self' blob: https://cdn.jsdelivr.net/ https://static.cloudflareinsights.com/; 
         script-src-attr 'none';
         connect-src 'self' https://cdn.jsdelivr.net/ https://api.realworld.io/; 
@@ -16,6 +16,8 @@
         object-src 'none'; 
         base-uri 'self'">
     <title>ElementHTML • RealWorld</title>
+    <meta name="description"
+        content="An implementation in ElementHTML framework of the RealWorld example app for comparing web frameworks. For more information see https://elementhtml.dev">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +31,7 @@
         href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap">
     <link rel="preload" as="style" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="preload" as="style" href="https://demo.productionready.io/main.css">
-    <link rel="preload" as="style" href="theme/dark.css">
+    <!-- <link rel="preload" as="style" href="theme/dark.css"> -->
 
 
     <link
@@ -37,7 +39,7 @@
         rel="stylesheet" type="text/css" />
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://demo.productionready.io/main.css" />
-    <link rel="stylesheet" href="theme/dark.css" />
+    <!-- <link rel="stylesheet" href="theme/dark.css" /> -->
 
     <script type="importmap">
         {
