@@ -30,22 +30,22 @@
             }
         }
     </script>
-    <!-- <link rel="modulepreload" href="../element/element.js?load&expose&packages=rw"> -->
-    <link rel="modulepreload"
-        href="https://cdn.jsdelivr.net/gh/elementhtml/element@5dbad33b2dddff1547013e85919a0920795990a9/element.min.js?load&expose&packages=rw">
-    <!-- <script type="module" src='../element/element.js?load&expose&packages=rw'></script> -->
-    <script type="module"
-        src='https://cdn.jsdelivr.net/gh/elementhtml/element@5dbad33b2dddff1547013e85919a0920795990a9/element.js?load&expose&packages=rw'></script>
+    <link rel="modulepreload" href="../element/element.js?load&expose&packages=rw">
+    <!-- <link rel="modulepreload"
+        href="https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.2/element.js?load&expose&packages=rw"> -->
+    <script type="module" src='../element/element.js?load&expose&packages=rw'></script>
+    <!-- <script type="module" src='https://cdn.jsdelivr.net/gh/elementhtml/element@1.0.2/element.js?load&expose&packages=rw'
+        async fetchpriority="low"></script> -->
 
     <script is="e-flowscript" type="script/flow" id="index">
-        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
-        # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> templates/${}.html ?? ~404 >> $(:|main) 
+        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`        
+        # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
             >> (`transforms/feed-config.jsonata`) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
             >> %{feed!, pagination!}
         #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
-            >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers            
+            >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
         #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(:|.error-messages)
         %[section, #user] >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
