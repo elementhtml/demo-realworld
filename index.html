@@ -79,14 +79,14 @@
         }
 
         .article-list:empty,
-        .tag-list:empty,
+        .sidebar .tag-list:empty,
         .pagination:empty {
             background-color: #f3f3f3;
             height: 2000px;
             border-radius: 4px;
         }
 
-        .tag-list:empty,
+        .sidebar .tag-list:empty,
         .pagination:empty {
             height: 110px;
         }
@@ -95,18 +95,18 @@
 
             .article-list:empty,
             .pagination:empty,
-            .tag-list:empty {
-                width: 100vw;
+            .sidebar .tag-list:empty {
+                width: 81vw;
                 border-radius: 0;
             }
 
             .article-list:empty,
-            .tag-list:empty,
+            .sidebar .tag-list:empty,
             .pagination:empty {
                 height: 3000px;
             }
 
-            .tag-list:empty,
+            .sidebar .tag-list:empty,
             .pagination:empty {
                 height: 55px;
             }
@@ -137,10 +137,9 @@
             >> (`transforms/feed-config.jsonata`) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
             >> %{feed!, pagination!}
-        #user ?? {} >> (`transforms/mainnav.jsonata`) >> $(#mainnav) 
-            >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
+        #user ?? {} >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
         #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(:|.error-messages)
-        %[section, #user] >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
+        %{section, user: #user} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
         %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
         $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
