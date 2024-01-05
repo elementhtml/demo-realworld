@@ -11,7 +11,7 @@ export default {
                     </div>
                 </div>
             `,
-        api: "https://api.realworld.demo.elementhtml.dev/api",
+        api: "https://api.realworld.io/api",
         feedDefaultConfig: { "limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null },
         articleLoading: { "`.article-list`": { "..": "" }, "`.pagination`": { "..": "" } },
         dummyFeed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].fill({
