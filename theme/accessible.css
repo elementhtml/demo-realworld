@@ -38,42 +38,7 @@ footer .attribution {
     color: #000000;
 }
 
-/* .article-list:empty,
-.sidebar .tag-list:empty,
-.pagination:empty {
-    background-color: #f3f3f3;
-    height: 2000px;
-    border-radius: 4px;
-}
-
-.sidebar .tag-list:empty,
-.pagination:empty {
-    height: 110px;
-} */
-
 .btn-outline-primary {
     color: #316331;
     border-color: #316331;
-}
-
-@media screen and (max-width: 768px) {
-
-    /* .article-list:empty,
-    .pagination:empty,
-    .sidebar .tag-list:empty {
-        width: 81vw;
-        border-radius: 0;
-    }
-
-    .article-list:empty,
-    .sidebar .tag-list:empty,
-    .pagination:empty {
-        height: 3000px;
-    }
-
-    .sidebar .tag-list:empty,
-    .pagination:empty {
-        height: 55px;
-    }
- */
 }
