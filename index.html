@@ -592,9 +592,7 @@
             >> $(:|.article-list)
         ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.sidebar .tag-list)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
-
-        |* # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
-
+        # >> ($ ? $ : null) >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
         %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         #[user, feedEndpoint, feedConfig] >> (`transforms/feed-toggle.jsonata`) >> $(|.feed-toggle)
         $(|.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) 
