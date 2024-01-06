@@ -578,8 +578,7 @@
         ${~initialArticles} 
             >> ($merge([$map($.articles,function($a,$i){{"`.article-preview:nth-child("&($i+1)&")`":{"#":$a.slug,"`.article-meta`":{"`[href]{}`":{"@href":"#/profile/"&$a.author.username},"`img`":{"@src":$a.author.image?($a.author.image="https://api.realworld.io/images/demo-avatar.png"?"https://realworld.demo.elementhtml.dev/demo-avatar.png":$a.author.image):$context.blankProfile,"@alt":$a.author.username},"`.author`":{"@href":"#/profile/"&$a.author.username,"..":$a.author.username},"`.date`":$a.createdAt?$fromMillis($toMillis($a.createdAt),"[MNn] [D1o]"):"","`.favorites-count`":$a.favoritesCount,"`button`":{"&active":$a.favorited}},"`.preview-link`":{"@href":"#/article/"&$a.slug,"`h1`":$a.title,"`p`":$a.description,"`.tag-list`":{"<li.tag-default.tag-pill.tag-outline>":$map($a.tagList,function($t){$t})}}}}})])) 
             >> $(:|.article-list)
-
-        |* ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.sidebar .tag-list)
+        ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.sidebar .tag-list)
 
         |* %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
         |* #[user, feedEndpoint, feedConfig] >> (`transforms/feed-toggle.jsonata`) >> $(|.feed-toggle)
@@ -938,7 +937,19 @@
                     <div class="col-md-3">
                         <div class="sidebar">
                             <p>Popular Tags</p>
-                            <div class="tag-list"></div>
+                            <div class="tag-list">
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                                <a class="tag-default tag-pill" href="">.......</a>
+                            </div>
                         </div>
                     </div>
                 </div>
