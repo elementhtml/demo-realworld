@@ -2,9 +2,6 @@
     ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.sidebar .tag-list)
     "articles" >> #feedEndpoint
     ${~feedDefaultConfig} >> #feedConfig!
-    #[user, feedEndpoint, feedConfig] >> (`transforms/feed-toggle.jsonata`) >> $(|.feed-toggle)
-    $(|.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) 
-        >> #[feedEndpoint, feedConfig] 
 </script>
 
 <div class="home-page">

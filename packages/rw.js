@@ -15,24 +15,7 @@ export default {
             `,
         api: "https://api.realworld.io/api",
         feedDefaultConfig: { "limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null },
-        articleLoading: { "`.article-list`": { "..": "" }, "`.pagination`": { "..": "" } },
-        dummyFeed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].fill({
-            "slug": "-",
-            "title": "",
-            "description": "Loading...",
-            "body": "",
-            "tagList": [],
-            "createdAt": null,
-            "updatedAt": null,
-            "favorited": false,
-            "favoritesCount": 0,
-            "author": {
-                "username": "",
-                "bio": null,
-                "image": null,
-                "following": false
-            }
-        })
+        articleLoading: { "`.article-list`": { "..": "" }, "`.pagination`": { "..": "" } }
     },
     options: {
         jsonata: {
