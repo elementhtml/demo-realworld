@@ -505,7 +505,7 @@
             }
         }
     </style>
-    <!-- <link rel="stylesheet" href="theme/main.css" /> -->
+    <link rel="stylesheet" id="main-css" type="text/css" />
     <style>
         .navbar-brand {
             color: #428342 !important;
@@ -552,11 +552,7 @@
             border-color: #316331;
         }
     </style>
-    <!-- <link
-        href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"
-        rel="stylesheet" type="text/css" /> -->
-
-
+    <link id="google-font" type="text/css" />
 
     <script type="importmap">
         {
@@ -574,28 +570,29 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" async
         fetchpriority="low"></script>
 
-    <!-- <script is="e-flowscript" type="script/flow" id="index">
-        ${~dummyFeed} >> %feed
-        %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
-        `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`        
+    <script is="e-flowscript" type="script/flow" id="index">
+        ${~mainCss} >> $(~|#main-css)
+        ${~googleFont} >> $(~|#google-font)
+        |* %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
+        |* `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`        
         |* # ?? "home" >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
-        #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
+        |* #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
             >> (`transforms/feed-config.jsonata`) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
             >> %{feed!, pagination!}
-        #user ?? {} >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
-        #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(:|.error-messages)
-        %{section, user: #user} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
-        $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
+        |* #user ?? {} >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
+        |* #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(:|.error-messages)
+        |* %{section, user: #user} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
+        |* %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
+        |* $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
             >> #feedConfig
-        $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
+        |* $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
             >> (["articles", $merge([$context.feedDefaultConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
-        $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) 
+        |* $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) 
             >> article: ($single($fields.feed, function($v) {$v.slug = $labels.slug}))
             >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
             >> ([$map($fields.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> %feed!
-    </script> -->
+    </script>
 
     <template id="feed-article-preview">
         <div class="article-preview">
