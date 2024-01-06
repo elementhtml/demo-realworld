@@ -551,6 +551,18 @@
             color: #316331;
             border-color: #316331;
         }
+
+        #mainnav a:empty {
+            display: none;
+        }
+
+        .navbar-nav .nav-item+.nav-item {
+            margin-left: 1rem;
+        }
+
+        .navbar-nav .nav-item {
+            float: left;
+        }
     </style>
     <link id="google-font" type="text/css" />
 
@@ -644,10 +656,10 @@
                         <a class="nav-link active" href="#/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/login"></a>
+                        <a class="nav-link" href="#/login">Sign In</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#/register"></a>
+                        <a class="nav-link" href="#/register">Sign Up</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#/editor"></a>
