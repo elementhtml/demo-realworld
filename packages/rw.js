@@ -16,21 +16,7 @@ export default {
         api: "https://api.realworld.io/api",
         feedDefaultConfig: { "limit": 10, "offset": 0, "tag": null, "author": null, "favorited": null },
         articleLoading: { "`.article-list`": { "..": "" }, "`.pagination`": { "..": "" } },
-        initialArticles: Object.fromEntries((await fetch('https://api.realworld.io/api/articles').then(r => r.json())).articles.map((a, i) => (["`.article-preview:nth-child(" + (i + 1) + ")`", {
-            "#": a.slug,
-            "`.article-meta`": {
-                "`[href]{}`": { "@href": `#/profile/${a.author.username}` }, "`img`": {
-                    "@src": a.author.image ? (a.author.image = "https://api.realworld.io/images/demo-avatar.png" ? "https://realworld.demo.elementhtml.dev/demo-avatar.png" : a.author.image) : this.blankProfile, "@alt": a.author.username
-                },
-                "`.author`": { "@href": `#/profile/${a.author.username}`, "..": a.author.username },
-                "`.date`": a.createdAt, "`.favorites-count`": a.favoritesCount,
-                "`button`": { "&active": a.favorited }
-            },
-            "`.preview-link`": {
-                "@href": `#/article/${a.slug}`, "`h1`": a.title, "`p`": a.description,
-                "`.tag-list`": { "<li.tag-default.tag-pill.tag-outline>": a.tagList }
-            }
-        }])))
+        initialArticles: await fetch('https://api.realworld.io/api/articles').then(r => r.json())
     },
     options: {
         jsonata: {
