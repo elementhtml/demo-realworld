@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self'; 
         img-src 'self' data: https://api.realworld.io/ https://realworld.demo.elementhtml.dev/; 
-        style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/ https://demo.productionready.io/;
+        style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/;
         script-src 'self' https://cdn.jsdelivr.net/; 
         script-src-elem 'unsafe-inline' 'self' blob: https://cdn.jsdelivr.net/ https://static.cloudflareinsights.com/ https://unpkg.com/; 
         script-src-attr 'none';
@@ -21,22 +21,496 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://demo.productionready.io" crossorigin>
     <link rel="preconnect" href="https://api.realworld.io" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
-    <!-- <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"> -->
-    <link rel="preload" as="style" href="https://demo.productionready.io/main.css">
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap">
+    <link rel="preload" as="style" href="theme/main.css">
+    <link rel="preload" as="style" href="theme/accessible.css">
 
-    <!-- <link
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit
+        }
+
+        .hydrated {
+            visibility: inherit
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html {
+            box-sizing: border-box
+        }
+
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%
+        }
+
+        html {
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 100px
+        }
+
+        body {
+            font-family: source sans pro, sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #373a3c;
+            background-color: #fff;
+            margin: 0
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        main,
+        menu,
+        nav,
+        section,
+        summary {
+            display: block
+        }
+
+        header {
+            min-height: 56px
+        }
+
+        .navbar {
+            position: relative;
+            padding: .5rem 1rem
+        }
+
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 15px;
+            padding-right: 15px
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        .navbar-light .navbar-nav .open>.nav-link,
+        .navbar-light .navbar-nav .open>.nav-link:focus,
+        .navbar-light .navbar-nav .open>.nav-link:hover,
+        .navbar-light .navbar-nav .active>.nav-link,
+        .navbar-light .navbar-nav .active>.nav-link:focus,
+        .navbar-light .navbar-nav .active>.nav-link:hover,
+        .navbar-light .navbar-nav .nav-link.open,
+        .navbar-light .navbar-nav .nav-link.open:focus,
+        .navbar-light .navbar-nav .nav-link.open:hover,
+        .navbar-light .navbar-nav .nav-link.active,
+        .navbar-light .navbar-nav .nav-link.active:focus,
+        .navbar-light .navbar-nav .nav-link.active:hover {
+            color: rgba(0, 0, 0, .8)
+        }
+
+        .navbar-brand {
+            color: #428342 !important;
+            font-family: titillium web, sans-serif;
+            font-size: 1.5rem !important;
+            padding-top: 0 !important;
+            margin-right: 2rem !important;
+            float: left;
+            padding-bottom: .25rem
+        }
+
+        .pull-xs-right {
+            float: right !important
+        }
+
+        a,
+        area,
+        button,
+        [role=button],
+        input,
+        label,
+        select,
+        summary,
+        textarea {
+            touch-action: manipulation
+        }
+
+        .nav {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none
+        }
+
+        ol,
+        ul,
+        dl {
+            margin-top: 0;
+            margin-bottom: 1rem
+        }
+
+        .navbar-nav .nav-item {
+            float: left
+        }
+
+        .navbar-nav .nav-link {
+            display: block;
+            padding-top: .425rem;
+            padding-bottom: .425rem
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #000000ad
+        }
+
+        .nav-link.active {
+            color: rgba(255, 255, 255, .8)
+        }
+
+        .navbar-nav .nav-link {
+            color: #000000ad;
+            display: block;
+            padding-top: .425rem;
+            padding-bottom: .425rem
+        }
+
+        .home-page .banner {
+            background: #5cb85c;
+            box-shadow: inset 0 8px 8px -8px rgba(0, 0, 0, .3), inset 0 -8px 8px -8px rgba(0, 0, 0, .3)
+        }
+
+        .banner {
+            color: #fff;
+            padding: 2rem;
+            margin-bottom: 2rem
+        }
+
+        .home-page .banner h1 {
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            font-weight: 700 !important;
+            text-align: center;
+            font-size: 3.5rem;
+            padding-bottom: .5rem
+        }
+
+        .banner h1 {
+            margin-bottom: 0
+        }
+
+        .logo-font {
+            font-family: titillium web, sans-serif
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6 {
+            line-height: 1.1;
+            color: inherit;
+            margin-top: 0
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: .67em 0
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-top: 0;
+            margin-bottom: .5rem
+        }
+
+        .home-page .banner p,
+        .tag-default {
+            color: #3a3a3a !important
+        }
+
+        .home-page .banner p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 300 !important;
+            margin-bottom: 0
+        }
+
+        p {
+            margin-top: 0
+        }
+
+        .container.page {
+            margin-top: 1.5rem
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -15px;
+            margin-right: -15px
+        }
+
+        .home-page .feed-toggle {
+            margin-bottom: -1px;
+            display: flex
+        }
+
+        .nav-pills .nav-item {
+            float: left
+        }
+
+        .nav-pills.outline-active .nav-link,
+        .article-meta .info .date,
+        .article-preview .preview-link p,
+        .article-preview .preview-link span,
+        .tag-default.tag-outline {
+            color: #585858 !important
+        }
+
+        .nav-pills.outline-active .nav-link {
+            border-radius: 0;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background: 0 0
+        }
+
+        .nav-pills .nav-link {
+            display: block;
+            padding: .5em 1em
+        }
+
+        .article-preview {
+            border-top: 1px solid rgba(0, 0, 0, .1);
+            padding: 1.5rem 0
+        }
+
+        .article-preview .article-meta {
+            margin: 0 0 1rem
+        }
+
+        .article-meta {
+            display: block;
+            position: relative;
+            font-weight: 300
+        }
+
+        a,
+        .page-link {
+            color: #316331
+        }
+
+        .article-meta img {
+            display: inline-block;
+            vertical-align: middle;
+            height: 32px;
+            width: 32px;
+            border-radius: 30px
+        }
+
+        img {
+            border: 0
+        }
+
+        .article-meta .info {
+            margin: 0 1.5rem 0 .3rem;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1rem
+        }
+
+        .article-meta .info .author {
+            display: block;
+            font-weight: 500 !important
+        }
+
+        .nav-pills.outline-active .nav-link,
+        .article-meta .info .date,
+        .article-preview .preview-link p,
+        .article-preview .preview-link span,
+        .tag-default.tag-outline {
+            color: #585858 !important
+        }
+
+        .article-meta .info .date {
+            font-size: .8rem;
+            display: block
+        }
+
+        .btn-outline-primary {
+            color: #316331;
+            border-color: #316331
+        }
+
+        .btn-sm,
+        .btn-group-sm.btn {
+            padding: .25rem .5rem;
+            font-size: .875rem;
+            border-radius: .2rem
+        }
+
+        .btn-outline-primary {
+            background-image: none;
+            background-color: transparent;
+            border-color: #316331
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.25;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid transparent
+        }
+
+        input,
+        button,
+        select,
+        textarea {
+            margin: 0
+        }
+
+        button,
+        select {
+            text-transform: none
+        }
+
+        button {
+            overflow: visible
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font: inherit
+        }
+
+        .preview-link {
+            color: inherit !important
+        }
+
+        .article-preview .preview-link h1 {
+            font-weight: 600 !important;
+            font-size: 1.5rem !important;
+            margin-bottom: 3px
+        }
+
+        .nav-pills.outline-active .nav-link,
+        .article-meta .info .date,
+        .article-preview .preview-link p,
+        .article-preview .preview-link span,
+        .tag-default.tag-outline {
+            color: #585858 !important
+        }
+
+        .article-preview .preview-link p {
+            font-weight: 300;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.3rem
+        }
+
+        .article-preview .preview-link span {
+            max-width: 30%;
+            font-size: .8rem;
+            font-weight: 300;
+            vertical-align: middle
+        }
+
+        .article-preview .preview-link ul {
+            float: right;
+            max-width: 50%;
+            vertical-align: top
+        }
+
+        ul.tag-list {
+            padding-left: 0 !important;
+            display: inline-block;
+            list-style: none !important
+        }
+
+        .home-page .sidebar {
+            padding: 5px 10px 10px;
+            background: #f3f3f3;
+            border-radius: 4px
+        }
+
+        .home-page .sidebar p {
+            margin-bottom: .2rem
+        }
+
+        @media (min-width:544px) {
+            .navbar {
+                border-radius: .25rem
+            }
+
+            .container {
+                max-width: 576px
+            }
+        }
+
+        @media (min-width:768px) {
+            .container {
+                max-width: 720px
+            }
+
+            .col-md-9 {
+                position: relative;
+                min-height: 1px;
+                padding-right: 15px;
+                padding-left: 15px;
+                flex: 0 0 75%;
+                max-width: 75%
+            }
+
+            .col-md-3 {
+                position: relative;
+                min-height: 1px;
+                padding-right: 15px;
+                padding-left: 15px;
+                flex: 0 0 25%;
+                max-width: 25%
+            }
+        }
+
+        @media (min-width:992px) {
+            .container {
+                max-width: 940px
+            }
+        }
+    </style>
+    <link
         href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"
-        rel="stylesheet" type="text/css" /> -->
-    <link rel="stylesheet" href="https://demo.productionready.io/main.css" />
-    <!-- <link rel="stylesheet" href="theme/dark.css" />
-    <link rel="stylesheet" href="theme/accessible.css" /> -->
+        rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="theme/main.css" />
+    <link rel="stylesheet" href="theme/accessible.css" />
 
     <script type="importmap">
         {
