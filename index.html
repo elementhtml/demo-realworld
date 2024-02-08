@@ -28,7 +28,7 @@
 
     <link rel="preload" as="style"
         href="https://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap">
-    <link rel="preload" as="style" href="theme/main.css">
+    <link rel="preload" as="style" href="themes/main.css">
 
     <style>
         *,
@@ -574,10 +574,9 @@
         }
     </script>
     <link rel="modulepreload"
-        href="https://cdn.jsdelivr.net/gh/elementhtml/element@1.1.1/element.min.js?load&packages=rw">
-    <script type="module" src='https://cdn.jsdelivr.net/gh/elementhtml/element@1.1.1/element.min.js?load&packages=rw'
+        href="https://cdn.jsdelivr.net/gh/elementhtml/element@1.2.0/element.min.js?load&packages=rw">
+    <script type="module" src='https://cdn.jsdelivr.net/gh/elementhtml/element@1.2.0/element.min.js?load&packages=rw'
         async fetchpriority="low"></script>
-
     <link rel="modulepreload" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" async
         fetchpriority="low"></script>
@@ -585,56 +584,36 @@
     <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/remarkable@2.0.1/+esm">
 
     <script is="e-flowscript" type="script/flow" id="index">
-        ${~mainCss} >> $(~|#main-css)
-        ${~googleFont} >> $(~|#google-font)
+        ${~mainCss} >> $(#main-css)
+        ${~googleFont} >> $(#google-font)
         ${~initialArticles} 
             >> ($merge([$map($.articles,function($a,$i){{"`.article-preview:nth-child("&($i+1)&")`":{"#":$a.slug,"`.article-meta`":{"`[href]{}`":{"@href":"#/profile/"&$a.author.username},"`img`":{"@src":$a.author.image?($a.author.image="https://api.realworld.io/images/demo-avatar.png"?"https://realworld.demo.elementhtml.dev/demo-avatar.png":$a.author.image):$context.blankProfile,"@alt":$a.author.username},"`.author`":{"@href":"#/profile/"&$a.author.username,"..":$a.author.username},"`.date`":$a.createdAt?$fromMillis($toMillis($a.createdAt),"[MNn] [D1o]"):"","`.favorites-count`":$a.favoritesCount,"`button`":{"&active":$a.favorited}},"`.preview-link`":{"@href":"#/article/"&$a.slug,"`h1`":$a.title,"`p`":$a.description,"`.tag-list`":{"<li.tag-default.tag-pill.tag-outline>":$map($a.tagList,function($t){$t})}}}}})])) 
-            >> $(:|.article-list)
-        ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(:|.sidebar .tag-list)
+            >> $(.article-list)
+        ~${~api}/tags~ >> ({"<a.tag-pill.tag-default>": [$map($.tags, function($t) {{"@href": "", "..": $t}})]}) >> $(.sidebar .tag-list)
         `sessionStorage.getItem(user)` >> ($ ? $eval($) : null) >> #user >> ($ ? $string($) : null) >> `sessionStorage.setItem(user, ${})`
-        # >> ($ ? $ : null) >> %section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~templates/${}.html~ ?? ~404 >> $(:|main) 
-        %feed >> (`transforms/article-list.jsonata`) >> $(:|.article-list)
-        #[user, feedEndpoint, feedConfig] >> (`transforms/feed-toggle.jsonata`) >> $(|.feed-toggle)
+        # >> ({"hash": $, "hashchanged": $fields.hash != $}) >> @{hash, hashchanged} >> (($fields.hash or $fields.hashchanged) ? $fields.hash : null) 
+            >> @section: /\/([a-z0-9\-]+)\/?/ ?? "home" >> ~layouts/${}.html~ ?? ${~404} >> $(main)
+        @feed >> (`~/article-list.`) >> $(.article-list)
+        #[user, feedEndpoint, feedConfig] >> (`~/feed-toggle.`) >> $(.feed-toggle)
         #[feedConfig, feedEndpoint, headers] >> qs: ($queryString($[0])) 
-            >> (`transforms/feed-config.jsonata`) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
+            >> (`~/feed-config.`) >> ~${~api}/${#feedEndpoint}?${$qs}~ 
             >> ({"feed": $.articles, "pagination": { "count": $.articlesCount, "offset": $cells.feedConfig.offset, "limit": $cells.feedConfig.limit}})
-            >> %{feed!, pagination!}
+            >> @{feed!, pagination!}
         #user ?? {} >> ($merge([{"Content-Type": "application/json"}, $cells.user.token ? {"Authorization": "Token " & $cells.user.token} : {}])) >> #headers                    
-        #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(:|.error-messages)
-        %{section, user: #user} >> (`transforms/mainnav.jsonata`) >> $(#mainnav)
-        %pagination >> (`transforms/pagination.jsonata`) >> $(:|.pagination)
-        $(:|.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) 
+        #errors >> ({"<li>": ($cells.errors ? [$each($cells.errors, function($v, $k) { $k & ": " & $join($v, ", ") })] : [])}) >> $(.error-messages)
+        @{section, user: #user} >> (`~/mainnav.`) >> $(#mainnav)
+        @pagination >> (`~/pagination.`) >> $(.pagination)
+        $(.feed-toggle a) >> ([$.`@href`, $merge([$context.feedDefaultConfig, $cells.feedConfig, {"filter": null, "tag": null, "offset": 0}])]) 
             >> #[feedEndpoint, feedConfig] 
-        $(:|.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
+        $(.pagination li a) >> ($merge([$context.feedDefaultConfig, $cells.feedConfig, {"offset": $number($.`@data-offset`), "limit": $number($.`@data-limit`)}])) 
             >> #feedConfig
-        $(:|.tag-list a) >> tag: ($.textContent) >> (`transforms/set-tag.jsonata`) >> $(:|.page) 
+        $(.tag-list a) >> tag: ($.textContent) >> (`~/set-tag.`) >> $(.page) 
             >> (["articles", $merge([$context.feedDefaultConfig, {"offset": 0, "tag": $labels.tag}])]) >> #[feedEndpoint, feedConfig]
-        $(:|.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) 
+        $(.article-preview .btn-outline-primary,.article-preview .btn-outline-primary *) >> slug: ($._closest.id) 
             >> article: ($single($fields.feed, function($v) {$v.slug = $labels.slug}))
             >> ({"headers": $cells.headers, "method": $labels.article.favorited ? "DELETE" : "POST"}) >> ~${~api}/articles/${slug}/favorite~ 
-            >> ([$map($fields.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> %feed!    
+            >> ([$map($fields.feed, function($v){ $v.slug = $labels.slug ? $.article : $v})]) >> @feed!
     </script>
-
-    <template id="feed-article-preview">
-        <div class="article-preview">
-            <div class="article-meta">
-                <a href><img src /></a>
-                <div class="info">
-                    <a href class="author"></a>
-                    <span class="date"></span>
-                </div>
-                <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                    <i class="ion-heart"></i> <span class="favorites-count"></span>
-                </button>
-            </div>
-            <a href class="preview-link">
-                <h1></h1>
-                <p></p>
-                <span>Read more...</span>
-                <ul class="tag-list"></ul>
-            </a>
-        </div>
-    </template>
 
 </head>
 

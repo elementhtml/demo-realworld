@@ -1,7 +1,7 @@
 <script is="e-flowscript" type="script/flow">
-    # >> %slug: /\/editor\/(.+)/ >> ~${~api}/articles/${}~ >> %{article} >> ($form($.article)) >> $(|form)
-    %article >> ($fields.article.tagList) >> %tagList
-    $(|.tag-control) >> ($fields.tagList ? [$sort([$distinct([$append($fields.tagList, $.value)])])] : [$.value]) >> %tagList 
+    # >> @slug: /\/editor\/(.+)/ >> ~${~api}/articles/${}~ >> @{article} >> ($form($.article)) >> $(|form)
+    @article >> ($fields.article.tagList) >> @tagList
+    $(|.tag-control) >> ($fields.tagList ? [$sort([$distinct([$append($fields.tagList, $.value)])])] : [$.value]) >> @tagList 
         >> {"value": "", "focus()": {}} >> $(|.tag-control)
     %tagList >> ({"<option>": $}) >> $(|datalist) 
         >> ({"<span.tag-default.tag-pill>": [$map($fields.tagList, function($t) {{"<>": "<i class=\"ion-close-round\"></i><span>" & $t & "</span>"}})]}) 

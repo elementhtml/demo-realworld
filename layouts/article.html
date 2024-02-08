@@ -1,39 +1,20 @@
 <script is="e-flowscript" type="script/flow">
-    # >> %slug: /\/article\/(.+)/ >> ~${~api}/articles/${}~ >> %{article}
-        >> (`transforms/article-render.jsonata`) >> $(|.article-page)
-        >> {"method": "GET"} >> ~${~api}/articles/${%slug}/comments~ >> (`transforms/comments-render.jsonata`) >> $(|.comments)
+    # >> @slug: /\/article\/(.+)/ >> ~${~api}/articles/${}~ >> @{article}
+        >> (`~/article-render.`) >> $(|.article-page)
+        >> {"method": "GET"} >> ~${~api}/articles/${@slug}/comments~ >> (`~/comments-render.`) >> $(|.comments)
     #user >> ($.image) >> $(|.comment-author-img)
     $(|.comment-form) >> ({"method": "POST", "headers": $cells.headers, "body": {"comment": $._named}}) 
-        >> ~${~api}/articles/${%slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
-    %article 
+        >> ~${~api}/articles/${@slug}/comments~ >> {"value": ""} >> $(|.comment-form textarea) >> {"reload()": true} >> :
+    @article 
         >> ({"&active": $fields.article.author.following, "`i`": {"@class": "ion-" & ($fields.article.author.following ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .follow)
         >> ({"&active": $fields.article.favorited, "`i`": {"@class": "ion-" & ($fields.article.favorited ? "minus" : "plus") & "-round"}}) >> $(|.article-meta .favorite)
         >> ({"^display": $cells.user.username = $fields.article.author.username ? null : "none" }) >> $(|.article-meta .edit, .article-meta .delete{})
     $(|.article-meta .follow) >> author: ($fields.article.author.username) >> ({"headers": $cells.headers ,"method": $fields.article.author.following ? "DELETE" : "POST"}) 
         >> ~${~api}/profiles/${author}/follow~ >> {"reload()": true} >> :
-    $(|.article-meta .favorite) >> ({"headers": $cells.headers ,"method": $fields.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${%slug}/favorite~ >> %{article}
+    $(|.article-meta .favorite) >> ({"headers": $cells.headers ,"method": $fields.article.favorited ? "DELETE" : "POST"  }) >> ~${~api}/articles/${@slug}/favorite~ >> @{article}
     $(|.article-meta .edit) >> ("/editor/" & $fields.slug) >> #
-    $(|.article-meta .delete) >> ({"headers": $cells.headers ,"method": "DELETE"}) >> ~~${~api}/articles/${%slug}~~ >> ($.ok ? "/profile/" & $cells.user.username : null) >> #
+    $(|.article-meta .delete) >> ({"headers": $cells.headers ,"method": "DELETE"}) >> ~~${~api}/articles/${@slug}~~ >> ($.ok ? "/profile/" & $cells.user.username : null) >> #
 </script>
-
-<template id="comment">
-    <div class="card">
-        <div class="card-block">
-            <p class="card-text"></p>
-        </div>
-        <div class="card-footer">
-            <a href class="comment-author">
-                <img src="https://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-            </a>
-            &nbsp;
-            <a href class="comment-author"></a>
-            <span class="date-posted"></span>
-            <span class="mod-options">
-                <i class="ion-trash-a"></i>
-            </span>
-        </div>
-    </div>
-</template>
 
 <div class="article-page">
     <div class="banner">

@@ -1,5 +1,5 @@
 {
-    "<%#comment%>": [$map($.comments, function($c){{ 
+    "<%`~/comment.`%>": [$map($.comments, function($c){{ 
         "#": $c.id, 
         "`.card-block p`": $c.body,
         "`.card-footer`": {

@@ -1,13 +1,13 @@
 <script is="e-flowscript" type="script/flow">
-    # >> /\/profile\/(.+)/ >> ~${~api}/profiles/${}~ >> %{profile}
+    # >> /\/profile\/(.+)/ >> ~${~api}/profiles/${}~ >> @{profile}
         >> ({"`.user-img`": {"@src": $.profile.image}, "`.username{}`": {"..": $.profile.username}, "`.bio`": {"..": $.profile.bio}}) >> $(|.user-info)
         >> (["articles", $merge([$context.feedDefaultConfig, {"author": $fields.profile.username}])]) >> #[feedEndpoint!, feedConfig!] 
     $(|.articles-toggle a) >> ($merge([$context.feedDefaultConfig, {$.`@href`: $fields.profile.username}])) >> #feedConfig
-        >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(:|.articles-toggle)
-        >> ${~articleLoading} >> $(:|.page)
-    %profile >> (`transforms/profile.jsonata`) >> $(|.user-info)
+        >> ({"`.nav-item:first-of-type a`": {"&active": $.author }, "`.nav-item:last-of-type a`": {"&active": $.favorited }}) >> $(.articles-toggle)
+        >> ${~articleLoading} >> $(.page)
+    @profile >> (`~/profile.`) >> $(|.user-info)
     $(|.follow, .follow *) >> username: ($fields.profile.username) >> ({"headers": $cells.headers, "method": $fields.profile.following ? "DELETE" : "POST"}) 
-        >> ~${~api}/profiles/${username}/follow~ >> %{profile}
+        >> ~${~api}/profiles/${username}/follow~ >> @{profile}
     $(|.edit, .edit *) >> "/settings" >> #
 </script>
 
